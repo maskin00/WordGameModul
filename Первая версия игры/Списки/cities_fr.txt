@@ -1,0 +1,254 @@
+Andorre - AD - Andorre-la-Vieille
+Émirats arabes unis - AE - Abou Dabi
+Afghanistan - AF - Kaboul
+Antigua-et-Barbuda - AG - Saint John's
+Anguilla - AI - The Valley
+Albanie - AL - Tirana
+Arménie - AM - Erevan
+Angola - AO - Luanda
+région du Traité sur l'Antarctique - AQ - région du Traité sur l'Antarctique
+Argentine - AR - Buenos Aires
+Samoa américaines - AS - Pago Pago
+Autriche - AT - Vienne
+Australie - AU - Canberra
+Aruba - AW - Oranjestad
+Åland - AX - Mariehamn
+Azerbaïdjan - AZ - Bakou
+Bosnie-Herzégovine - BA - Sarajevo
+Barbade - BB - Bridgetown
+Bangladesh - BD - Dacca
+Belgique - BE - Bruxelles
+Burkina Faso - BF - Ouagadougou
+Bulgarie - BG - Sofia
+Bahreïn - BH - Manama
+Burundi - BI - Gitega
+Bénin - BJ - Porto-Novo
+Saint-Barthélemy - BL - Gustavia
+Bermudes - BM - Hamilton
+Brunei - BN - Bandar Seri Begawan
+Bolivie - BO - Sucre
+Pays-Bas caribéens - BQ - Kralendijk
+Brésil - BR - Brasilia
+Bahamas - BS - Nassau
+Bhoutan - BT - Thimphou
+île Bouvet - BV - île Bouvet
+Botswana - BW - Gaborone
+Biélorussie - BY - Minsk
+Belize - BZ - Belmopan
+Canada - CA - Ottawa
+îles Cocos - CC - West Island
+République démocratique du Congo - CD - Kinshasa
+République centrafricaine - CF - Bangui
+République du Congo - CG - Brazzaville
+Suisse - CH - Berne
+Côte d'Ivoire - CI - Yamoussoukro
+Îles Cook - CK - Avarua
+Chili - CL - Santiago
+Cameroun - CM - Yaoundé
+république populaire de Chine - CN - Pékin
+Colombie - CO - Bogota
+Costa Rica - CR - San José
+Cuba - CU - La Havane
+Cap-Vert - CV - Praia
+Curaçao - CW - Willemstad
+île Christmas - CX - Flying Fish Cove
+Chypre - CY - Nicosie
+Tchéquie - CZ - Prague
+Allemagne - DE - Berlin
+Djibouti - DJ - Djibouti
+Danemark - DK - Copenhague
+Dominique - DM - Roseau
+République dominicaine - DO - Saint-Domingue
+Algérie - DZ - Alger
+Équateur - EC - Quito
+Estonie - EE - Tallinn
+Égypte - EG - Le Caire
+Sahara occidental - EH - Sahara occidental
+Érythrée - ER - Asmara
+Espagne - ES - Madrid
+Éthiopie - ET - Addis-Abeba
+Finlande - FI - Helsinki
+Fidji - FJ - Suva
+îles Malouines - FK - Port Stanley
+États fédérés de Micronésie - FM - Palikir
+îles Féroé - FO - Tórshavn
+France - FR - Paris
+Gabon - GA - Libreville
+Royaume-Uni - GB - Londres
+Angleterre - GB-ENG - Londres
+Irlande du Nord - GB-NIR - Belfast
+Écosse - GB-SCT - Édimbourg
+Pays de Galles - GB-WLS - Cardiff
+Grenade - GD - Saint-Georges
+Géorgie - GE - Tbilissi
+Guyane - GF - Cayenne
+bailliage de Guernesey - GG - Saint-Pierre-Port
+Ghana - GH - Accra
+Gibraltar - GI - Gibraltar
+Groenland - GL - Nuuk
+Gambie - GM - Banjul
+Guinée - GN - Conakry
+Guadeloupe - GP - Basse-Terre
+Guinée équatoriale - GQ - Malabo
+Grèce - GR - Athènes
+Géorgie du Sud-et-les Îles Sandwich du Sud - GS - King Edward Point
+Guatemala - GT - Guatemala
+Guam - GU - Hagåtña
+Guinée-Bissau - GW - Bissau
+Guyana - GY - Georgetown
+Hong Kong - HK - Hong Kong
+îles Heard-et-MacDonald - HM - îles Heard-et-MacDonald
+Honduras - HN - Tegucigalpa
+Croatie - HR - Zagreb
+Haïti - HT - Port-au-Prince
+Hongrie - HU - Budapest
+Indonésie - ID - Jakarta
+Irlande - IE - Dublin
+Israël - IL - Jérusalem
+Île de Man - IM - Douglas
+Inde - IN - New Delhi
+Territoire britannique de l’océan Indien - IO - Diego Garcia
+Irak - IQ - Bagdad
+Iran - IR - Téhéran
+Islande - IS - Reykjavik
+Italie - IT - Rome
+Jersey - JE - Saint-Hélier
+Jamaïque - JM - Kingston
+Jordanie - JO - Amman
+Japon - JP - Tokyo
+Kenya - KE - Nairobi
+Kirghizistan - KG - Bichkek
+Cambodge - KH - Phnom Penh
+Kiribati - KI - Tarawa-Sud
+Comores - KM - Moroni
+Saint-Christophe-et-Niévès - KN - Basseterre
+Corée du Nord - KP - Pyongyang
+Corée du Sud - KR - Séoul
+Koweït - KW - Koweït
+îles Caïmans - KY - George Town
+Kazakhstan - KZ - Astana
+Laos - LA - Vientiane
+Liban - LB - Beyrouth
+Sainte-Lucie - LC - Castries
+Liechtenstein - LI - Vaduz
+Sri Lanka - LK - Sri Jayawardenapura
+Liberia - LR - Monrovia
+Lesotho - LS - Maseru
+Lituanie - LT - Vilnius
+Luxembourg - LU - Luxembourg
+Lettonie - LV - Riga
+Libye - LY - Tripoli
+Maroc - MA - Rabat
+Monaco - MC - commune de Monaco
+Moldavie - MD - Chișinău
+Monténégro - ME - Podgorica
+Saint-Martin - MF - Marigot
+Madagascar - MG - Antananarivo
+Îles Marshall - MH - Majuro
+Macédoine du Nord - MK - Skopje
+Mali - ML - Bamako
+Birmanie - MM - Naypyidaw
+Mongolie - MN - Oulan-Bator
+Macao - MO - Macao
+îles Mariannes du Nord - MP - Saïpan
+Martinique - MQ - Fort-de-France
+Mauritanie - MR - Nouakchott
+Montserrat - MS - Brades
+Malte - MT - La Valette
+Maurice - MU - Port-Louis
+Maldives - MV - Malé
+Malawi - MW - Lilongwe
+Mexique - MX - Mexico
+Malaisie - MY - Kuala Lumpur
+Mozambique - MZ - Maputo
+Namibie - NA - Windhoek
+Nouvelle-Calédonie - NC - Nouméa
+Niger - NE - Niamey
+île Norfolk - NF - Kingston
+Nigeria - NG - Abuja
+Nicaragua - NI - Managua
+Royaume des Pays-Bas - NL - Amsterdam
+Norvège - NO - Oslo
+Népal - NP - Katmandou
+Nauru - NR - Yaren
+Niue - NU - Alofi
+Nouvelle-Zélande - NZ - Wellington
+Oman - OM - Mascate
+Panama - PA - Panama
+Pérou - PE - Lima
+Polynésie française - PF - Papeete
+Papouasie-Nouvelle-Guinée - PG - Port Moresby
+Philippines - PH - Manille
+Pakistan - PK - Islamabad
+Pologne - PL - Varsovie
+Saint-Pierre-et-Miquelon - PM - Saint-Pierre
+îles Pitcairn - PN - Adamstown
+Porto Rico - PR - San Juan
+État de Palestine - PS - Ramallah
+Portugal - PT - Lisbonne
+Palaos - PW - Ngerulmud
+Paraguay - PY - Asuncion
+Qatar - QA - Doha
+La Réunion - RE - Saint-Denis
+Roumanie - RO - Bucarest
+Serbie - RS - Belgrade
+Russie - RU - Moscou
+Rwanda - RW - Kigali
+Arabie saoudite - SA - Riyad
+Îles Salomon - SB - Honiara
+Seychelles - SC - Victoria
+Soudan - SD - Khartoum
+Suède - SE - Stockholm
+Singapour - SG - Singapour
+Sainte-Hélène, Ascension et Tristan da Cunha - SH - Jamestown
+Slovénie - SI - Ljubljana
+Svalbard et Jan Mayen - SJ - Longyearbyen
+Slovaquie - SK - Bratislava
+Sierra Leone - SL - Freetown
+Saint-Marin - SM - Saint-Marin
+Sénégal - SN - Dakar
+Somalie - SO - Mogadiscio
+Suriname - SR - Paramaribo
+Soudan du Sud - SS - Djouba
+Sao Tomé-et-Principe - ST - São Tomé
+Salvador - SV - San Salvador
+Saint-Martin - SX - Philipsburg
+Syrie - SY - Damas
+Eswatini - SZ - Lobamba
+Îles Turques et Caïques - TC - Cockburn Town
+Tchad - TD - N'Djaména
+Terres australes et antarctiques françaises - TF - Port-aux-Français
+Togo - TG - Lomé
+Thaïlande - TH - Bangkok
+Tadjikistan - TJ - Douchanbé
+Tokelau - TK - Fakaofo
+Timor oriental - TL - Dili
+Turkménistan - TM - Achgabat
+Tunisie - TN - Tunis
+Tonga - TO - Nukuʻalofa
+Turquie - TR - Ankara
+Trinité-et-Tobago - TT - Port-d'Espagne
+Tuvalu - TV - Funafuti
+Taïwan - TW - Taipei
+Tanzanie - TZ - Dodoma
+Ukraine - UA - Kiev
+Ouganda - UG - Kampala
+îles mineures éloignées des États-Unis - UM - îles mineures éloignées des États-Unis
+États-Unis - US - Washington
+Uruguay - UY - Montevideo
+Ouzbékistan - UZ - Tachkent
+Vatican - VA - Vatican
+Saint-Vincent-et-les-Grenadines - VC - Kingstown
+Venezuela - VE - Caracas
+îles Vierges britanniques - VG - Road Town
+îles Vierges des États-Unis - VI - Charlotte-Amélie
+Viêt Nam - VN - Hanoï
+Vanuatu - VU - Port-Vila
+Wallis-et-Futuna - WF - Mata Utu
+Samoa - WS - Apia
+Kosovo - XK - Pristina
+Yémen - YE - Aden
+Mayotte - YT - Dzaoudzi
+Afrique du Sud - ZA - Bloemfontein
+Zambie - ZM - Lusaka
+Zimbabwe - ZW - Harare

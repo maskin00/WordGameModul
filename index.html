@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Модульная игра в слова</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Языковой селектор -->
+        <div id="languageSection" class="control-section">
+            <label for="languageSelect" data-i18n="selectLanguage">Выберите язык:</label>
+            <div id="languageContainer"></div>
+        </div>
+
+        <!-- Селектор категорий -->
+        <div id="categorySection" class="control-section">
+            <label for="categorySelect" data-i18n="selectCategory">Выберите категорию:</label>
+            <div id="categoryContainer"></div>
+        </div>
+
+        <!-- Игровая область -->
+        <div id="gameContainer">
+            <div id="score" data-i18n="score">Очки: 0 (Уровень 1)</div>
+            <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <!-- Игровые элементы управления -->
+        <div id="controls" class="control-section">
+            <button id="startButton" data-i18n="start">Старт</button>
+            <button id="pauseButton" data-i18n="pause">Пауза</button>
+            <button id="stopButton" data-i18n="stop">Стоп</button>
+            <button id="adminButton" data-i18n="admin">Администрирование</button>
+        </div>
+
+        <!-- Мобильная клавиатура -->
+        <div id="keyboard"></div>
+
+        <!-- Панель администратора (скрыта по умолчанию) -->
+        <div id="adminPanel" class="admin-panel" style="display: none;">
+            <div class="admin-header">
+                <h2 data-i18n="admin">Администрирование</h2>
+                <button id="backToGameButton" data-i18n="backToGame">Вернуться к игре</button>
+            </div>
+            
+            <div class="admin-form">
+                <div class="form-group">
+                    <label for="newCategoryName" data-i18n="categoryName">Название категории:</label>
+                    <input type="text" id="newCategoryName" placeholder="Введите название категории">
+                </div>
+
+                <div class="form-group">
+                    <label for="categoryLanguage" data-i18n="selectLanguage">Выберите язык:</label>
+                    <select id="categoryLanguage"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="wordsFile" data-i18n="uploadWords">Загрузить файл со словами:</label>
+                    <input type="file" id="wordsFile" accept=".txt">
+                    <small>Формат: 1 - Слово</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="imagesFiles" data-i18n="uploadImages">Загрузить изображения:</label>
+                    <input type="file" id="imagesFiles" accept=".png,.jpg,.jpeg" multiple>
+                    <small>Названия файлов должны соответствовать номерам в файле слов</small>
+                </div>
+
+                <div class="form-actions">
+                    <button id="validateButton" data-i18n="validate">Проверить</button>
+                    <button id="saveButton" data-i18n="save" disabled>Сохранить</button>
+                </div>
+
+                <div id="validationResult" class="validation-result" style="display: none;">
+                    <h3 data-i18n="validationResult">Результат проверки:</h3>
+                    <div id="validationDetails"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключение модулей -->
+    <script src="modules/LanguageManager.js"></script>
+    <script src="modules/DataManager.js"></script>
+    <script src="modules/CategoryManager.js"></script>
+    <script src="modules/GameEngine.js"></script>
+    <script src="modules/AdminPanel.js"></script>
+    
+    <!-- Основной скрипт приложения -->
+    <script>
+        class App {
+            constructor() {
+                this.languageManager = null;
+                this.dataManager = null;
+                this.categoryManager = null;
+                this.gameEngine = null;
+                this.adminPanel = null;
+                this.isInitialized = false;
+            }
+
+            async initialize() {
+                try {
+                    console.log('Инициализация приложения...');
+                    
+                    // Создание экземпляров менеджеров
+                    this.languageManager = new LanguageManager();
+                    this.dataManager = new DataManager();
+                    this.categoryManager = new CategoryManager(this.dataManager, this.languageManager);
+                    this.gameEngine = new GameEngine(this.dataManager, this.languageManager, this.categoryManager);
+                    this.adminPanel = new AdminPanel(this.dataManager, this.languageManager, this.categoryManager);
+
+                    // Инициализация модулей
+                    await this.languageManager.initialize();
+                    await this.dataManager.loadConfig();
+                    await this.categoryManager.initialize();
+                    await this.gameEngine.initialize();
+                    await this.adminPanel.initialize();
+
+                    // Создание UI элементов
+                    this.setupUI();
+                    
+                    // Локализация интерфейса
+                    this.languageManager.localizeDOM();
+                    
+                    this.isInitialized = true;
+                    console.log('Приложение успешно инициализировано');
+                    
+                } catch (error) {
+                    console.error('Ошибка инициализации приложения:', error);
+                    this.showError('Ошибка загрузки приложения. Проверьте консоль для деталей.');
+                }
+            }
+
+            setupUI() {
+                // Создание селектора языков
+                this.languageManager.createLanguageSelector('languageContainer', (newLanguage) => {
+                    console.log(`Язык изменен на: ${newLanguage}`);
+                    this.updateCategorySelector();
+                });
+
+                // Создание селектора категорий
+                this.updateCategorySelector();
+
+                // Создание мобильной клавиатуры
+                this.languageManager.createMobileKeyboard('keyboard', (key) => {
+                    if (this.gameEngine.isGameActive()) {
+                        this.gameEngine.handleKeyPress(key);
+                    }
+                });
+
+                // Обработчики кнопок администратора
+                document.getElementById('adminButton').addEventListener('click', () => {
+                    this.showAdminPanel();
+                });
+
+                document.getElementById('backToGameButton').addEventListener('click', () => {
+                    this.hideAdminPanel();
+                });
+            }
+
+            updateCategorySelector() {
+                const container = document.getElementById('categoryContainer');
+                if (!container) return;
+
+                // Очищаем контейнер
+                container.innerHTML = '';
+
+                // Создаем селектор
+                const select = document.createElement('select');
+                select.id = 'categorySelect';
+                select.className = 'category-select';
+
+                // Пустая опция
+                const emptyOption = document.createElement('option');
+                emptyOption.value = '';
+                emptyOption.textContent = 'Выберите категорию';
+                select.appendChild(emptyOption);
+
+                // Добавляем категории
+                const categories = this.dataManager.getCategories();
+                categories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.id;
+                    const currentLang = this.languageManager.getCurrentLanguage();
+                    option.textContent = category.names[currentLang] || category.names.ru || category.id;
+                    select.appendChild(option);
+                });
+
+                // Обработчик изменения
+                select.addEventListener('change', async (e) => {
+                    const categoryId = e.target.value;
+                    if (categoryId) {
+                        const currentLang = this.languageManager.getCurrentLanguage();
+                        const success = await this.categoryManager.setCategory(categoryId, currentLang);
+                        console.log(`Категория изменена на: ${categoryId}, успех: ${success}`);
+                    } else {
+                        this.categoryManager.reset();
+                    }
+                });
+
+                container.appendChild(select);
+            }
+
+            showAdminPanel() {
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('gameContainer').style.display = 'none';
+                document.getElementById('controls').style.display = 'none';
+                document.getElementById('keyboard').style.display = 'none';
+            }
+
+            hideAdminPanel() {
+                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('gameContainer').style.display = 'block';
+                document.getElementById('controls').style.display = 'block';
+                document.getElementById('keyboard').style.display = 'block';
+            }
+
+            showError(message) {
+                alert(message); // Простое уведомление об ошибке
+            }
+        }
+
+        // Создание и инициализация приложения
+        const app = new App();
+        
+        // Инициализация после загрузки DOM
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => app.initialize());
+        } else {
+            app.initialize();
+        }
+    </script>
+</body>
+</html> 

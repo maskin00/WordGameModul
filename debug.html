@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отладка игры</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .error { color: red; }
+        .success { color: green; }
+        .info { color: blue; }
+        button { margin: 5px; padding: 10px; }
+        select { padding: 5px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Отладка модульной игры в слова</h1>
+    
+    <div class="section">
+        <h2>Тестирование модулей</h2>
+        <button onclick="testModules()">Тестировать все модули</button>
+        <div id="moduleTests"></div>
+    </div>
+
+    <div class="section">
+        <h2>DataManager</h2>
+        <button onclick="testDataManager()">Тестировать DataManager</button>
+        <div id="dataManagerTests"></div>
+    </div>
+
+    <div class="section">
+        <h2>CategoryManager</h2>
+        <button onclick="testCategoryManager()">Тестировать CategoryManager</button>
+        <div id="categoryManagerTests"></div>
+    </div>
+
+    <div class="section">
+        <h2>Загрузка данных</h2>
+        <select id="categorySelect">
+            <option value="">Выберите категорию</option>
+        </select>
+        <select id="languageSelect">
+            <option value="ru">Русский</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+        </select>
+        <button onclick="loadCategoryData()">Загрузить данные</button>
+        <div id="dataResults"></div>
+    </div>
+
+    <!-- Подключение модулей -->
+    <script src="modules/LanguageManager.js"></script>
+    <script src="modules/DataManager.js"></script>
+    <script src="modules/CategoryManager.js"></script>
+
+    <script>
+        let languageManager, dataManager, categoryManager;
+        
+        async function testModules() {
+            const output = document.getElementById('moduleTests');
+            output.innerHTML = '<p>Начинаем тестирование...</p>';
+            
+            try {
+                // Создание экземпляров
+                languageManager = new LanguageManager();
+                dataManager = new DataManager();
+                categoryManager = new CategoryManager(dataManager, languageManager);
+                
+                output.innerHTML += '<p class="success">✓ Модули созданы</p>';
+                
+                // Инициализация
+                await languageManager.initialize();
+                output.innerHTML += '<p class="success">✓ LanguageManager инициализирован</p>';
+                
+                await dataManager.loadConfig();
+                output.innerHTML += '<p class="success">✓ DataManager загрузил конфигурацию</p>';
+                
+                await categoryManager.initialize();
+                output.innerHTML += '<p class="success">✓ CategoryManager инициализирован</p>';
+                
+                // Заполняем селектор категорий
+                const categories = dataManager.getCategories();
+                const categorySelect = document.getElementById('categorySelect');
+                categorySelect.innerHTML = '<option value="">Выберите категорию</option>';
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat.id;
+                    option.textContent = cat.names.ru;
+                    categorySelect.appendChild(option);
+                });
+                
+                output.innerHTML += '<p class="success">✓ Все модули работают корректно!</p>';
+                
+            } catch (error) {
+                output.innerHTML += `<p class="error">✗ Ошибка: ${error.message}</p>`;
+                console.error('Ошибка тестирования:', error);
+            }
+        }
+
+        async function testDataManager() {
+            const output = document.getElementById('dataManagerTests');
+            if (!dataManager) {
+                output.innerHTML = '<p class="error">Сначала запустите общее тестирование</p>';
+                return;
+            }
+            
+            try {
+                output.innerHTML = '<p>Тестирование DataManager...</p>';
+                
+                const categories = dataManager.getCategories();
+                output.innerHTML += `<p class="info">Найдено категорий: ${categories.length}</p>`;
+                
+                categories.forEach(cat => {
+                    output.innerHTML += `<p>- ${cat.id}: ${cat.names.ru}</p>`;
+                });
+                
+                output.innerHTML += '<p class="success">✓ DataManager работает</p>';
+                
+            } catch (error) {
+                output.innerHTML += `<p class="error">✗ Ошибка DataManager: ${error.message}</p>`;
+            }
+        }
+
+        async function testCategoryManager() {
+            const output = document.getElementById('categoryManagerTests');
+            if (!categoryManager) {
+                output.innerHTML = '<p class="error">Сначала запустите общее тестирование</p>';
+                return;
+            }
+            
+            try {
+                output.innerHTML = '<p>Тестирование CategoryManager...</p>';
+                
+                const categories = categoryManager.getCategories();
+                output.innerHTML += `<p class="info">Доступно категорий: ${categories.length}</p>`;
+                
+                // Попробуем установить первую категорию
+                if (categories.length > 0) {
+                    const firstCategory = categories[0];
+                    const success = await categoryManager.setCategory(firstCategory.id, 'ru');
+                    
+                    if (success) {
+                        const wordsCount = categoryManager.getWordsCount();
+                        output.innerHTML += `<p class="success">✓ Категория "${firstCategory.names.ru}" загружена (${wordsCount} слов)</p>`;
+                        
+                        // Получаем случайное слово
+                        const randomWord = categoryManager.getRandomWord();
+                        if (randomWord) {
+                            output.innerHTML += `<p class="info">Пример слова: ${randomWord.word}</p>`;
+                            output.innerHTML += `<p class="info">Путь к изображению: ${randomWord.imagePath}</p>`;
+                        }
+                    } else {
+                        output.innerHTML += '<p class="error">✗ Не удалось загрузить категорию</p>';
+                    }
+                }
+                
+            } catch (error) {
+                output.innerHTML += `<p class="error">✗ Ошибка CategoryManager: ${error.message}</p>`;
+                console.error('Ошибка CategoryManager:', error);
+            }
+        }
+
+        async function loadCategoryData() {
+            const categoryId = document.getElementById('categorySelect').value;
+            const language = document.getElementById('languageSelect').value;
+            const output = document.getElementById('dataResults');
+            
+            if (!categoryId) {
+                output.innerHTML = '<p class="error">Выберите категорию</p>';
+                return;
+            }
+            
+            if (!categoryManager) {
+                output.innerHTML = '<p class="error">Сначала запустите общее тестирование</p>';
+                return;
+            }
+            
+            try {
+                output.innerHTML = '<p>Загружаем данные...</p>';
+                
+                const success = await categoryManager.setCategory(categoryId, language);
+                
+                if (success) {
+                    const words = categoryManager.getAllWords();
+                    output.innerHTML = `<p class="success">✓ Загружено ${words.length} слов</p>`;
+                    
+                    // Показываем первые 5 слов
+                    output.innerHTML += '<p><strong>Первые 5 слов:</strong></p><ul>';
+                    words.slice(0, 5).forEach(word => {
+                        output.innerHTML += `<li>${word.word} (ID: ${word.id})</li>`;
+                    });
+                    output.innerHTML += '</ul>';
+                    
+                } else {
+                    output.innerHTML = '<p class="error">✗ Не удалось загрузить данные категории</p>';
+                }
+                
+            } catch (error) {
+                output.innerHTML = `<p class="error">✗ Ошибка: ${error.message}</p>`;
+                console.error('Ошибка загрузки:', error);
+            }
+        }
+
+        // Автоматический запуск тестирования при загрузке
+        window.addEventListener('load', () => {
+            setTimeout(testModules, 1000);
+        });
+    </script>
+</body>
+</html> 

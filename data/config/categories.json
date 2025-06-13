@@ -1,0 +1,42 @@
+{
+  "categories": [
+    {
+      "id": "capitals",
+      "names": {
+        "ru": "Столицы мира",
+        "en": "World Capitals",
+        "es": "Capitales del mundo"
+      },
+      "description": {
+        "ru": "Угадайте столицы стран по флагам",
+        "en": "Guess country capitals by flags",
+        "es": "Adivina las capitales de países por banderas"
+      },
+      "imageFolder": "capitals",
+      "wordFiles": {
+        "ru": "capitals.txt",
+        "en": "capitals.txt",
+        "es": "capitals.txt"
+      }
+    },
+    {
+      "id": "footballers",
+      "names": {
+        "ru": "Футболисты",
+        "en": "Football Players",
+        "es": "Futbolistas"
+      },
+      "description": {
+        "ru": "Угадайте имена футболистов по фотографиям",
+        "en": "Guess football player names by photos",
+        "es": "Adivina nombres de futbolistas por fotos"
+      },
+      "imageFolder": "footballers",
+      "wordFiles": {
+        "ru": "footballers.txt",
+        "en": "footballers_en.txt",
+        "es": "footballers_es.txt"
+      }
+    }
+  ]
+} 
