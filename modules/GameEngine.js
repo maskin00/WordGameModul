@@ -85,23 +85,29 @@ class GameEngine {
     updateGameScale(width, height) {
         // Адаптируем параметры игры под размер экрана
         
-        // Базовая скорость падения зависит от высоты экрана
-        this.baseSpeed = Math.max(0.5, height / 800); // Минимум 0.5, максимум пропорционально высоте
+        // Более плавная адаптация скорости
+        this.baseSpeed = Math.max(0.5, Math.min(2.0, height / 700));
         
-        // Определяем тип устройства по ширине экрана
+        // Определяем тип устройства и размер экрана
         const isMobile = window.innerWidth <= 480;
+        const isTablet = window.innerWidth <= 1024 && window.innerWidth > 480;
+        const canvasArea = width * height;
         
         if (isMobile) {
-            // Для мобильных устройств - более крупные элементы
-            this.baseFontSize = Math.max(18, Math.min(28, width / 15));
-            this.baseImageSize = Math.max(120, Math.min(200, width / 2.5));
+            // Мобильные - компактно, но читаемо
+            this.baseFontSize = Math.max(16, Math.min(24, Math.sqrt(canvasArea) / 25));
+            this.baseImageSize = Math.max(80, Math.min(160, Math.sqrt(canvasArea) / 15));
+        } else if (isTablet) {
+            // Планшеты - промежуточные размеры
+            this.baseFontSize = Math.max(18, Math.min(28, Math.sqrt(canvasArea) / 30));
+            this.baseImageSize = Math.max(100, Math.min(200, Math.sqrt(canvasArea) / 18));
         } else {
-            // Для десктопа и планшетов
-            this.baseFontSize = Math.max(20, Math.min(32, width / 25));
-            this.baseImageSize = Math.max(150, Math.min(250, width / 4));
+            // Десктоп - максимальное использование пространства
+            this.baseFontSize = Math.max(20, Math.min(36, Math.sqrt(canvasArea) / 35));
+            this.baseImageSize = Math.max(120, Math.min(280, Math.sqrt(canvasArea) / 20));
         }
         
-        console.log(`Game scale updated: speed=${this.baseSpeed}, fontSize=${this.baseFontSize}, imageSize=${this.baseImageSize}, mobile=${isMobile}`);
+        console.log(`Game scale updated: speed=${this.baseSpeed.toFixed(2)}, fontSize=${this.baseFontSize}, imageSize=${this.baseImageSize}, canvas=${width}x${height}, area=${canvasArea}, device=${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}`);
     }
 
     setupEventListeners() {

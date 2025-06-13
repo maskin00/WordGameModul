@@ -223,62 +223,61 @@
                 const canvas = document.getElementById('gameCanvas');
                 if (!canvas) return;
 
-                const container = document.getElementById('gameContainer');
-                
-                // Вычисляем доступное пространство более точно
+                // Более точное вычисление доступного пространства
                 const mainControls = document.getElementById('mainControls');
                 const keyboard = document.getElementById('keyboard');
                 const score = document.getElementById('score');
                 
-                const mainControlsHeight = mainControls ? mainControls.offsetHeight : 80;
-                const keyboardHeight = keyboard ? keyboard.offsetHeight : 120;
-                const scoreHeight = score ? score.offsetHeight : 40;
-                const padding = 60; // Отступы
+                // Получаем фактические размеры элементов
+                const mainControlsHeight = mainControls ? mainControls.offsetHeight : 50;
+                const keyboardHeight = keyboard ? keyboard.offsetHeight : 100;
+                const scoreHeight = score ? score.offsetHeight : 30;
+                
+                // Минимальные отступы
+                const isMobile = window.innerWidth <= 480;
+                const padding = isMobile ? 20 : 40;
                 
                 const availableHeight = window.innerHeight - mainControlsHeight - keyboardHeight - scoreHeight - padding;
-                const availableWidth = window.innerWidth - 40; // Боковые отступы
+                const availableWidth = window.innerWidth - (isMobile ? 10 : 40);
                 
-                // Определяем размеры в зависимости от типа устройства
                 let canvasWidth, canvasHeight;
                 
-                // Для очень больших экранов (десктоп)
-                if (window.innerWidth >= 1200) {
-                    // Используем больше пространства на больших экранах
-                    const maxWidth = Math.min(1000, availableWidth * 0.8);
-                    const maxHeight = Math.min(700, availableHeight * 0.9);
+                if (isMobile) {
+                    // Мобильные устройства - максимальное использование экрана
+                    canvasWidth = Math.min(availableWidth * 0.99, 600);
+                    canvasHeight = Math.min(availableHeight * 0.95, 500);
                     
-                    // Соотношение сторон 4:3
+                    // Более свободное соотношение сторон для мобильных
+                    const minAspectRatio = 0.8; // минимум 4:5
+                    const maxAspectRatio = 1.5; // максимум 3:2
+                    
+                    let currentRatio = canvasWidth / canvasHeight;
+                    if (currentRatio < minAspectRatio) {
+                        canvasWidth = canvasHeight * minAspectRatio;
+                    } else if (currentRatio > maxAspectRatio) {
+                        canvasHeight = canvasWidth / maxAspectRatio;
+                    }
+                }
+                // Планшеты
+                else if (window.innerWidth <= 1024) {
+                    canvasWidth = Math.min(availableWidth * 0.95, 800);
+                    canvasHeight = Math.min(availableHeight * 0.9, 600);
+                    
+                    // Соотношение сторон 4:3 для планшетов
                     const aspectRatio = 4 / 3;
-                    if (maxWidth / maxHeight > aspectRatio) {
-                        canvasHeight = maxHeight;
+                    if (canvasWidth / canvasHeight > aspectRatio) {
                         canvasWidth = canvasHeight * aspectRatio;
                     } else {
-                        canvasWidth = maxWidth;
                         canvasHeight = canvasWidth / aspectRatio;
                     }
                 }
-                // Для планшетов
-                else if (window.innerWidth >= 768) {
-                    const maxWidth = Math.min(700, availableWidth * 0.9);
-                    const maxHeight = Math.min(500, availableHeight * 0.8);
-                    
-                    const aspectRatio = 4 / 3;
-                    if (maxWidth / maxHeight > aspectRatio) {
-                        canvasHeight = maxHeight;
-                        canvasWidth = canvasHeight * aspectRatio;
-                    } else {
-                        canvasWidth = maxWidth;
-                        canvasHeight = canvasWidth / aspectRatio;
-                    }
-                }
-                // Для мобильных устройств
+                // Десктопы
                 else {
-                    // На мобильных используем максимум доступного пространства
-                    canvasWidth = Math.min(availableWidth * 0.98, 500);
-                    canvasHeight = Math.min(availableHeight * 0.85, 400);
+                    canvasWidth = Math.min(availableWidth * 0.85, 1000);
+                    canvasHeight = Math.min(availableHeight * 0.85, 750);
                     
-                    // Для мобильных предпочитаем более квадратное соотношение
-                    const aspectRatio = 1.2; // Более квадратное для мобильных
+                    // Соотношение сторон 4:3 для десктопа
+                    const aspectRatio = 4 / 3;
                     if (canvasWidth / canvasHeight > aspectRatio) {
                         canvasWidth = canvasHeight * aspectRatio;
                     } else {
@@ -286,20 +285,20 @@
                     }
                 }
                 
-                // Минимальные размеры для корректной игры
-                canvasWidth = Math.max(320, canvasWidth);
-                canvasHeight = Math.max(240, canvasHeight);
+                // Более разумные минимальные размеры
+                canvasWidth = Math.max(isMobile ? 280 : 400, canvasWidth);
+                canvasHeight = Math.max(isMobile ? 200 : 300, canvasHeight);
                 
-                // Максимальные размеры для предотвращения слишком больших канвасов
-                canvasWidth = Math.min(1200, canvasWidth);
-                canvasHeight = Math.min(900, canvasHeight);
+                // Увеличиваем максимальные размеры
+                canvasWidth = Math.min(1400, canvasWidth);
+                canvasHeight = Math.min(1000, canvasHeight);
                 
                 canvas.width = canvasWidth;
                 canvas.height = canvasHeight;
                 canvas.style.width = canvasWidth + 'px';
                 canvas.style.height = canvasHeight + 'px';
                 
-                console.log(`Canvas resized to ${canvasWidth}x${canvasHeight} for screen ${window.innerWidth}x${window.innerHeight}`);
+                console.log(`Canvas resized to ${canvasWidth}x${canvasHeight} for screen ${window.innerWidth}x${window.innerHeight}, available: ${availableWidth}x${availableHeight}`);
                 
                 // Уведомляем игровой движок об изменении размера
                 if (this.gameEngine && this.gameEngine.handleResize) {
