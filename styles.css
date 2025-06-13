@@ -196,12 +196,23 @@ button {
 /* Мобильная клавиатура */
 #keyboard {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 6px;
+    flex-direction: column;
+    gap: 4px;
     max-width: 100%;
     margin: 0 auto;
     padding: 10px 0;
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+}
+
+.keyboard-row.control-row {
+    justify-content: center;
+    margin-top: 8px;
 }
 
 .key {

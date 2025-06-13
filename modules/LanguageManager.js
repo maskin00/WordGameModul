@@ -269,29 +269,44 @@ class LanguageManager {
 
         const keyboard = this.getKeyboard();
         
-        keyboard.forEach(letter => {
-            const key = document.createElement('button');
-            key.className = 'key';
-            key.textContent = letter === ' ' ? this.getText('space') || 'Пробел' : letter;
+        // Определяем расположение клавиш по строкам для разных языков
+        const keyboardRows = this.getKeyboardRows(keyboard);
+        
+        // Создаем строки клавиатуры
+        keyboardRows.forEach(row => {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'keyboard-row';
             
-            if (letter === ' ' || letter === '-') {
-                key.className += ' special';
-            }
-
-            // Обработчики событий
-            const handleKeyPress = (e) => {
-                e.preventDefault();
-                if (onKeyPress) {
-                    onKeyPress(letter.toUpperCase());
+            row.forEach(letter => {
+                const key = document.createElement('button');
+                key.className = 'key';
+                key.textContent = letter === ' ' ? this.getText('space') || 'Пробел' : letter;
+                
+                if (letter === ' ' || letter === '-') {
+                    key.className += ' special';
                 }
-            };
 
-            key.addEventListener('click', handleKeyPress);
-            key.addEventListener('touchstart', handleKeyPress, { passive: false });
+                // Обработчики событий
+                const handleKeyPress = (e) => {
+                    e.preventDefault();
+                    if (onKeyPress) {
+                        onKeyPress(letter.toUpperCase());
+                    }
+                };
+
+                key.addEventListener('click', handleKeyPress);
+                key.addEventListener('touchstart', handleKeyPress, { passive: false });
+                
+                rowDiv.appendChild(key);
+            });
             
-            container.appendChild(key);
+            container.appendChild(rowDiv);
         });
 
+        // Кнопки управления в отдельной строке
+        const controlRow = document.createElement('div');
+        controlRow.className = 'keyboard-row control-row';
+        
         // Кнопка очистки
         const clearButton = document.createElement('button');
         clearButton.className = 'key special';
@@ -307,7 +322,46 @@ class LanguageManager {
         clearButton.addEventListener('click', handleClear);
         clearButton.addEventListener('touchstart', handleClear, { passive: false });
         
-        container.appendChild(clearButton);
+        controlRow.appendChild(clearButton);
+        container.appendChild(controlRow);
+    }
+
+    // Разбиение клавиатуры на строки
+    getKeyboardRows(keyboard) {
+        const lang = this.getCurrentLanguage();
+        
+        if (lang === 'ru') {
+            // Русская клавиатура: 3 строки + служебные символы
+            return [
+                keyboard.slice(0, 12),   // Й Ц У К Е Н Г Ш Щ З Х Ъ
+                keyboard.slice(12, 23),  // Ф Ы В А П Р О Л Д Ж Э  
+                keyboard.slice(23, 32),  // Я Ч С М И Т Ь Б Ю
+                keyboard.slice(32)       // - и пробел
+            ].filter(row => row.length > 0);
+        } else if (lang === 'en') {
+            // Английская клавиатура: 3 строки + служебные символы
+            return [
+                keyboard.slice(0, 10),   // Q W E R T Y U I O P
+                keyboard.slice(10, 19),  // A S D F G H J K L
+                keyboard.slice(19, 26),  // Z X C V B N M
+                keyboard.slice(26)       // - и пробел
+            ].filter(row => row.length > 0);
+        } else if (lang === 'es') {
+            // Испанская клавиатура: 3 строки + служебные символы
+            return [
+                keyboard.slice(0, 10),   // Q W E R T Y U I O P
+                keyboard.slice(10, 20),  // A S D F G H J K L Ñ
+                keyboard.slice(20, 27),  // Z X C V B N M
+                keyboard.slice(27)       // - и пробел
+            ].filter(row => row.length > 0);
+        } else {
+            // Fallback: по 10 символов в строке
+            const rows = [];
+            for (let i = 0; i < keyboard.length; i += 10) {
+                rows.push(keyboard.slice(i, i + 10));
+            }
+            return rows;
+        }
     }
 
     // Проверка поддержки языка клавиатурой
