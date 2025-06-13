@@ -315,9 +315,9 @@ class LanguageManager {
             if (layout === 'dvorak') {
                 // Русская Dvorak: 10 + 11 + 12 + 2
                 return [
-                    keyboard.slice(0, 10),   // Я Ч Е О У К Е Н Г Ш
-                    keyboard.slice(10, 21),  // А И Т Р С В Л Д М П Ю
-                    keyboard.slice(21, 33),  // Ь Ы Ф Й Б З Х Ц Щ Ъ Ж Э
+                    keyboard.slice(0, 10),   // Я Ч Е О У И К Н Г Ш
+                    keyboard.slice(10, 21),  // А Т Р С В Л Д М П Ю Ь
+                    keyboard.slice(21, 33),  // Ы Ф Й Б З Х Ц Щ Ъ Ж Э
                     keyboard.slice(33)       // - и пробел
                 ].filter(row => row.length > 0);
             } else if (layout === 'colemak') {
