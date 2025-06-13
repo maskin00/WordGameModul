@@ -88,13 +88,20 @@ class GameEngine {
         // Базовая скорость падения зависит от высоты экрана
         this.baseSpeed = Math.max(0.5, height / 800); // Минимум 0.5, максимум пропорционально высоте
         
-        // Размер шрифта для слов зависит от размера канваса
-        this.baseFontSize = Math.max(20, Math.min(32, width / 25));
+        // Определяем тип устройства по ширине экрана
+        const isMobile = window.innerWidth <= 480;
         
-        // Размер изображений - увеличиваем для лучшей видимости
-        this.baseImageSize = Math.max(150, Math.min(250, width / 4));
+        if (isMobile) {
+            // Для мобильных устройств - более крупные элементы
+            this.baseFontSize = Math.max(18, Math.min(28, width / 15));
+            this.baseImageSize = Math.max(120, Math.min(200, width / 2.5));
+        } else {
+            // Для десктопа и планшетов
+            this.baseFontSize = Math.max(20, Math.min(32, width / 25));
+            this.baseImageSize = Math.max(150, Math.min(250, width / 4));
+        }
         
-        console.log(`Game scale updated: speed=${this.baseSpeed}, fontSize=${this.baseFontSize}, imageSize=${this.baseImageSize}`);
+        console.log(`Game scale updated: speed=${this.baseSpeed}, fontSize=${this.baseFontSize}, imageSize=${this.baseImageSize}, mobile=${isMobile}`);
     }
 
     setupEventListeners() {

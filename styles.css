@@ -545,33 +545,83 @@ button {
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 480px) {
-    .selectors-group {
-        flex-direction: column;
+    body {
+        padding: 5px;
+    }
+    
+    .main-controls {
+        padding: 8px;
+        margin-bottom: 8px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
         gap: 8px;
     }
     
+    .selectors-group {
+        flex-direction: row;
+        gap: 6px;
+        flex: 1;
+        min-width: 0;
+    }
+    
     .selector-item {
-        min-width: auto;
+        flex: 1;
+        min-width: 80px;
+    }
+    
+    .selector-item label {
+        font-size: 10px;
+        margin-bottom: 3px;
+    }
+    
+    .selector-item select {
+        padding: 4px;
+        font-size: 11px;
+        border-radius: 4px;
     }
     
     .game-controls {
-        gap: 6px;
+        flex-shrink: 0;
+        gap: 4px;
     }
     
     button {
-        padding: 6px 10px;
-        font-size: 12px;
-        min-width: 60px;
+        padding: 4px 8px;
+        font-size: 10px;
+        min-width: 50px;
+        border-radius: 4px;
     }
 
     #score {
-        font-size: 16px;
-        margin-bottom: 8px;
+        font-size: 14px;
+        margin-bottom: 5px;
     }
 
     #gameCanvas {
-        max-height: calc(100vh - 420px);
-        min-height: 200px;
+        max-height: calc(100vh - 220px);
+        min-height: 250px;
+        border-width: 2px;
+        border-radius: 10px;
+    }
+
+    #keyboard {
+        gap: 3px;
+        padding: 5px 0;
+    }
+    
+    .key {
+        min-width: 28px;
+        height: 28px;
+        font-size: 11px;
+        padding: 2px;
+        border-radius: 4px;
+    }
+
+    .key.special {
+        min-width: 45px;
+        font-size: 10px;
     }
 
     .admin-header {
@@ -583,16 +633,53 @@ button {
     .validation-details {
         font-size: 14px;
     }
+}
+
+/* Адаптивность для очень маленьких экранов */
+@media (max-width: 360px) {
+    .main-controls {
+        padding: 6px;
+        margin-bottom: 6px;
+    }
+    
+    .selector-item {
+        min-width: 70px;
+    }
+    
+    .selector-item label {
+        font-size: 9px;
+    }
+    
+    .selector-item select {
+        font-size: 10px;
+        padding: 3px;
+    }
+    
+    button {
+        padding: 3px 6px;
+        font-size: 9px;
+        min-width: 45px;
+    }
+    
+    #score {
+        font-size: 12px;
+        margin-bottom: 3px;
+    }
+    
+    #gameCanvas {
+        max-height: calc(100vh - 200px);
+        min-height: 200px;
+    }
     
     .key {
-        min-width: 30px;
-        height: 30px;
-        font-size: 12px;
-        gap: 4px;
+        min-width: 25px;
+        height: 25px;
+        font-size: 10px;
     }
 
     .key.special {
-        min-width: 50px;
+        min-width: 40px;
+        font-size: 9px;
     }
 }
 

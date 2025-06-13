@@ -273,11 +273,12 @@
                 }
                 // Для мобильных устройств
                 else {
-                    canvasWidth = Math.min(availableWidth * 0.95, 400);
-                    canvasHeight = Math.min(availableHeight * 0.7, 300);
+                    // На мобильных используем максимум доступного пространства
+                    canvasWidth = Math.min(availableWidth * 0.98, 500);
+                    canvasHeight = Math.min(availableHeight * 0.85, 400);
                     
-                    // Обеспечиваем минимальное соотношение сторон
-                    const aspectRatio = 4 / 3;
+                    // Для мобильных предпочитаем более квадратное соотношение
+                    const aspectRatio = 1.2; // Более квадратное для мобильных
                     if (canvasWidth / canvasHeight > aspectRatio) {
                         canvasWidth = canvasHeight * aspectRatio;
                     } else {
