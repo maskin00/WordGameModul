@@ -156,13 +156,16 @@ class DataManager {
 
     // Парсинг файла со словами
     parseWordsFile(textData, categoryId) {
+        console.log(`[DataManager] Parsing words file for category: ${categoryId}`);
         const lines = textData.split('\n')
             .map(line => line.trim())
             .filter(line => line.length > 0);
         
+        console.log(`[DataManager] Found ${lines.length} lines to parse`);
         const parsedWords = [];
         
-        for (const line of lines) {
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
             // Новый формат: номер - СЛОВО - код_изображения
             const parts = line.split(' - ');
             if (parts.length >= 2) {
@@ -178,21 +181,29 @@ class DataManager {
                     if (categoryId === 'capitals') {
                         imagePath = `data/images/capitals/${imageCode}.png`;
                     }
-                    // Для футболистов - используем имена файлов
+                    // Для футболистов - используем прямой код
                     else if (categoryId === 'footballers') {
                         imagePath = `data/images/footballers/${imageCode}.png`;
                     }
+                    else {
+                        imagePath = `data/images/${categoryId}/${imageCode}.png`;
+                    }
                     
-                    parsedWords.push({
+                    const wordData = {
                         id: number,
                         word: word,
                         imageCode: imageCode,
                         imagePath: imagePath,
                         originalLine: line
-                    });
+                    };
+                    
+                    console.log(`[DataManager] Line ${i + 1}: "${word}" -> "${imageCode}" -> "${imagePath}"`);
+                    parsedWords.push(wordData);
+                } else {
+                    console.warn(`[DataManager] Invalid data in line ${i + 1}: number=${number}, word="${word}"`);
                 }
             } else {
-                console.warn(`Неверный формат строки: ${line}`);
+                console.warn(`[DataManager] Invalid format line ${i + 1}: "${line}" (${parts.length} parts)`);
             }
         }
         

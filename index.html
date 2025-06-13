@@ -8,30 +8,33 @@
 </head>
 <body>
     <div id="app">
-        <!-- Языковой селектор -->
-        <div id="languageSection" class="control-section">
-            <label for="languageSelect" data-i18n="selectLanguage">Выберите язык:</label>
-            <div id="languageContainer"></div>
-        </div>
-
-        <!-- Селектор категорий -->
-        <div id="categorySection" class="control-section">
-            <label for="categorySelect" data-i18n="selectCategory">Выберите категорию:</label>
-            <div id="categoryContainer"></div>
+        <!-- Главная панель управления -->
+        <div id="mainControls" class="main-controls">
+            <!-- Селекторы -->
+            <div class="selectors-group">
+                <div class="selector-item">
+                    <label for="languageSelect" data-i18n="selectLanguage">Язык:</label>
+                    <div id="languageContainer"></div>
+                </div>
+                <div class="selector-item">
+                    <label for="categorySelect" data-i18n="selectCategory">Категория:</label>
+                    <div id="categoryContainer"></div>
+                </div>
+            </div>
+            
+            <!-- Кнопки управления игрой -->
+            <div class="game-controls">
+                <button id="startButton" data-i18n="start">Старт</button>
+                <button id="pauseButton" data-i18n="pause">Пауза</button>
+                <button id="stopButton" data-i18n="stop">Стоп</button>
+                <button id="adminButton" data-i18n="admin">Админ</button>
+            </div>
         </div>
 
         <!-- Игровая область -->
         <div id="gameContainer">
             <div id="score" data-i18n="score">Очки: 0 (Уровень 1)</div>
             <canvas id="gameCanvas"></canvas>
-        </div>
-
-        <!-- Игровые элементы управления -->
-        <div id="controls" class="control-section">
-            <button id="startButton" data-i18n="start">Старт</button>
-            <button id="pauseButton" data-i18n="pause">Пауза</button>
-            <button id="stopButton" data-i18n="stop">Стоп</button>
-            <button id="adminButton" data-i18n="admin">Администрирование</button>
         </div>
 
         <!-- Мобильная клавиатура -->
@@ -157,6 +160,10 @@
                 document.getElementById('backToGameButton').addEventListener('click', () => {
                     this.hideAdminPanel();
                 });
+
+                // Адаптивное изменение размера канваса
+                this.resizeCanvas();
+                window.addEventListener('resize', () => this.resizeCanvas());
             }
 
             updateCategorySelector() {
@@ -204,16 +211,99 @@
 
             showAdminPanel() {
                 document.getElementById('adminPanel').style.display = 'block';
-                document.getElementById('gameContainer').style.display = 'none';
-                document.getElementById('controls').style.display = 'none';
-                document.getElementById('keyboard').style.display = 'none';
+                document.body.style.overflow = 'hidden'; // Предотвращаем скролл фона
             }
 
             hideAdminPanel() {
                 document.getElementById('adminPanel').style.display = 'none';
-                document.getElementById('gameContainer').style.display = 'block';
-                document.getElementById('controls').style.display = 'block';
-                document.getElementById('keyboard').style.display = 'block';
+                document.body.style.overflow = 'auto'; // Восстанавливаем скролл
+            }
+
+            resizeCanvas() {
+                const canvas = document.getElementById('gameCanvas');
+                if (!canvas) return;
+
+                const container = document.getElementById('gameContainer');
+                
+                // Вычисляем доступное пространство более точно
+                const mainControls = document.getElementById('mainControls');
+                const keyboard = document.getElementById('keyboard');
+                const score = document.getElementById('score');
+                
+                const mainControlsHeight = mainControls ? mainControls.offsetHeight : 80;
+                const keyboardHeight = keyboard ? keyboard.offsetHeight : 120;
+                const scoreHeight = score ? score.offsetHeight : 40;
+                const padding = 60; // Отступы
+                
+                const availableHeight = window.innerHeight - mainControlsHeight - keyboardHeight - scoreHeight - padding;
+                const availableWidth = window.innerWidth - 40; // Боковые отступы
+                
+                // Определяем размеры в зависимости от типа устройства
+                let canvasWidth, canvasHeight;
+                
+                // Для очень больших экранов (десктоп)
+                if (window.innerWidth >= 1200) {
+                    // Используем больше пространства на больших экранах
+                    const maxWidth = Math.min(1000, availableWidth * 0.8);
+                    const maxHeight = Math.min(700, availableHeight * 0.9);
+                    
+                    // Соотношение сторон 4:3
+                    const aspectRatio = 4 / 3;
+                    if (maxWidth / maxHeight > aspectRatio) {
+                        canvasHeight = maxHeight;
+                        canvasWidth = canvasHeight * aspectRatio;
+                    } else {
+                        canvasWidth = maxWidth;
+                        canvasHeight = canvasWidth / aspectRatio;
+                    }
+                }
+                // Для планшетов
+                else if (window.innerWidth >= 768) {
+                    const maxWidth = Math.min(700, availableWidth * 0.9);
+                    const maxHeight = Math.min(500, availableHeight * 0.8);
+                    
+                    const aspectRatio = 4 / 3;
+                    if (maxWidth / maxHeight > aspectRatio) {
+                        canvasHeight = maxHeight;
+                        canvasWidth = canvasHeight * aspectRatio;
+                    } else {
+                        canvasWidth = maxWidth;
+                        canvasHeight = canvasWidth / aspectRatio;
+                    }
+                }
+                // Для мобильных устройств
+                else {
+                    canvasWidth = Math.min(availableWidth * 0.95, 400);
+                    canvasHeight = Math.min(availableHeight * 0.7, 300);
+                    
+                    // Обеспечиваем минимальное соотношение сторон
+                    const aspectRatio = 4 / 3;
+                    if (canvasWidth / canvasHeight > aspectRatio) {
+                        canvasWidth = canvasHeight * aspectRatio;
+                    } else {
+                        canvasHeight = canvasWidth / aspectRatio;
+                    }
+                }
+                
+                // Минимальные размеры для корректной игры
+                canvasWidth = Math.max(320, canvasWidth);
+                canvasHeight = Math.max(240, canvasHeight);
+                
+                // Максимальные размеры для предотвращения слишком больших канвасов
+                canvasWidth = Math.min(1200, canvasWidth);
+                canvasHeight = Math.min(900, canvasHeight);
+                
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+                canvas.style.width = canvasWidth + 'px';
+                canvas.style.height = canvasHeight + 'px';
+                
+                console.log(`Canvas resized to ${canvasWidth}x${canvasHeight} for screen ${window.innerWidth}x${window.innerHeight}`);
+                
+                // Уведомляем игровой движок об изменении размера
+                if (this.gameEngine && this.gameEngine.handleResize) {
+                    this.gameEngine.handleResize(canvasWidth, canvasHeight);
+                }
             }
 
             showError(message) {

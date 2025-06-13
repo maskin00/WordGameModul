@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Диагностика изображений - Word Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .section h2 {
+            color: #666;
+            margin-top: 0;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .progress {
+            background-color: #cce5ff;
+            color: #004085;
+            border: 1px solid #b3d9ff;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        #console {
+            background-color: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .image-item {
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .image-item img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: contain;
+        }
+        .image-item .name {
+            font-size: 10px;
+            margin-top: 5px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Диагностика изображений Word Game</h1>
+        
+        <div class="section">
+            <h2>Управление</h2>
+            <button onclick="runFullDiagnostic()">Запустить полную диагностику</button>
+            <button onclick="runFullAnalysis()">🔍 ПОЛНЫЙ АНАЛИЗ 255/1923</button>
+            <button onclick="scanAllImages()">🔍 СКАНИРОВАТЬ ВСЕ ИЗОБРАЖЕНИЯ</button>
+            <button onclick="generateAllData()">🚀 ГЕНЕРАЦИЯ ПОЛНЫХ ДАННЫХ</button>
+            <button onclick="generateCapitalsOnly()">📍 Только столицы (255)</button>
+            <button onclick="generateFootballersOnly()">⚽ Только футболисты</button>
+            <button onclick="createFullDataFiles()">💾 СОЗДАТЬ ГОТОВЫЕ ФАЙЛЫ</button>
+            <button onclick="clearConsole()">Очистить консоль</button>
+        </div>
+
+        <div class="section">
+            <h2>Статистика</h2>
+            <div id="stats"></div>
+        </div>
+
+        <div class="section">
+            <h2>Консоль</h2>
+            <div id="console"></div>
+        </div>
+
+        <div class="section">
+            <h2>Превью изображений</h2>
+            <div id="imagePreview"></div>
+        </div>
+    </div>
+
+    <script src="debug_images.js"></script>
+    <script src="full_analysis.js"></script>
+    <script src="generate_full_data.js"></script>
+    <script src="scan_images.js"></script>
+    <script>
+        // Переопределяем console.log для отображения в нашей консоли
+        const originalLog = console.log;
+        const originalWarn = console.warn;
+        const originalError = console.error;
+        
+        const consoleDiv = document.getElementById('console');
+        
+        function appendToConsole(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const span = document.createElement('div');
+            span.innerHTML = `[${timestamp}] ${message}`;
+            
+            if (type === 'warn') span.style.color = '#ffff00';
+            if (type === 'error') span.style.color = '#ff4444';
+            
+            consoleDiv.appendChild(span);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            appendToConsole(args.join(' '), 'log');
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            appendToConsole(args.join(' '), 'warn');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            appendToConsole(args.join(' '), 'error');
+        };
+        
+        function clearConsole() {
+            consoleDiv.innerHTML = '';
+        }
+        
+        function updateStats(stats) {
+            const statsDiv = document.getElementById('stats');
+            statsDiv.innerHTML = `
+                <div class="status success">Столицы: ${stats.capitals.found}/${stats.capitals.total} найдено</div>
+                <div class="status ${stats.footballers.found === stats.footballers.total ? 'success' : 'error'}">Футболисты: ${stats.footballers.found}/${stats.footballers.total} найдено</div>
+            `;
+        }
+        
+        async function runFullDiagnostic() {
+            console.log('=== ЗАПУСК ПОЛНОЙ ДИАГНОСТИКИ ===');
+            await debugImageMapping();
+        }
+        
+        async function analyzeCapitals() {
+            console.log('=== АНАЛИЗ СТОЛИЦ ===');
+            // Запуск только анализа столиц
+        }
+        
+        async function analyzeFootballers() {
+            console.log('=== АНАЛИЗ ФУТБОЛИСТОВ ===');
+            // Запуск только анализа футболистов
+        }
+        
+        async function createMappingFile() {
+            console.log('=== СОЗДАНИЕ ФАЙЛА СОПОСТАВЛЕНИЙ ===');
+            // Создание файла сопоставлений
+        }
+    </script>
+</body>
+</html> 
