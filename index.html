@@ -230,12 +230,15 @@
                 
                 // Получаем фактические размеры элементов
                 const mainControlsHeight = mainControls ? mainControls.offsetHeight : 50;
-                const keyboardHeight = keyboard ? keyboard.offsetHeight : 100;
                 const scoreHeight = score ? score.offsetHeight : 30;
                 
                 // Минимальные отступы
                 const isMobile = window.innerWidth <= 480;
-                const padding = isMobile ? 20 : 40;
+                const isDesktop = window.innerWidth >= 1200;
+                const padding = isMobile ? 15 : 40; // Меньше отступы на мобильных
+                
+                // На десктопе клавиатура скрыта, поэтому не учитываем ее высоту
+                const keyboardHeight = isDesktop ? 0 : (keyboard ? keyboard.offsetHeight : 80);
                 
                 const availableHeight = window.innerHeight - mainControlsHeight - keyboardHeight - scoreHeight - padding;
                 const availableWidth = window.innerWidth - (isMobile ? 10 : 40);
@@ -243,9 +246,9 @@
                 let canvasWidth, canvasHeight;
                 
                 if (isMobile) {
-                    // Мобильные устройства - максимальное использование экрана
+                    // Мобильные устройства - более точный расчет высоты
                     canvasWidth = Math.min(availableWidth * 0.99, 600);
-                    canvasHeight = Math.min(availableHeight * 0.95, 500);
+                    canvasHeight = Math.min(availableHeight * 0.92, 450); // Немного меньше для мобильных
                     
                     // Более свободное соотношение сторон для мобильных
                     const minAspectRatio = 0.8; // минимум 4:5

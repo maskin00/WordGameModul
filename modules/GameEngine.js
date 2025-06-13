@@ -100,11 +100,11 @@ class GameEngine {
         } else if (isTablet) {
             // Планшеты - промежуточные размеры
             this.baseFontSize = Math.max(18, Math.min(28, Math.sqrt(canvasArea) / 30));
-            this.baseImageSize = Math.max(100, Math.min(200, Math.sqrt(canvasArea) / 18));
+            this.baseImageSize = Math.max(120, Math.min(220, Math.sqrt(canvasArea) / 16));
         } else {
-            // Десктоп - максимальное использование пространства
+            // Десктоп - большие изображения как раньше
             this.baseFontSize = Math.max(20, Math.min(36, Math.sqrt(canvasArea) / 35));
-            this.baseImageSize = Math.max(120, Math.min(280, Math.sqrt(canvasArea) / 20));
+            this.baseImageSize = Math.max(150, Math.min(300, Math.sqrt(canvasArea) / 12));
         }
         
         console.log(`Game scale updated: speed=${this.baseSpeed.toFixed(2)}, fontSize=${this.baseFontSize}, imageSize=${this.baseImageSize}, canvas=${width}x${height}, area=${canvasArea}, device=${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}`);

@@ -456,6 +456,11 @@ button {
         box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
     }
     
+    /* Скрываем клавиатуру на десктопе - управление только с физической клавиатуры */
+    #keyboard {
+        display: none !important;
+    }
+    
     .key {
         min-width: 45px;
         height: 45px;
@@ -611,17 +616,17 @@ button {
     }
 
     #gameCanvas {
-        /* Максимальное использование экрана */
-        max-height: calc(100vh - 160px);
-        min-height: 280px;
+        /* Максимальное использование экрана с учетом высоты всех элементов */
+        max-height: calc(100vh - 140px);
+        min-height: 250px;
         border-width: 1px;
         border-radius: 8px;
     }
 
     #keyboard {
-        gap: 2px;
-        padding: 3px 0;
-        margin-top: 2px;
+        gap: 1px;
+        padding: 2px 0;
+        margin-top: 1px;
     }
     
     .key {
@@ -697,8 +702,8 @@ button {
     
     #gameCanvas {
         /* Еще больше места для игры на маленьких экранах */
-        max-height: calc(100vh - 140px);
-        min-height: 250px;
+        max-height: calc(100vh - 120px);
+        min-height: 220px;
         border-width: 1px;
         border-radius: 6px;
     }
