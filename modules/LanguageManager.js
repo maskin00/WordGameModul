@@ -309,29 +309,48 @@ class LanguageManager {
     // Разбиение клавиатуры на строки
     getKeyboardRows(keyboard) {
         const lang = this.getCurrentLanguage();
+        const layout = this.getCurrentKeyboardLayout();
         
         if (lang === 'ru') {
-            // Русская клавиатура: 3 строки + служебные символы
-            return [
-                keyboard.slice(0, 12),   // Й Ц У К Е Н Г Ш Щ З Х Ъ
-                keyboard.slice(12, 23),  // Ф Ы В А П Р О Л Д Ж Э  
-                keyboard.slice(23, 32),  // Я Ч С М И Т Ь Б Ю
-                keyboard.slice(32)       // - и пробел
-            ].filter(row => row.length > 0);
+            if (layout === 'dvorak') {
+                // Русская Dvorak: 10 + 10 + 13 + 2
+                return [
+                    keyboard.slice(0, 10),   // Я Ч Е О У К Е Н Г Ш
+                    keyboard.slice(10, 20),  // А И Т Р С В Л Д М П
+                    keyboard.slice(20, 33),  // Ю Ь Ы Ф Й Б З Х Ц Щ Ъ Ж Э
+                    keyboard.slice(33)       // - и пробел
+                ].filter(row => row.length > 0);
+            } else if (layout === 'colemak') {
+                // Русская Colemak: 10 + 10 + 12 + 2
+                return [
+                    keyboard.slice(0, 10),   // Й В Ф П Г Ж Л У Ы Ъ
+                    keyboard.slice(10, 20),  // А Р С Т Д Х Н Е И О
+                    keyboard.slice(20, 32),  // Я Ч Ц М Б К Ш Щ З Э Ю Ь
+                    keyboard.slice(32)       // - и пробел
+                ].filter(row => row.length > 0);
+            } else {
+                // Русская QWERTY: 12 + 11 + 9 + 2
+                return [
+                    keyboard.slice(0, 12),   // Й Ц У К Е Н Г Ш Щ З Х Ъ
+                    keyboard.slice(12, 23),  // Ф Ы В А П Р О Л Д Ж Э  
+                    keyboard.slice(23, 32),  // Я Ч С М И Т Ь Б Ю
+                    keyboard.slice(32)       // - и пробел
+                ].filter(row => row.length > 0);
+            }
         } else if (lang === 'en') {
-            // Английская клавиатура: 3 строки + служебные символы
+            // Английская клавиатура: все раскладки имеют одинаковое разбиение
             return [
-                keyboard.slice(0, 10),   // Q W E R T Y U I O P
-                keyboard.slice(10, 19),  // A S D F G H J K L
-                keyboard.slice(19, 26),  // Z X C V B N M
+                keyboard.slice(0, 10),   // Первая строка
+                keyboard.slice(10, 19),  // Вторая строка
+                keyboard.slice(19, 26),  // Третья строка
                 keyboard.slice(26)       // - и пробел
             ].filter(row => row.length > 0);
         } else if (lang === 'es') {
-            // Испанская клавиатура: 3 строки + служебные символы
+            // Испанская клавиатура: все раскладки имеют одинаковое разбиение
             return [
-                keyboard.slice(0, 10),   // Q W E R T Y U I O P
-                keyboard.slice(10, 20),  // A S D F G H J K L Ñ
-                keyboard.slice(20, 27),  // Z X C V B N M
+                keyboard.slice(0, 10),   // Первая строка
+                keyboard.slice(10, 20),  // Вторая строка (с Ñ)
+                keyboard.slice(20, 27),  // Третья строка
                 keyboard.slice(27)       // - и пробел
             ].filter(row => row.length > 0);
         } else {
