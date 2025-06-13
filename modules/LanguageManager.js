@@ -313,12 +313,12 @@ class LanguageManager {
         
         if (lang === 'ru') {
             if (layout === 'dvorak') {
-                // Русская Dvorak: 10 + 11 + 12 + 2
+                // Русская Dvorak: 10 + 11 + 11 + 3
                 return [
                     keyboard.slice(0, 10),   // Я Ч Е О У И К Н Г Ш
                     keyboard.slice(10, 21),  // А Т Р С В Л Д М П Ю Ь
-                    keyboard.slice(21, 33),  // Ы Ф Й Б З Х Ц Щ Ъ Ж Э
-                    keyboard.slice(33)       // - и пробел
+                    keyboard.slice(21, 32),  // Ы Ф Й Б З Х Ц Щ Ъ Ж
+                    keyboard.slice(32)       // Э - пробел
                 ].filter(row => row.length > 0);
             } else if (layout === 'colemak') {
                 // Русская Colemak: 10 + 10 + 12 + 2
