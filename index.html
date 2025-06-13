@@ -229,16 +229,16 @@
                 const score = document.getElementById('score');
                 
                 // Получаем фактические размеры элементов
-                const mainControlsHeight = mainControls ? mainControls.offsetHeight : (isMobile ? 35 : 50);
+                const mainControlsHeight = mainControls ? mainControls.offsetHeight : (isMobile ? 32 : 50);
                 const scoreHeight = score ? score.offsetHeight : (isMobile ? 12 : 30);
                 
                 // Минимальные отступы
                 const isMobile = window.innerWidth <= 480;
                 const isDesktop = window.innerWidth >= 1200;
-                const padding = isMobile ? 10 : 40; // Еще меньше отступы на мобильных
+                const padding = isMobile ? 5 : 40; // Минимальные отступы на мобильных
                 
                 // На десктопе клавиатура скрыта, поэтому не учитываем ее высоту
-                const keyboardHeight = isDesktop ? 0 : (keyboard ? keyboard.offsetHeight : (isMobile ? 60 : 80));
+                const keyboardHeight = isDesktop ? 0 : (keyboard ? keyboard.offsetHeight : (isMobile ? 70 : 80)); // Увеличенная клавиатура
                 
                 const availableHeight = window.innerHeight - mainControlsHeight - keyboardHeight - scoreHeight - padding;
                 const availableWidth = window.innerWidth - (isMobile ? 10 : 40);

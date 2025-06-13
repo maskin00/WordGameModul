@@ -94,9 +94,9 @@ class GameEngine {
         const canvasArea = width * height;
         
         if (isMobile) {
-            // Мобильные - компактно, но читаемо
-            this.baseFontSize = Math.max(16, Math.min(24, Math.sqrt(canvasArea) / 25));
-            this.baseImageSize = Math.max(80, Math.min(160, Math.sqrt(canvasArea) / 15));
+            // Мобильные - увеличиваем изображения на 30%
+            this.baseFontSize = Math.max(18, Math.min(26, Math.sqrt(canvasArea) / 23));
+            this.baseImageSize = Math.max(104, Math.min(208, Math.sqrt(canvasArea) / 12)); // +30% от предыдущих значений
         } else if (isTablet) {
             // Планшеты - промежуточные размеры
             this.baseFontSize = Math.max(18, Math.min(30, Math.sqrt(canvasArea) / 28));
