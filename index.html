@@ -7,26 +7,50 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- 
+    ГЛАВНОЕ ПРИЛОЖЕНИЕ - МОДУЛЬНАЯ ИГРА В СЛОВА
+    
+    Структура приложения:
+    1. Панель управления с селекторами языка, категории и раскладки
+    2. Игровая область с canvas для отображения игры
+    3. Виртуальная клавиатура для мобильных устройств
+    4. Панель администратора для управления контентом
+    
+    Особенности:
+    - Поддержка 3 языков (русский, английский, испанский)
+    - 9 раскладок клавиатуры (QWERTY, Dvorak, Colemak для каждого языка)
+    - Адаптивный дизайн для мобильных устройств
+    - Модульная архитектура ES6
+    - Автоматическая локализация через data-i18n атрибуты
+    -->
     <div id="app">
-        <!-- Главная панель управления -->
+        <!-- ГЛАВНАЯ ПАНЕЛЬ УПРАВЛЕНИЯ -->
+        <!-- Содержит все основные элементы управления игрой -->
         <div id="mainControls" class="main-controls">
-            <!-- Селекторы -->
+            <!-- ГРУППА СЕЛЕКТОРОВ -->
+            <!-- Позволяет выбрать язык, категорию и раскладку клавиатуры -->
             <div class="selectors-group">
+                <!-- Селектор языка интерфейса и игры -->
                 <div class="selector-item">
                     <label for="languageSelect" data-i18n="selectLanguage">Язык:</label>
                     <div id="languageContainer"></div>
                 </div>
+                
+                <!-- Селектор категории слов для игры -->
                 <div class="selector-item">
                     <label for="categorySelect" data-i18n="selectCategory">Категория:</label>
                     <div id="categoryContainer"></div>
                 </div>
+                
+                <!-- Селектор раскладки клавиатуры (показывается только если доступно несколько) -->
                 <div class="selector-item">
                     <label for="keyboardLayoutSelect" data-i18n="selectKeyboardLayout">Раскладка:</label>
                     <div id="keyboardLayoutContainer"></div>
                 </div>
             </div>
             
-            <!-- Кнопки управления игрой -->
+            <!-- КНОПКИ УПРАВЛЕНИЯ ИГРОЙ -->
+            <!-- Основные действия: старт, пауза, стоп, админ-панель -->
             <div class="game-controls">
                 <button id="startButton" data-i18n="start">Старт</button>
                 <button id="pauseButton" data-i18n="pause">Пауза</button>
@@ -35,50 +59,70 @@
             </div>
         </div>
 
-        <!-- Игровая область -->
+        <!-- ИГРОВАЯ ОБЛАСТЬ -->
+        <!-- Основная зона игры с отображением счета и canvas для рендеринга -->
         <div id="gameContainer">
+            <!-- Отображение текущего счета и уровня -->
             <div id="score" data-i18n="score">Очки: 0 (Уровень 1)</div>
+            <!-- Canvas для отрисовки игровых объектов (падающие слова, изображения) -->
             <canvas id="gameCanvas"></canvas>
         </div>
 
-        <!-- Мобильная клавиатура -->
+        <!-- ВИРТУАЛЬНАЯ КЛАВИАТУРА -->
+        <!-- Адаптивная клавиатура для мобильных устройств -->
+        <!-- Автоматически подстраивается под выбранный язык и раскладку -->
         <div id="keyboard"></div>
 
-        <!-- Панель администратора (скрыта по умолчанию) -->
+        <!-- ПАНЕЛЬ АДМИНИСТРАТОРА -->
+        <!-- Интерфейс для добавления новых категорий и управления контентом -->
+        <!-- По умолчанию скрыта, показывается при нажатии кнопки "Админ" -->
         <div id="adminPanel" class="admin-panel" style="display: none;">
+            <!-- Заголовок панели с кнопкой возврата -->
             <div class="admin-header">
                 <h2 data-i18n="admin">Администрирование</h2>
                 <button id="backToGameButton" data-i18n="backToGame">Вернуться к игре</button>
             </div>
             
+            <!-- ФОРМА ДОБАВЛЕНИЯ НОВОЙ КАТЕГОРИИ -->
             <div class="admin-form">
+                <!-- Поле ввода названия категории -->
                 <div class="form-group">
                     <label for="newCategoryName" data-i18n="categoryName">Название категории:</label>
                     <input type="text" id="newCategoryName" placeholder="Введите название категории">
                 </div>
 
+                <!-- Выбор языка для новой категории -->
                 <div class="form-group">
                     <label for="categoryLanguage" data-i18n="selectLanguage">Выберите язык:</label>
                     <select id="categoryLanguage"></select>
                 </div>
 
+                <!-- Загрузка файла со словами -->
+                <!-- Ожидается формат: "номер - СЛОВО" на каждой строке -->
                 <div class="form-group">
                     <label for="wordsFile" data-i18n="uploadWords">Загрузить файл со словами:</label>
                     <input type="file" id="wordsFile" accept=".txt">
                     <small>Формат: 1 - Слово</small>
                 </div>
 
+                <!-- Загрузка изображений -->
+                <!-- Имена файлов должны соответствовать номерам в файле слов -->
                 <div class="form-group">
                     <label for="imagesFiles" data-i18n="uploadImages">Загрузить изображения:</label>
                     <input type="file" id="imagesFiles" accept=".png,.jpg,.jpeg" multiple>
                     <small>Названия файлов должны соответствовать номерам в файле слов</small>
                 </div>
 
+                <!-- Кнопки действий -->
                 <div class="form-actions">
+                    <!-- Проверка корректности загруженных данных -->
                     <button id="validateButton" data-i18n="validate">Проверить</button>
+                    <!-- Сохранение категории (активна только после успешной валидации) -->
                     <button id="saveButton" data-i18n="save" disabled>Сохранить</button>
                 </div>
 
+                <!-- РЕЗУЛЬТАТЫ ВАЛИДАЦИИ -->
+                <!-- Показывается после проверки данных -->
                 <div id="validationResult" class="validation-result" style="display: none;">
                     <h3 data-i18n="validationResult">Результат проверки:</h3>
                     <div id="validationDetails"></div>
@@ -87,22 +131,37 @@
         </div>
     </div>
 
-    <!-- Подключение модулей -->
-    <script src="modules/LanguageManager.js"></script>
-    <script src="modules/DataManager.js"></script>
-    <script src="modules/CategoryManager.js"></script>
-    <script src="modules/GameEngine.js"></script>
-    <script src="modules/AdminPanel.js"></script>
+    <!-- ПОДКЛЮЧЕНИЕ МОДУЛЕЙ -->
+    <!-- Порядок подключения важен из-за зависимостей между модулями -->
+    <script src="modules/LanguageManager.js"></script>    <!-- Управление языками и локализацией -->
+    <script src="modules/DataManager.js"></script>        <!-- Загрузка и управление данными -->
+    <script src="modules/CategoryManager.js"></script>    <!-- Управление категориями -->
+    <script src="modules/GameEngine.js"></script>         <!-- Основная игровая логика -->
+    <script src="modules/AdminPanel.js"></script>         <!-- Панель администратора -->
     
-    <!-- Основной скрипт приложения -->
+    <!-- ОСНОВНОЙ СКРИПТ ПРИЛОЖЕНИЯ -->
+    <!-- Главный класс App координирует работу всех модулей -->
     <script>
+        /**
+         * Главный класс приложения
+         * Координирует работу всех модулей и управляет жизненным циклом приложения
+         * 
+         * Архитектура:
+         * - Создает экземпляры всех менеджеров
+         * - Инициализирует их в правильном порядке
+         * - Настраивает взаимодействие между модулями
+         * - Управляет UI и обработкой событий
+         */
         class App {
             constructor() {
-                this.languageManager = null;
-                this.dataManager = null;
-                this.categoryManager = null;
-                this.gameEngine = null;
-                this.adminPanel = null;
+                // Экземпляры всех модулей приложения
+                this.languageManager = null;    // Управление языками и локализацией
+                this.dataManager = null;        // Загрузка и кэширование данных
+                this.categoryManager = null;    // Управление категориями слов
+                this.gameEngine = null;         // Основная игровая логика
+                this.adminPanel = null;         // Панель администратора
+                
+                // Флаг успешной инициализации
                 this.isInitialized = false;
             }
 
