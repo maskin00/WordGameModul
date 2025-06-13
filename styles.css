@@ -551,19 +551,19 @@ button {
 /* Адаптивность для мобильных устройств */
 @media (max-width: 480px) {
     body {
-        padding: 2px;
+        padding: 0px; /* Убираем отступы */
         margin: 0;
     }
     
     .main-controls {
-        padding: 2px;
-        margin-bottom: 1px; /* Уменьшаем отступ */
+        padding: 1px;
+        margin-bottom: 0px; /* Убираем отступ снизу */
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
         align-items: center;
         gap: 2px;
-        min-height: 32px; /* Уменьшаем высоту */
+        min-height: 28px; /* Еще меньше высота */
     }
     
     .selectors-group {
@@ -616,30 +616,30 @@ button {
     }
 
     #gameCanvas {
-        /* Оптимальная высота с учетом увеличенной клавиатуры */
-        max-height: calc(100vh - 130px);
-        min-height: 250px;
+        /* Максимальная высота с учетом больших кнопок клавиатуры */
+        max-height: calc(100vh - 150px);
+        min-height: 280px;
         border-width: 1px;
         border-radius: 6px;
     }
 
     #keyboard {
-        gap: 2px;
-        padding: 2px 0;
+        gap: 3px; /* Немного больше отступы между большими кнопками */
+        padding: 3px 0;
         margin-top: 0px; /* Убираем отступ сверху */
     }
     
     .key {
-        min-width: 26px; /* Увеличиваем кнопки */
-        height: 26px;
-        font-size: 10px;
+        min-width: 39px; /* Увеличиваем кнопки на 50% (26 * 1.5) */
+        height: 39px;
+        font-size: 12px; /* Увеличиваем шрифт */
         padding: 0;
-        border-radius: 3px;
+        border-radius: 4px;
     }
 
     .key.special {
-        min-width: 45px;
-        font-size: 9px;
+        min-width: 68px; /* Увеличиваем на 50% (45 * 1.5) */
+        font-size: 11px;
     }
 
     .admin-header {

@@ -85,8 +85,8 @@ class GameEngine {
     updateGameScale(width, height) {
         // Адаптируем параметры игры под размер экрана
         
-        // Более плавная адаптация скорости
-        this.baseSpeed = Math.max(0.5, Math.min(2.0, height / 700));
+        // Более плавная адаптация скорости (замедлено на 40%)
+        this.baseSpeed = Math.max(0.3, Math.min(1.2, height / 700 * 0.6));
         
         // Определяем тип устройства и размер экрана
         const isMobile = window.innerWidth <= 480;
