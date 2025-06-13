@@ -206,7 +206,7 @@ button {
 .keyboard-row {
     display: flex;
     justify-content: center;
-    gap: 6px;
+    gap: 3px;
     flex-wrap: nowrap;
 }
 
@@ -652,16 +652,20 @@ button {
     }
     
     .key {
-        min-width: 39px; /* Увеличиваем кнопки на 50% (26 * 1.5) */
-        height: 39px;
-        font-size: 12px; /* Увеличиваем шрифт */
+        min-width: 32px; /* Уменьшаем для лучшего размещения */
+        height: 36px;
+        font-size: 11px;
         padding: 0;
         border-radius: 4px;
     }
 
     .key.special {
-        min-width: 68px; /* Увеличиваем на 50% (45 * 1.5) */
-        font-size: 11px;
+        min-width: 55px; /* Пропорционально уменьшаем */
+        font-size: 10px;
+    }
+    
+    .keyboard-row {
+        gap: 2px; /* Еще больше уменьшаем зазоры на мобильных */
     }
 
     .admin-header {
@@ -737,16 +741,20 @@ button {
     }
     
     .key {
-        min-width: 22px;
-        height: 22px;
-        font-size: 9px;
+        min-width: 20px;
+        height: 20px;
+        font-size: 8px;
         padding: 0;
         border-radius: 2px;
     }
 
     .key.special {
-        min-width: 35px;
-        font-size: 8px;
+        min-width: 32px;
+        font-size: 7px;
+    }
+    
+    .keyboard-row {
+        gap: 1px; /* Минимальные зазоры для очень маленьких экранов */
     }
 }
 
