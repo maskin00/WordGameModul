@@ -303,27 +303,7 @@ class LanguageManager {
             container.appendChild(rowDiv);
         });
 
-        // Кнопки управления в отдельной строке
-        const controlRow = document.createElement('div');
-        controlRow.className = 'keyboard-row control-row';
-        
-        // Кнопка очистки
-        const clearButton = document.createElement('button');
-        clearButton.className = 'key special';
-        clearButton.textContent = '← ' + (this.getText('clear') || 'Очистить');
-        
-        const handleClear = (e) => {
-            e.preventDefault();
-            if (onKeyPress) {
-                onKeyPress('CLEAR');
-            }
-        };
-
-        clearButton.addEventListener('click', handleClear);
-        clearButton.addEventListener('touchstart', handleClear, { passive: false });
-        
-        controlRow.appendChild(clearButton);
-        container.appendChild(controlRow);
+        // Убираем кнопки управления - они не нужны для игры
     }
 
     // Разбиение клавиатуры на строки
