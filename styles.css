@@ -556,14 +556,14 @@ button {
     }
     
     .main-controls {
-        padding: 4px;
-        margin-bottom: 4px;
+        padding: 3px;
+        margin-bottom: 2px;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
         align-items: center;
-        gap: 4px;
-        min-height: 40px;
+        gap: 3px;
+        min-height: 35px;
     }
     
     .selectors-group {
@@ -584,62 +584,62 @@ button {
     }
     
     .selector-item select {
-        padding: 2px;
-        font-size: 10px;
-        border-radius: 3px;
-        height: 24px;
+        padding: 1px;
+        font-size: 9px;
+        border-radius: 2px;
+        height: 20px;
     }
     
     .game-controls {
         flex-shrink: 0;
-        gap: 3px;
+        gap: 2px;
     }
     
     button {
-        padding: 2px 6px;
-        font-size: 9px;
-        min-width: 45px;
-        border-radius: 3px;
-        height: 24px;
+        padding: 1px 4px;
+        font-size: 8px;
+        min-width: 40px;
+        border-radius: 2px;
+        height: 20px;
     }
 
     #score {
-        font-size: 12px;
-        margin: 2px 0;
-        padding: 2px;
-        min-height: 16px;
+        font-size: 10px;
+        margin: 1px 0;
+        padding: 1px;
+        min-height: 12px;
     }
 
     #gameContainer {
-        padding: 2px;
-        margin: 2px 0;
+        padding: 1px;
+        margin: 1px 0;
     }
 
     #gameCanvas {
-        /* Максимальное использование экрана с учетом высоты всех элементов */
-        max-height: calc(100vh - 140px);
-        min-height: 250px;
+        /* Максимальное использование экрана - больше места для игры */
+        max-height: calc(100vh - 110px);
+        min-height: 280px;
         border-width: 1px;
-        border-radius: 8px;
+        border-radius: 6px;
     }
 
     #keyboard {
         gap: 1px;
-        padding: 2px 0;
+        padding: 1px 0;
         margin-top: 1px;
     }
     
     .key {
-        min-width: 24px;
-        height: 24px;
-        font-size: 10px;
-        padding: 1px;
-        border-radius: 3px;
+        min-width: 20px;
+        height: 20px;
+        font-size: 8px;
+        padding: 0;
+        border-radius: 2px;
     }
 
     .key.special {
-        min-width: 40px;
-        font-size: 9px;
+        min-width: 35px;
+        font-size: 7px;
     }
 
     .admin-header {

@@ -99,12 +99,12 @@ class GameEngine {
             this.baseImageSize = Math.max(80, Math.min(160, Math.sqrt(canvasArea) / 15));
         } else if (isTablet) {
             // Планшеты - промежуточные размеры
-            this.baseFontSize = Math.max(18, Math.min(28, Math.sqrt(canvasArea) / 30));
-            this.baseImageSize = Math.max(120, Math.min(220, Math.sqrt(canvasArea) / 16));
+            this.baseFontSize = Math.max(18, Math.min(30, Math.sqrt(canvasArea) / 28));
+            this.baseImageSize = Math.max(140, Math.min(250, Math.sqrt(canvasArea) / 14));
         } else {
-            // Десктоп - большие изображения как раньше
-            this.baseFontSize = Math.max(20, Math.min(36, Math.sqrt(canvasArea) / 35));
-            this.baseImageSize = Math.max(150, Math.min(300, Math.sqrt(canvasArea) / 12));
+            // Десктоп - крупные изображения для лучшей видимости
+            this.baseFontSize = Math.max(22, Math.min(40, Math.sqrt(canvasArea) / 30));
+            this.baseImageSize = Math.max(200, Math.min(400, Math.sqrt(canvasArea) / 8));
         }
         
         console.log(`Game scale updated: speed=${this.baseSpeed.toFixed(2)}, fontSize=${this.baseFontSize}, imageSize=${this.baseImageSize}, canvas=${width}x${height}, area=${canvasArea}, device=${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}`);

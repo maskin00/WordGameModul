@@ -229,16 +229,16 @@
                 const score = document.getElementById('score');
                 
                 // Получаем фактические размеры элементов
-                const mainControlsHeight = mainControls ? mainControls.offsetHeight : 50;
-                const scoreHeight = score ? score.offsetHeight : 30;
+                const mainControlsHeight = mainControls ? mainControls.offsetHeight : (isMobile ? 35 : 50);
+                const scoreHeight = score ? score.offsetHeight : (isMobile ? 12 : 30);
                 
                 // Минимальные отступы
                 const isMobile = window.innerWidth <= 480;
                 const isDesktop = window.innerWidth >= 1200;
-                const padding = isMobile ? 15 : 40; // Меньше отступы на мобильных
+                const padding = isMobile ? 10 : 40; // Еще меньше отступы на мобильных
                 
                 // На десктопе клавиатура скрыта, поэтому не учитываем ее высоту
-                const keyboardHeight = isDesktop ? 0 : (keyboard ? keyboard.offsetHeight : 80);
+                const keyboardHeight = isDesktop ? 0 : (keyboard ? keyboard.offsetHeight : (isMobile ? 60 : 80));
                 
                 const availableHeight = window.innerHeight - mainControlsHeight - keyboardHeight - scoreHeight - padding;
                 const availableWidth = window.innerWidth - (isMobile ? 10 : 40);
@@ -246,9 +246,9 @@
                 let canvasWidth, canvasHeight;
                 
                 if (isMobile) {
-                    // Мобильные устройства - более точный расчет высоты
+                    // Мобильные устройства - максимальное использование доступного места
                     canvasWidth = Math.min(availableWidth * 0.99, 600);
-                    canvasHeight = Math.min(availableHeight * 0.92, 450); // Немного меньше для мобильных
+                    canvasHeight = Math.min(availableHeight * 0.96, 500); // Больше высоты для мобильных
                     
                     // Более свободное соотношение сторон для мобильных
                     const minAspectRatio = 0.8; // минимум 4:5
@@ -276,8 +276,8 @@
                 }
                 // Десктопы
                 else {
-                    canvasWidth = Math.min(availableWidth * 0.85, 1000);
-                    canvasHeight = Math.min(availableHeight * 0.85, 750);
+                    canvasWidth = Math.min(availableWidth * 0.9, 1200);
+                    canvasHeight = Math.min(availableHeight * 0.9, 900);
                     
                     // Соотношение сторон 4:3 для десктопа
                     const aspectRatio = 4 / 3;
@@ -293,8 +293,8 @@
                 canvasHeight = Math.max(isMobile ? 200 : 300, canvasHeight);
                 
                 // Увеличиваем максимальные размеры
-                canvasWidth = Math.min(1400, canvasWidth);
-                canvasHeight = Math.min(1000, canvasHeight);
+                canvasWidth = Math.min(1600, canvasWidth);
+                canvasHeight = Math.min(1200, canvasHeight);
                 
                 canvas.width = canvasWidth;
                 canvas.height = canvasHeight;
