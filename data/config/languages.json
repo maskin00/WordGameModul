@@ -1,6 +1,14 @@
 {
   "ru": {
     "name": "Русский",
+    "keyboards": {
+      "qwerty": {
+        "name": "QWERTY",
+        "layout": ["Й","Ц","У","К","Е","Н","Г","Ш","Щ","З","Х","Ъ",
+                   "Ф","Ы","В","А","П","Р","О","Л","Д","Ж","Э",
+                   "Я","Ч","С","М","И","Т","Ь","Б","Ю","-"," "]
+      }
+    },
     "keyboard": ["Й","Ц","У","К","Е","Н","Г","Ш","Щ","З","Х","Ъ",
                  "Ф","Ы","В","А","П","Р","О","Л","Д","Ж","Э",
                  "Я","Ч","С","М","И","Т","Ь","Б","Ю","-"," "],
@@ -12,6 +20,7 @@
       "stop": "Стоп",
       "selectLanguage": "Выберите язык",
       "selectCategory": "Выберите категорию",
+      "selectKeyboardLayout": "Раскладка клавиатуры",
       "addCategory": "Добавить категорию",
       "categoryName": "Название категории",
       "uploadWords": "Загрузить файл со словами",
@@ -33,6 +42,26 @@
   },
   "en": {
     "name": "English",
+    "keyboards": {
+      "qwerty": {
+        "name": "QWERTY",
+        "layout": ["Q","W","E","R","T","Y","U","I","O","P",
+                   "A","S","D","F","G","H","J","K","L",
+                   "Z","X","C","V","B","N","M","-"," "]
+      },
+      "dvorak": {
+        "name": "Dvorak",
+        "layout": ["'",",",".","P","Y","F","G","C","R","L",
+                   "A","O","E","U","I","D","H","T","N","S",
+                   ";","Q","J","K","X","B","M","W","V","Z","-"," "]
+      },
+      "colemak": {
+        "name": "Colemak",
+        "layout": ["Q","W","F","P","G","J","L","U","Y",";",
+                   "A","R","S","T","D","H","N","E","I","O",
+                   "Z","X","C","V","B","K","M","-"," "]
+      }
+    },
     "keyboard": ["Q","W","E","R","T","Y","U","I","O","P",
                  "A","S","D","F","G","H","J","K","L",
                  "Z","X","C","V","B","N","M","-"," "],
@@ -44,6 +73,7 @@
       "stop": "Stop",
       "selectLanguage": "Select Language",
       "selectCategory": "Select Category",
+      "selectKeyboardLayout": "Keyboard Layout",
       "addCategory": "Add Category",
       "categoryName": "Category Name",
       "uploadWords": "Upload Words File",
@@ -65,6 +95,14 @@
   },
   "es": {
     "name": "Español",
+    "keyboards": {
+      "qwerty": {
+        "name": "QWERTY",
+        "layout": ["Q","W","E","R","T","Y","U","I","O","P",
+                   "A","S","D","F","G","H","J","K","L","Ñ",
+                   "Z","X","C","V","B","N","M","-"," "]
+      }
+    },
     "keyboard": ["Q","W","E","R","T","Y","U","I","O","P",
                  "A","S","D","F","G","H","J","K","L","Ñ",
                  "Z","X","C","V","B","N","M","-"," "],
@@ -76,6 +114,7 @@
       "stop": "Parar",
       "selectLanguage": "Seleccionar Idioma",
       "selectCategory": "Seleccionar Categoría",
+      "selectKeyboardLayout": "Diseño de Teclado",
       "addCategory": "Añadir Categoría",
       "categoryName": "Nombre de Categoría",
       "uploadWords": "Subir Archivo de Palabras",

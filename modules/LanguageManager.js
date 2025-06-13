@@ -3,7 +3,9 @@ class LanguageManager {
     constructor() {
         this.languages = {};
         this.currentLanguage = 'ru'; // По умолчанию русский
+        this.currentKeyboardLayout = 'qwerty'; // По умолчанию QWERTY
         this.onLanguageChange = null; // Callback для уведомления об изменении языка
+        this.onKeyboardLayoutChange = null; // Callback для уведомления об изменении раскладки
     }
 
     async initialize() {
@@ -21,6 +23,14 @@ class LanguageManager {
             this.languages = {
                 'ru': {
                     name: 'Русский',
+                    keyboards: {
+                        'qwerty': {
+                            name: 'QWERTY',
+                            layout: ['Й','Ц','У','К','Е','Н','Г','Ш','Щ','З','Х','Ъ',
+                                   'Ф','Ы','В','А','П','Р','О','Л','Д','Ж','Э',
+                                   'Я','Ч','С','М','И','Т','Ь','Б','Ю','-',' ']
+                        }
+                    },
                     keyboard: ['Й','Ц','У','К','Е','Н','Г','Ш','Щ','З','Х','Ъ',
                                'Ф','Ы','В','А','П','Р','О','Л','Д','Ж','Э',
                                'Я','Ч','С','М','И','Т','Ь','Б','Ю','-',' '],
@@ -31,7 +41,8 @@ class LanguageManager {
                         pause: 'Пауза',
                         stop: 'Стоп',
                         selectLanguage: 'Выберите язык',
-                        selectCategory: 'Выберите категорию'
+                        selectCategory: 'Выберите категорию',
+                        selectKeyboardLayout: 'Раскладка клавиатуры'
                     }
                 }
             };
@@ -47,11 +58,30 @@ class LanguageManager {
         }));
     }
 
+    // Получить доступные раскладки для текущего языка
+    getAvailableKeyboardLayouts() {
+        const language = this.languages[this.currentLanguage];
+        if (!language || !language.keyboards) {
+            return [];
+        }
+        
+        return Object.keys(language.keyboards).map(code => ({
+            code: code,
+            name: language.keyboards[code].name
+        }));
+    }
+
     // Установить текущий язык
     setLanguage(languageCode) {
         if (this.languages[languageCode]) {
             this.currentLanguage = languageCode;
             console.log(`Язык изменен на: ${this.languages[languageCode].name}`);
+            
+            // Сбрасываем раскладку на первую доступную для нового языка
+            const availableLayouts = this.getAvailableKeyboardLayouts();
+            if (availableLayouts.length > 0) {
+                this.currentKeyboardLayout = availableLayouts[0].code;
+            }
             
             // Уведомляем о смене языка
             if (this.onLanguageChange) {
@@ -65,9 +95,33 @@ class LanguageManager {
         }
     }
 
+    // Установить раскладку клавиатуры
+    setKeyboardLayout(layoutCode) {
+        const language = this.languages[this.currentLanguage];
+        if (language && language.keyboards && language.keyboards[layoutCode]) {
+            this.currentKeyboardLayout = layoutCode;
+            console.log(`Раскладка клавиатуры изменена на: ${language.keyboards[layoutCode].name}`);
+            
+            // Уведомляем о смене раскладки
+            if (this.onKeyboardLayoutChange) {
+                this.onKeyboardLayoutChange(layoutCode);
+            }
+            
+            return true;
+        } else {
+            console.error(`Раскладка ${layoutCode} не найдена для языка ${this.currentLanguage}`);
+            return false;
+        }
+    }
+
     // Получить текущий язык
     getCurrentLanguage() {
         return this.currentLanguage;
+    }
+
+    // Получить текущую раскладку
+    getCurrentKeyboardLayout() {
+        return this.currentKeyboardLayout;
     }
 
     // Получить название текущего языка
@@ -75,9 +129,23 @@ class LanguageManager {
         return this.languages[this.currentLanguage]?.name || 'Неизвестный';
     }
 
-    // Получить клавиатуру для текущего языка
+    // Получить название текущей раскладки
+    getCurrentKeyboardLayoutName() {
+        const language = this.languages[this.currentLanguage];
+        return language?.keyboards?.[this.currentKeyboardLayout]?.name || 'Неизвестная';
+    }
+
+    // Получить клавиатуру для текущего языка и раскладки
     getKeyboard() {
-        return this.languages[this.currentLanguage]?.keyboard || [];
+        const language = this.languages[this.currentLanguage];
+        
+        // Проверяем, есть ли поддержка раскладок
+        if (language?.keyboards?.[this.currentKeyboardLayout]) {
+            return language.keyboards[this.currentKeyboardLayout].layout;
+        }
+        
+        // Fallback на старую систему
+        return language?.keyboard || [];
     }
 
     // Получить локализованный текст
@@ -143,6 +211,51 @@ class LanguageManager {
         return select;
     }
 
+    // Создание выпадающего списка раскладок клавиатуры
+    createKeyboardLayoutSelector(containerId, onChangeCallback) {
+        const container = document.getElementById(containerId);
+        if (!container) {
+            console.error(`Контейнер ${containerId} не найден`);
+            return null;
+        }
+
+        // Очищаем контейнер
+        container.innerHTML = '';
+
+        const availableLayouts = this.getAvailableKeyboardLayouts();
+        
+        // Если нет раскладок или только одна, не создаем селектор
+        if (availableLayouts.length <= 1) {
+            return null;
+        }
+
+        const select = document.createElement('select');
+        select.id = 'keyboardLayoutSelect';
+        select.className = 'keyboard-layout-select';
+
+        // Добавляем опции
+        availableLayouts.forEach(layout => {
+            const option = document.createElement('option');
+            option.value = layout.code;
+            option.textContent = layout.name;
+            option.selected = layout.code === this.currentKeyboardLayout;
+            select.appendChild(option);
+        });
+
+        // Обработчик изменения
+        select.addEventListener('change', (e) => {
+            const newLayout = e.target.value;
+            this.setKeyboardLayout(newLayout);
+            
+            if (onChangeCallback) {
+                onChangeCallback(newLayout);
+            }
+        });
+
+        container.appendChild(select);
+        return select;
+    }
+
     // Создание мобильной клавиатуры
     createMobileKeyboard(containerId, onKeyPress) {
         const container = document.getElementById(containerId);
@@ -182,7 +295,7 @@ class LanguageManager {
         // Кнопка очистки
         const clearButton = document.createElement('button');
         clearButton.className = 'key special';
-        clearButton.textContent = '← ' + this.getText('clear') || 'Очистить';
+        clearButton.textContent = '← ' + (this.getText('clear') || 'Очистить');
         
         const handleClear = (e) => {
             e.preventDefault();

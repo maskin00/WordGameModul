@@ -20,6 +20,10 @@
                     <label for="categorySelect" data-i18n="selectCategory">Категория:</label>
                     <div id="categoryContainer"></div>
                 </div>
+                <div class="selector-item">
+                    <label for="keyboardLayoutSelect" data-i18n="selectKeyboardLayout">Раскладка:</label>
+                    <div id="keyboardLayoutContainer"></div>
+                </div>
             </div>
             
             <!-- Кнопки управления игрой -->
@@ -140,10 +144,14 @@
                 this.languageManager.createLanguageSelector('languageContainer', (newLanguage) => {
                     console.log(`Язык изменен на: ${newLanguage}`);
                     this.updateCategorySelector();
+                    this.updateKeyboardLayoutSelector();
                 });
 
                 // Создание селектора категорий
                 this.updateCategorySelector();
+
+                // Создание селектора раскладки клавиатуры
+                this.updateKeyboardLayoutSelector();
 
                 // Создание мобильной клавиатуры
                 this.languageManager.createMobileKeyboard('keyboard', (key) => {
@@ -207,6 +215,22 @@
                 });
 
                 container.appendChild(select);
+            }
+
+            updateKeyboardLayoutSelector() {
+                const container = document.getElementById('keyboardLayoutContainer');
+                if (!container) return;
+
+                // Создаем селектор раскладки клавиатуры
+                this.languageManager.createKeyboardLayoutSelector('keyboardLayoutContainer', (newLayout) => {
+                    console.log(`Раскладка клавиатуры изменена на: ${newLayout}`);
+                    // Пересоздаем мобильную клавиатуру с новой раскладкой
+                    this.languageManager.createMobileKeyboard('keyboard', (key) => {
+                        if (this.gameEngine.isGameActive()) {
+                            this.gameEngine.handleKeyPress(key);
+                        }
+                    });
+                });
             }
 
             showAdminPanel() {
