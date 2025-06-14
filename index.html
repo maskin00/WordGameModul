@@ -331,8 +331,8 @@
                     // Мобильные - используем CSS max-height для определения доступного места
                     canvasWidth = Math.min(window.innerWidth * 0.95, 600);
                     
-                    // Высота определяется CSS стилями с учетом компактной панели управления
-                    const reservedHeight = isSmallMobile ? 140 : 160;
+                    // Высота определяется CSS стилями с учетом увеличенной панели управления
+                    const reservedHeight = isSmallMobile ? 155 : 175;
                     canvasHeight = Math.min(window.innerHeight - reservedHeight, 500);
                 } else {
                     // Планшеты

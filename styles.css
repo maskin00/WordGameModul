@@ -470,7 +470,7 @@ button {
     .main-controls {
         flex-direction: row;
         flex-wrap: nowrap;
-        padding: 2px 4px;
+        padding: 3px 4px;
         gap: 3px;
         border-radius: 6px;
         width: calc(100% - 8px);
@@ -478,8 +478,8 @@ button {
         margin: 2px auto;
         align-items: center;
         justify-content: space-between;
-        min-height: 34px;
-        height: 34px;
+        min-height: 48px;
+        height: 48px;
     }
     
     .selectors-group {
@@ -556,13 +556,13 @@ button {
     }
     
     .game-controls button {
-        font-size: 7px;
-        padding: 2px 4px;
-        min-width: 24px;
-        border-radius: 3px;
+        font-size: 4px;
+        padding: 1px 2px;
+        min-width: 18px;
+        border-radius: 2px;
         white-space: nowrap;
-        height: 20px;
-        line-height: 1.1;
+        height: 16px;
+        line-height: 1.0;
         font-weight: 600;
         color: #333;
     }
@@ -615,14 +615,14 @@ button {
     .main-controls {
         flex-direction: row;
         flex-wrap: nowrap;
-        padding: 1px 3px;
+        padding: 2px 3px;
         gap: 2px;
         width: calc(100% - 6px);
         margin: 1px auto;
         align-items: center;
         justify-content: space-between;
-        min-height: 30px;
-        height: 30px;
+        min-height: 42px;
+        height: 42px;
         border-radius: 4px;
     }
     
@@ -700,13 +700,13 @@ button {
     }
     
     .game-controls button {
-        font-size: 6px;
-        padding: 1px 3px;
-        min-width: 20px;
-        border-radius: 2px;
+        font-size: 3px;
+        padding: 1px 2px;
+        min-width: 16px;
+        border-radius: 1px;
         white-space: nowrap;
-        height: 18px;
-        line-height: 1.1;
+        height: 14px;
+        line-height: 1.0;
         font-weight: 600;
         color: #333;
     }
