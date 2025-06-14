@@ -473,9 +473,9 @@ button {
         padding: 3px 4px;
         gap: 3px;
         border-radius: 6px;
-        width: calc(100% - 8px);
+        width: 100%;
         max-width: none;
-        margin: 2px auto;
+        margin: 2px 0;
         align-items: center;
         justify-content: space-between;
         min-height: 48px;
@@ -485,8 +485,8 @@ button {
     .selectors-group {
         flex-direction: row;
         flex-wrap: nowrap;
-        gap: 2px;
-        max-width: 75%;
+        gap: 3px;
+        max-width: 80%;
         width: auto;
         flex: 1;
         justify-content: flex-start;
@@ -495,8 +495,8 @@ button {
     
     .selector-item {
         flex: 1;
-        min-width: 50px;
-        max-width: 70px;
+        min-width: 70px;
+        max-width: 90px;
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -504,24 +504,27 @@ button {
     }
     
     .selector-item label {
-        font-size: 8px;
+        font-size: 7px;
         text-align: center;
-        margin-bottom: 1px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: 1.1;
+        margin-bottom: 2px;
+        white-space: normal;
+        word-wrap: break-word;
+        line-height: 1.0;
         font-weight: 600;
         color: #333;
+        height: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .selector-item select {
-        font-size: 9px;
-        padding: 1px 2px;
+        font-size: 10px;
+        padding: 2px 3px;
         width: 100%;
         border-radius: 3px;
         border-width: 1px;
-        height: 20px;
+        height: 24px;
         line-height: 1.2;
         font-weight: 500;
         color: #333;
@@ -530,9 +533,9 @@ button {
     #languageContainer select,
     #keyboardLayoutContainer select {
         max-width: none;
-        font-size: 9px;
+        font-size: 10px;
         width: 100%;
-        height: 20px;
+        height: 24px;
     }
     
     #categoryContainer {
@@ -543,7 +546,7 @@ button {
     #categoryContainer select {
         max-width: none;
         width: 100%;
-        height: 20px;
+        height: 24px;
     }
     
     .game-controls {
@@ -556,9 +559,9 @@ button {
     }
     
     .game-controls button {
-        font-size: 4px;
-        padding: 1px 2px;
-        min-width: 18px;
+        font-size: 3px;
+        padding: 1px 1px;
+        min-width: 12px;
         border-radius: 2px;
         white-space: nowrap;
         height: 16px;
@@ -580,8 +583,8 @@ button {
     }
     
     #keyboard {
-        gap: 2px;
-        padding: 4px 2px;
+        gap: 0px;
+        padding: 2px 0px;
         margin-top: 2px;
     }
     
@@ -600,7 +603,7 @@ button {
     }
     
     .keyboard-row {
-        gap: 2px;
+        gap: 0px;
     }
 }
 
@@ -617,8 +620,8 @@ button {
         flex-wrap: nowrap;
         padding: 2px 3px;
         gap: 2px;
-        width: calc(100% - 6px);
-        margin: 1px auto;
+        width: 100%;
+        margin: 1px 0;
         align-items: center;
         justify-content: space-between;
         min-height: 42px;
@@ -630,7 +633,7 @@ button {
         flex-direction: row;
         flex-wrap: nowrap;
         gap: 2px;
-        max-width: 72%;
+        max-width: 78%;
         width: auto;
         flex: 1;
         justify-content: flex-start;
@@ -639,8 +642,8 @@ button {
     
     .selector-item {
         flex: 1;
-        min-width: 50px;
-        max-width: 70px;
+        min-width: 60px;
+        max-width: 80px;
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -648,24 +651,27 @@ button {
     }
     
     .selector-item label {
-        font-size: 7px;
+        font-size: 6px;
         text-align: center;
-        margin-bottom: 1px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: 1.1;
+        margin-bottom: 2px;
+        white-space: normal;
+        word-wrap: break-word;
+        line-height: 1.0;
         font-weight: 600;
         color: #333;
+        height: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .selector-item select {
-        font-size: 8px;
-        padding: 1px 2px;
+        font-size: 9px;
+        padding: 2px 2px;
         width: 100%;
         border-radius: 2px;
         border-width: 1px;
-        height: 18px;
+        height: 20px;
         line-height: 1.2;
         font-weight: 500;
         color: #333;
@@ -674,9 +680,9 @@ button {
     #languageContainer select,
     #keyboardLayoutContainer select {
         max-width: none;
-        font-size: 8px;
+        font-size: 9px;
         width: 100%;
-        height: 18px;
+        height: 20px;
     }
     
     #categoryContainer {
@@ -687,7 +693,7 @@ button {
     #categoryContainer select {
         max-width: none;
         width: 100%;
-        height: 18px;
+        height: 20px;
     }
     
     .game-controls {
@@ -700,9 +706,9 @@ button {
     }
     
     .game-controls button {
-        font-size: 3px;
-        padding: 1px 2px;
-        min-width: 16px;
+        font-size: 2px;
+        padding: 1px 1px;
+        min-width: 11px;
         border-radius: 1px;
         white-space: nowrap;
         height: 14px;
