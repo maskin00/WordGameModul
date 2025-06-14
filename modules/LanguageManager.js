@@ -489,12 +489,12 @@ class LanguageManager {
                     keyboard.slice(32)       // Э Ё - пробел
                 ].filter(row => row.length > 0);
             } else if (layout === 'colemak') {
-                // Русская Colemak: 10 + 10 + 13 + 2 (равномерное распределение)
+                // Русская Colemak: 10 + 10 + 12 + 3 (равномерное распределение)
                 return [
                     keyboard.slice(0, 10),   // Й В Ф П Г Ж Л У Ы Ъ
                     keyboard.slice(10, 20),  // А Р С Т Д Х Н Е И О
-                    keyboard.slice(20, 33),  // Я Ч Ц М Б К Ш Щ З Э Ю Ь Ё
-                    keyboard.slice(33)       // - и пробел
+                    keyboard.slice(20, 32),  // Я Ч Ц М Б К Ш Щ З Э Ю Ь
+                    keyboard.slice(32)       // Ё - пробел
                 ].filter(row => row.length > 0);
             } else {
                 // Русская QWERTY: 12 + 11 + 10 + 2 (стандартная раскладка)
