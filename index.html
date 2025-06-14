@@ -55,7 +55,7 @@
                 <button id="startButton" data-i18n="start">Старт</button>
                 <button id="pauseButton" data-i18n="pause">Пауза</button>
                 <button id="stopButton" data-i18n="stop">Стоп</button>
-                <button id="adminButton" data-i18n="admin">Админ</button>
+                <!-- <button id="adminButton" data-i18n="admin">Админ</button> -->
             </div>
         </div>
 
@@ -73,62 +73,50 @@
         <!-- Автоматически подстраивается под выбранный язык и раскладку -->
         <div id="keyboard"></div>
 
-        <!-- ПАНЕЛЬ АДМИНИСТРАТОРА -->
-        <!-- Интерфейс для добавления новых категорий и управления контентом -->
-        <!-- По умолчанию скрыта, показывается при нажатии кнопки "Админ" -->
+        <!-- ПАНЕЛЬ АДМИНИСТРАТОРА - ВРЕМЕННО ОТКЛЮЧЕНА -->
+        <!-- Документация и новая версия перенесены в папку admin_panel_docs/ -->
+        <!--
         <div id="adminPanel" class="admin-panel" style="display: none;">
-            <!-- Заголовок панели с кнопкой возврата -->
             <div class="admin-header">
                 <h2 data-i18n="admin">Администрирование</h2>
                 <button id="backToGameButton" data-i18n="backToGame">Вернуться к игре</button>
             </div>
             
-            <!-- ФОРМА ДОБАВЛЕНИЯ НОВОЙ КАТЕГОРИИ -->
             <div class="admin-form">
-                <!-- Поле ввода названия категории -->
                 <div class="form-group">
                     <label for="newCategoryName" data-i18n="categoryName">Название категории:</label>
                     <input type="text" id="newCategoryName" placeholder="Введите название категории">
                 </div>
 
-                <!-- Выбор языка для новой категории -->
                 <div class="form-group">
                     <label for="categoryLanguage" data-i18n="selectLanguage">Выберите язык:</label>
                     <select id="categoryLanguage"></select>
                 </div>
 
-                <!-- Загрузка файла со словами -->
-                <!-- Ожидается формат: "номер - СЛОВО" на каждой строке -->
                 <div class="form-group">
                     <label for="wordsFile" data-i18n="uploadWords">Загрузить файл со словами:</label>
                     <input type="file" id="wordsFile" accept=".txt">
                     <small>Формат: 1 - Слово</small>
                 </div>
 
-                <!-- Загрузка изображений -->
-                <!-- Имена файлов должны соответствовать номерам в файле слов -->
                 <div class="form-group">
                     <label for="imagesFiles" data-i18n="uploadImages">Загрузить изображения:</label>
                     <input type="file" id="imagesFiles" accept=".png,.jpg,.jpeg" multiple>
                     <small>Названия файлов должны соответствовать номерам в файле слов</small>
                 </div>
 
-                <!-- Кнопки действий -->
                 <div class="form-actions">
-                    <!-- Проверка корректности загруженных данных -->
                     <button id="validateButton" data-i18n="validate">Проверить</button>
-                    <!-- Сохранение категории (активна только после успешной валидации) -->
                     <button id="saveButton" data-i18n="save" disabled>Сохранить</button>
                 </div>
 
-                <!-- РЕЗУЛЬТАТЫ ВАЛИДАЦИИ -->
-                <!-- Показывается после проверки данных -->
                 <div id="validationResult" class="validation-result" style="display: none;">
                     <h3 data-i18n="validationResult">Результат проверки:</h3>
                     <div id="validationDetails"></div>
                 </div>
             </div>
         </div>
+        -->
     </div>
 
     <!-- ПОДКЛЮЧЕНИЕ МОДУЛЕЙ -->
@@ -137,7 +125,7 @@
     <script src="modules/DataManager.js"></script>        <!-- Загрузка и управление данными -->
     <script src="modules/CategoryManager.js"></script>    <!-- Управление категориями -->
     <script src="modules/GameEngine.js"></script>         <!-- Основная игровая логика -->
-    <script src="modules/AdminPanel.js"></script>         <!-- Панель администратора -->
+    <!-- <script src="modules/AdminPanel.js"></script>         Панель администратора - временно отключена -->
     
     <!-- ОСНОВНОЙ СКРИПТ ПРИЛОЖЕНИЯ -->
     <!-- Главный класс App координирует работу всех модулей -->
@@ -159,7 +147,7 @@
                 this.dataManager = null;        // Загрузка и кэширование данных
                 this.categoryManager = null;    // Управление категориями слов
                 this.gameEngine = null;         // Основная игровая логика
-                this.adminPanel = null;         // Панель администратора
+                // this.adminPanel = null;         // Панель администратора - временно отключена
                 
                 // Флаг успешной инициализации
                 this.isInitialized = false;
@@ -174,14 +162,14 @@
                     this.dataManager = new DataManager();
                     this.categoryManager = new CategoryManager(this.dataManager, this.languageManager);
                     this.gameEngine = new GameEngine(this.dataManager, this.languageManager, this.categoryManager);
-                    this.adminPanel = new AdminPanel(this.dataManager, this.languageManager, this.categoryManager);
+                    // this.adminPanel = new AdminPanel(this.dataManager, this.languageManager, this.categoryManager);
 
                     // Инициализация модулей
                     await this.languageManager.initialize();
                     await this.dataManager.loadConfig();
                     await this.categoryManager.initialize();
                     await this.gameEngine.initialize();
-                    await this.adminPanel.initialize();
+                    // await this.adminPanel.initialize();
 
                     // Создание UI элементов
                     this.setupUI();
@@ -225,7 +213,8 @@
                     }
                 });
 
-                // Обработчики кнопок администратора
+                // Обработчики кнопок администратора - временно отключены
+                /*
                 document.getElementById('adminButton').addEventListener('click', () => {
                     this.showAdminPanel();
                 });
@@ -233,6 +222,7 @@
                 document.getElementById('backToGameButton').addEventListener('click', () => {
                     this.hideAdminPanel();
                 });
+                */
 
                 // Адаптивное изменение размера канваса
                 this.resizeCanvas();
@@ -308,6 +298,8 @@
                 }
             }
 
+            // Методы админ панели - временно отключены
+            /*
             showAdminPanel() {
                 document.getElementById('adminPanel').style.display = 'block';
                 document.body.style.overflow = 'hidden'; // Предотвращаем скролл фона
@@ -317,13 +309,14 @@
                 document.getElementById('adminPanel').style.display = 'none';
                 document.body.style.overflow = 'auto'; // Восстанавливаем скролл
             }
+            */
 
             resizeCanvas() {
                 const canvas = document.getElementById('gameCanvas');
+                const mainControls = document.getElementById('mainControls');
                 if (!canvas) return;
 
                 // Более точное вычисление доступного пространства
-                const mainControls = document.getElementById('mainControls');
                 const keyboard = document.getElementById('keyboard');
                 const score = document.getElementById('score');
                 
@@ -399,6 +392,12 @@
                 canvas.height = canvasHeight;
                 canvas.style.width = canvasWidth + 'px';
                 canvas.style.height = canvasHeight + 'px';
+                
+                // Синхронизируем ширину панели управления с canvas
+                if (mainControls) {
+                    mainControls.style.maxWidth = canvasWidth + 'px';
+                    mainControls.style.width = canvasWidth + 'px';
+                }
                 
                 console.log(`Canvas resized to ${canvasWidth}x${canvasHeight} for screen ${window.innerWidth}x${window.innerHeight}, available: ${availableWidth}x${availableHeight}`);
                 

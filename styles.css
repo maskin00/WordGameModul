@@ -27,28 +27,30 @@ body {
 .main-controls {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin: 0 auto 15px auto;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 12px;
     align-items: flex-end;
     justify-content: space-between;
+    max-width: fit-content;
+    width: auto;
 }
 
 /* Группа селекторов */
 .selectors-group {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     flex-wrap: wrap;
-    min-width: 300px;
+    min-width: 280px;
     flex: 1;
 }
 
 .selector-item {
-    min-width: 140px;
+    min-width: 120px;
     flex: 1;
 }
 
@@ -63,9 +65,10 @@ body {
 /* Кнопки управления игрой */
 .game-controls {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 /* Селекторы */
@@ -137,16 +140,17 @@ select:focus {
 
 /* Кнопки управления */
 button {
-    padding: 10px 16px;
+    padding: 8px 12px;
     border: none;
     border-radius: 6px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
+    min-width: 70px;
 }
 
 #startButton {

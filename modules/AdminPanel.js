@@ -184,16 +184,19 @@ class AdminPanel {
         const languageCode = document.getElementById('categoryLanguage').value;
 
         try {
-            // Создание категории
+            // Создание категории в новом формате
+            const categoryId = this.generateCategoryId(categoryName);
             const categoryData = {
-                id: this.generateCategoryId(categoryName),
+                id: categoryId,
                 name: categoryName,
+                icon: '📁',
                 language: languageCode,
-                wordsData: this.validationData.words.words,
-                imagesData: this.validationData.images.matchedPairs
+                wordsFile: this.uploadedFiles.words.content,
+                imageFiles: this.uploadedFiles.images
             };
 
-            const success = await this.dataManager.addCategory(categoryData);
+            const result = await this.dataManager.addCategory(categoryData);
+            const success = result && result.success;
             
             if (success) {
                 alert(this.languageManager.getText('success') || 'Категория успешно добавлена!');
