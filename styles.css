@@ -462,128 +462,232 @@ button {
 /* Адаптивность для мобильных устройств */
 @media (max-width: 480px) {
     body {
-        font-size: 12px;
         padding: 5px;
+        margin: 0;
     }
     
-    button {
-        padding: 8px 10px;
-        font-size: 12px;
-        min-width: 60px;
-        height: auto;
+    .main-controls {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 8px;
+        gap: 6px;
+        border-radius: 8px;
+        width: calc(100% - 16px);
+        max-width: none;
+        margin: 5px auto;
     }
     
-    #score {
-        font-size: 11px;
-        margin: 1px 0;
-        padding: 1px;
-        min-height: 14px;
+    .selectors-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px;
+        max-width: 100%;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .selector-item {
+        flex: 1;
+        min-width: 90px;
+        align-items: center;
+    }
+    
+    .selector-item label {
+        font-size: 9px;
+        text-align: center;
+        margin-bottom: 2px;
+        white-space: nowrap;
+    }
+    
+    .selector-item select {
+        font-size: 10px;
+        padding: 4px 6px;
+        width: 100%;
+        border-radius: 4px;
+    }
+    
+    #languageContainer select,
+    #keyboardLayoutContainer select {
+        max-width: none;
+        font-size: 10px;
+        width: 100%;
+    }
+    
+    #categoryContainer {
+        flex: 2;
+    }
+    
+    #categoryContainer select {
+        max-width: none;
+        width: 100%;
+    }
+    
+    .game-controls {
+        width: 100%;
+        justify-content: center;
+        gap: 4px;
+        margin-top: 4px;
+    }
+    
+    .game-controls button {
+        font-size: 10px;
+        padding: 6px 8px;
+        min-width: 50px;
+        flex: 1;
+        border-radius: 4px;
     }
     
     #gameContainer {
-        padding: 1px;
-        margin: 1px 0;
+        margin: 5px 0;
+        padding: 0;
     }
     
     #gameCanvas {
-        /* Еще больше места для игры на маленьких экранах */
-        max-height: calc(100vh - 120px);
-        min-height: 220px;
+        max-height: calc(100vh - 200px);
+        min-height: 250px;
         border-width: 1px;
-        border-radius: 6px;
+        border-radius: 8px;
+        width: calc(100% - 10px);
+        margin: 0 auto;
     }
     
     #keyboard {
         gap: 1px;
-        padding: 2px 0;
-        margin-top: 1px;
+        padding: 5px 0;
+        margin-top: 5px;
     }
     
     .key {
-        min-width: 20px;
-        height: 20px;
-        font-size: 8px;
-        padding: 0;
-        border-radius: 2px;
+        min-width: 28px;
+        height: 35px;
+        font-size: 12px;
+        padding: 2px;
+        border-radius: 3px;
+        border-width: 1px;
     }
 
     .key.special {
-        min-width: 32px;
-        font-size: 7px;
+        min-width: 50px;
+        font-size: 11px;
     }
     
     .keyboard-row {
-        gap: 1px; /* Минимальные зазоры для очень маленьких экранов */
-    }
-    
-    .admin-header {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-        padding: 15px;
-    }
-    
-    .validation-details {
-        font-size: 12px;
-        padding: 10px;
+        gap: 1px;
     }
 }
 
 /* Адаптивность для очень маленьких экранов */
 @media (max-width: 360px) {
     body {
-        font-size: 11px;
-        padding: 2px;
+        padding: 3px;
+        margin: 0;
     }
     
-    button {
-        padding: 8px 10px;
-        font-size: 12px;
-        min-width: 60px;
-        height: auto;
+    .main-controls {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 6px;
+        gap: 4px;
+        width: calc(100% - 12px);
+        margin: 3px auto;
     }
     
-    #score {
-        font-size: 11px;
-        margin: 1px 0;
-        padding: 1px;
-        min-height: 14px;
+    .selectors-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 3px;
+        max-width: 100%;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .selector-item {
+        flex: 1;
+        min-width: 80px;
+        align-items: center;
+    }
+    
+    .selector-item label {
+        font-size: 8px;
+        text-align: center;
+        margin-bottom: 2px;
+        white-space: nowrap;
+    }
+    
+    .selector-item select {
+        font-size: 9px;
+        padding: 3px 4px;
+        width: 100%;
+        border-radius: 3px;
+    }
+    
+    #languageContainer select,
+    #keyboardLayoutContainer select {
+        max-width: none;
+        font-size: 9px;
+        width: 100%;
+    }
+    
+    #categoryContainer {
+        flex: 2;
+    }
+    
+    #categoryContainer select {
+        max-width: none;
+        width: 100%;
+    }
+    
+    .game-controls {
+        width: 100%;
+        justify-content: center;
+        gap: 3px;
+        margin-top: 3px;
+    }
+    
+    .game-controls button {
+        font-size: 9px;
+        padding: 5px 6px;
+        min-width: 45px;
+        flex: 1;
+        border-radius: 3px;
     }
     
     #gameContainer {
-        padding: 1px;
-        margin: 1px 0;
+        margin: 3px 0;
+        padding: 0;
     }
     
     #gameCanvas {
-        /* Еще больше места для игры на маленьких экранах */
-        max-height: calc(100vh - 120px);
+        max-height: calc(100vh - 180px);
         min-height: 220px;
         border-width: 1px;
         border-radius: 6px;
+        width: calc(100% - 6px);
+        margin: 0 auto;
     }
     
     #keyboard {
-        gap: 1px;
-        padding: 2px 0;
-        margin-top: 1px;
+        gap: 0px;
+        padding: 3px 0;
+        margin-top: 3px;
     }
     
     .key {
-        min-width: 20px;
-        height: 20px;
-        font-size: 8px;
-        padding: 0;
+        min-width: 25px;
+        height: 32px;
+        font-size: 11px;
+        padding: 1px;
         border-radius: 2px;
+        border-width: 1px;
     }
 
     .key.special {
-        min-width: 32px;
-        font-size: 7px;
+        min-width: 45px;
+        font-size: 10px;
     }
     
     .keyboard-row {
-        gap: 1px; /* Минимальные зазоры для очень маленьких экранов */
+        gap: 0px;
     }
 }
 
@@ -736,14 +840,15 @@ button {
 /* Tablet styles */
 @media (max-width: 768px) {
     .main-controls {
-        padding: 12px;
-        gap: 10px;
+        padding: 10px;
+        gap: 8px;
         border-radius: 10px;
+        margin: 10px auto;
     }
     
     .selectors-group {
         gap: 6px;
-        max-width: 65%;
+        max-width: 70%;
     }
     
     .selector-item label {
@@ -769,6 +874,21 @@ button {
         font-size: 12px;
         padding: 6px 12px;
         min-width: 50px;
+    }
+    
+    #gameCanvas {
+        max-height: calc(100vh - 220px);
+        border-radius: 10px;
+    }
+    
+    .key {
+        min-width: 35px;
+        height: 38px;
+        font-size: 14px;
+    }
+    
+    .key.special {
+        min-width: 60px;
     }
 }
 
