@@ -222,6 +222,7 @@ button {
     justify-content: center;
     gap: 3px;
     flex-wrap: nowrap;
+    width: 100%;
 }
 
 .keyboard-row.control-row {
@@ -568,7 +569,7 @@ button {
         border-radius: 6px;
         width: 100% !important;
         max-width: none !important;
-        margin: 1px 0;
+        margin: 0px 0 0px 0;
         align-items: center !important;
         justify-content: space-between !important;
         min-height: 58px;
@@ -667,44 +668,51 @@ button {
     }
     
     #gameContainer {
-        margin: 1px 0;
+        margin: 0px 0;
         padding: 0;
     }
     
     #gameCanvas {
         border-width: 1px;
         border-radius: 6px;
-        margin: 0 auto;
+        margin: 0 auto 0px auto;
         display: block;
     }
     
     #score {
-        margin-bottom: 2px;
+        margin-bottom: 0px;
         font-size: 14px;
     }
     
     #keyboard {
         gap: 0px;
-        padding: 1px 0px;
-        margin-top: 1px;
+        padding: 0px 0px;
+        margin-top: 0px;
+        width: 100%;
+        max-width: 100%;
     }
     
     .key {
-        min-width: 24px;
-        height: 30px;
-        font-size: 10px;
-        padding: 1px;
+        min-width: 32px;
+        height: 35px;
+        font-size: 13px;
+        padding: 2px;
         border-radius: 3px;
         border-width: 1px;
+        flex: 1;
     }
 
     .key.special {
-        min-width: 42px;
-        font-size: 9px;
+        min-width: 55px;
+        font-size: 12px;
+        flex: 1.3;
     }
     
     .keyboard-row {
-        gap: 0px;
+        gap: 1px;
+        width: 100%;
+        display: flex;
+        justify-content: stretch;
     }
 }
 
@@ -723,7 +731,7 @@ button {
         padding: 2px 3px;
         gap: 2px;
         width: 100% !important;
-        margin: 1px 0;
+        margin: 0px 0;
         align-items: center !important;
         justify-content: space-between !important;
         min-height: 42px;
@@ -821,39 +829,46 @@ button {
     }
     
     #gameContainer {
-        margin: 1px 0;
+        margin: 0px 0;
         padding: 0;
     }
     
     #gameCanvas {
         border-width: 1px;
         border-radius: 4px;
-        margin: 0 auto;
+        margin: 0 auto 0px auto;
         display: block;
     }
     
     #keyboard {
         gap: 0px;
-        padding: 1px 0px;
-        margin-top: 1px;
+        padding: 0px 0px;
+        margin-top: 0px;
+        width: 100%;
+        max-width: 100%;
     }
     
     .key {
-        min-width: 20px;
-        height: 26px;
-        font-size: 9px;
-        padding: 1px;
+        min-width: 28px;
+        height: 32px;
+        font-size: 11px;
+        padding: 2px;
         border-radius: 2px;
         border-width: 1px;
+        flex: 1;
     }
 
     .key.special {
-        min-width: 35px;
-        font-size: 8px;
+        min-width: 48px;
+        font-size: 10px;
+        flex: 1.3;
     }
     
     .keyboard-row {
-        gap: 0px;
+        gap: 1px;
+        width: 100%;
+        display: flex;
+        justify-content: stretch;
     }
 }
 
