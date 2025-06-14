@@ -462,8 +462,153 @@ button {
 /* Адаптивность для мобильных устройств */
 @media (max-width: 480px) {
     body {
-        padding: 1px;
+        padding: 0px;
         margin: 0;
+        overflow-x: hidden;
+    }
+    
+    .main-controls {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        padding: 3px 6px;
+        gap: 4px;
+        border-radius: 6px;
+        width: calc(100% - 12px);
+        max-width: none;
+        margin: 2px auto;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 36px;
+        height: 36px;
+    }
+    
+    .selectors-group {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 3px;
+        max-width: 70%;
+        width: auto;
+        flex: 1;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    
+    .selector-item {
+        flex: 1;
+        min-width: 60px;
+        max-width: 80px;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .selector-item label {
+        font-size: 8px;
+        text-align: center;
+        margin-bottom: 1px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.1;
+        font-weight: 500;
+    }
+    
+    .selector-item select {
+        font-size: 9px;
+        padding: 2px 3px;
+        width: 100%;
+        border-radius: 3px;
+        border-width: 1px;
+        height: 22px;
+        line-height: 1.2;
+        font-weight: 500;
+    }
+    
+    #languageContainer select,
+    #keyboardLayoutContainer select {
+        max-width: none;
+        font-size: 9px;
+        width: 100%;
+        height: 22px;
+    }
+    
+    #categoryContainer {
+        flex: 1.5;
+        max-width: 120px;
+    }
+    
+    #categoryContainer select {
+        max-width: none;
+        width: 100%;
+        height: 22px;
+    }
+    
+    .game-controls {
+        width: auto;
+        justify-content: flex-end;
+        gap: 2px;
+        margin-top: 0;
+        flex-shrink: 0;
+        align-items: center;
+    }
+    
+    .game-controls button {
+        font-size: 8px;
+        padding: 3px 6px;
+        min-width: 32px;
+        border-radius: 3px;
+        white-space: nowrap;
+        height: 24px;
+        line-height: 1.2;
+        font-weight: 600;
+    }
+    
+    #gameContainer {
+        margin: 2px 0;
+        padding: 0;
+    }
+    
+    #gameCanvas {
+        max-height: calc(100vh - 180px);
+        min-height: 280px;
+        border-width: 1px;
+        border-radius: 6px;
+        width: calc(100% - 4px);
+        margin: 0 auto;
+    }
+    
+    #keyboard {
+        gap: 2px;
+        padding: 4px 2px;
+        margin-top: 2px;
+    }
+    
+    .key {
+        min-width: 28px;
+        height: 36px;
+        font-size: 12px;
+        padding: 2px;
+        border-radius: 4px;
+        border-width: 1px;
+    }
+
+    .key.special {
+        min-width: 50px;
+        font-size: 11px;
+    }
+    
+    .keyboard-row {
+        gap: 2px;
+    }
+}
+
+/* Адаптивность для очень маленьких экранов */
+@media (max-width: 360px) {
+    body {
+        padding: 0px;
+        margin: 0;
+        overflow-x: hidden;
     }
     
     .main-controls {
@@ -471,21 +616,20 @@ button {
         flex-wrap: nowrap;
         padding: 2px 4px;
         gap: 2px;
-        border-radius: 4px;
-        width: calc(100% - 4px);
-        max-width: none;
+        width: calc(100% - 8px);
         margin: 1px auto;
         align-items: center;
         justify-content: space-between;
         min-height: 32px;
         height: 32px;
+        border-radius: 4px;
     }
     
     .selectors-group {
         flex-direction: row;
         flex-wrap: nowrap;
-        gap: 1px;
-        max-width: 65%;
+        gap: 2px;
+        max-width: 72%;
         width: auto;
         flex: 1;
         justify-content: flex-start;
@@ -495,6 +639,7 @@ button {
     .selector-item {
         flex: 1;
         min-width: 50px;
+        max-width: 70px;
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -502,41 +647,44 @@ button {
     }
     
     .selector-item label {
-        font-size: 6px;
+        font-size: 7px;
         text-align: center;
-        margin-bottom: 0px;
+        margin-bottom: 1px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        line-height: 1;
+        line-height: 1.1;
+        font-weight: 500;
     }
     
     .selector-item select {
-        font-size: 7px;
+        font-size: 8px;
         padding: 1px 2px;
         width: 100%;
         border-radius: 2px;
         border-width: 1px;
-        height: 18px;
-        line-height: 1;
+        height: 20px;
+        line-height: 1.2;
+        font-weight: 500;
     }
     
     #languageContainer select,
     #keyboardLayoutContainer select {
         max-width: none;
-        font-size: 7px;
+        font-size: 8px;
         width: 100%;
-        height: 18px;
+        height: 20px;
     }
     
     #categoryContainer {
         flex: 1.8;
+        max-width: 100px;
     }
     
     #categoryContainer select {
         max-width: none;
         width: 100%;
-        height: 18px;
+        height: 20px;
     }
     
     .game-controls {
@@ -554,8 +702,9 @@ button {
         min-width: 28px;
         border-radius: 2px;
         white-space: nowrap;
-        height: 20px;
-        line-height: 1;
+        height: 22px;
+        line-height: 1.2;
+        font-weight: 600;
     }
     
     #gameContainer {
@@ -564,8 +713,8 @@ button {
     }
     
     #gameCanvas {
-        max-height: calc(100vh - 100px);
-        min-height: 350px;
+        max-height: calc(100vh - 160px);
+        min-height: 250px;
         border-width: 1px;
         border-radius: 4px;
         width: calc(100% - 2px);
@@ -574,13 +723,13 @@ button {
     
     #keyboard {
         gap: 1px;
-        padding: 1px 0;
+        padding: 2px 1px;
         margin-top: 1px;
     }
     
     .key {
         min-width: 26px;
-        height: 32px;
+        height: 34px;
         font-size: 11px;
         padding: 1px;
         border-radius: 2px;
@@ -594,143 +743,6 @@ button {
     
     .keyboard-row {
         gap: 1px;
-    }
-}
-
-/* Адаптивность для очень маленьких экранов */
-@media (max-width: 360px) {
-    body {
-        padding: 0px;
-        margin: 0;
-    }
-    
-    .main-controls {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        padding: 1px 3px;
-        gap: 1px;
-        width: calc(100% - 2px);
-        margin: 0px auto;
-        align-items: center;
-        justify-content: space-between;
-        min-height: 28px;
-        height: 28px;
-        border-radius: 3px;
-    }
-    
-    .selectors-group {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        gap: 1px;
-        max-width: 68%;
-        width: auto;
-        flex: 1;
-        justify-content: flex-start;
-        align-items: center;
-    }
-    
-    .selector-item {
-        flex: 1;
-        min-width: 45px;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    
-    .selector-item label {
-        font-size: 5px;
-        text-align: center;
-        margin-bottom: 0px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: 1;
-    }
-    
-    .selector-item select {
-        font-size: 6px;
-        padding: 0px 1px;
-        width: 100%;
-        border-radius: 1px;
-        border-width: 1px;
-        height: 16px;
-        line-height: 1;
-    }
-    
-    #languageContainer select,
-    #keyboardLayoutContainer select {
-        max-width: none;
-        font-size: 6px;
-        width: 100%;
-        height: 16px;
-    }
-    
-    #categoryContainer {
-        flex: 2;
-    }
-    
-    #categoryContainer select {
-        max-width: none;
-        width: 100%;
-        height: 16px;
-    }
-    
-    .game-controls {
-        width: auto;
-        justify-content: flex-end;
-        gap: 1px;
-        margin-top: 0;
-        flex-shrink: 0;
-        align-items: center;
-    }
-    
-    .game-controls button {
-        font-size: 6px;
-        padding: 1px 3px;
-        min-width: 25px;
-        border-radius: 1px;
-        white-space: nowrap;
-        height: 18px;
-        line-height: 1;
-    }
-    
-    #gameContainer {
-        margin: 0px;
-        padding: 0;
-    }
-    
-    #gameCanvas {
-        max-height: calc(100vh - 80px);
-        min-height: 400px;
-        border-width: 1px;
-        border-radius: 3px;
-        width: calc(100% - 2px);
-        margin: 0 auto;
-    }
-    
-    #keyboard {
-        gap: 0px;
-        padding: 0px;
-        margin-top: 0px;
-    }
-    
-    .key {
-        min-width: 24px;
-        height: 30px;
-        font-size: 10px;
-        padding: 0px;
-        border-radius: 1px;
-        border-width: 1px;
-    }
-
-    .key.special {
-        min-width: 40px;
-        font-size: 9px;
-    }
-    
-    .keyboard-row {
-        gap: 0px;
     }
 }
 
