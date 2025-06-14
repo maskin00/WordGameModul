@@ -5,18 +5,21 @@
       "names": {
         "ru": "Столицы мира",
         "en": "World Capitals",
-        "es": "Capitales del mundo"
+        "es": "Capitales del mundo",
+        "fr": "Capitales du monde"
       },
       "description": {
         "ru": "Угадайте столицы стран по флагам",
         "en": "Guess country capitals by flags",
-        "es": "Adivina las capitales de países por banderas"
+        "es": "Adivina las capitales de países por banderas",
+        "fr": "Devinez les capitales des pays par les drapeaux"
       },
       "imageFolder": "capitals",
       "wordFiles": {
-        "ru": "capitals.txt",
-        "en": "capitals.txt",
-        "es": "capitals.txt"
+        "ru": "capitals_COMPLETE.txt",
+        "en": "capitals_COMPLETE.txt",
+        "es": "capitals_COMPLETE.txt",
+        "fr": "capitals_COMPLETE.txt"
       }
     },
     {
@@ -24,18 +27,21 @@
       "names": {
         "ru": "Футболисты",
         "en": "Football Players",
-        "es": "Futbolistas"
+        "es": "Futbolistas",
+        "fr": "Footballeurs"
       },
       "description": {
         "ru": "Угадайте имена футболистов по фотографиям",
         "en": "Guess football player names by photos",
-        "es": "Adivina nombres de futbolistas por fotos"
+        "es": "Adivina nombres de futbolistas por fotos",
+        "fr": "Devinez les noms des footballeurs par les photos"
       },
       "imageFolder": "footballers",
       "wordFiles": {
-        "ru": "footballers.txt",
-        "en": "footballers_en.txt",
-        "es": "footballers_es.txt"
+        "ru": "footballers_FULL.txt",
+        "en": "footballers_FULL.txt",
+        "es": "footballers_FULL.txt",
+        "fr": "footballers_FULL.txt"
       }
     }
   ]

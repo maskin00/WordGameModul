@@ -254,7 +254,7 @@
                 // Пустая опция
                 const emptyOption = document.createElement('option');
                 emptyOption.value = '';
-                emptyOption.textContent = 'Выберите категорию';
+                emptyOption.textContent = this.languageManager.getText('selectCategory') || 'Выберите категорию';
                 select.appendChild(emptyOption);
 
                 // Добавляем категории
