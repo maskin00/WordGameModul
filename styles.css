@@ -26,47 +26,51 @@ body {
 /* Главная панель управления */
 .main-controls {
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 12px;
+    padding: 16px;
     margin: 0 auto 15px auto;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 12px;
     align-items: flex-end;
     justify-content: space-between;
-    max-width: fit-content;
     width: auto;
+    min-width: 0;
 }
 
 /* Группа селекторов */
 .selectors-group {
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    min-width: 280px;
+    gap: 8px;
+    flex-wrap: nowrap;
     flex: 1;
+    min-width: 0;
+    max-width: 60%;
 }
 
 .selector-item {
-    min-width: 120px;
     flex: 1;
+    min-width: 0;
+    max-width: 150px;
 }
 
 .selector-item label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 16px;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Кнопки управления игрой */
 .game-controls {
     display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
+    gap: 5px;
+    flex-wrap: nowrap;
     justify-content: center;
     flex-shrink: 0;
 }
@@ -74,14 +78,16 @@ body {
 /* Селекторы */
 select {
     width: 100%;
-    padding: 8px;
+    padding: 10px 12px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     background: rgba(255, 255, 255, 0.9);
     color: #333;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-width: 0;
+    font-weight: 500;
 }
 
 select:hover {
@@ -104,6 +110,24 @@ select:focus {
 .keyboard-layout-select:hover {
     background: rgba(255, 255, 255, 1);
     border-color: rgba(74, 144, 226, 0.5);
+}
+
+/* Компактные селекторы для языка и раскладки */
+#languageContainer .selector-item,
+#keyboardLayoutContainer .selector-item {
+    max-width: 120px;
+}
+
+#languageContainer select,
+#keyboardLayoutContainer select {
+    font-size: 15px;
+    padding: 8px 10px;
+}
+
+/* Селектор категории может быть шире */
+#categoryContainer .selector-item {
+    max-width: 200px;
+    flex: 2;
 }
 
 /* Игровая область */
@@ -140,17 +164,18 @@ select:focus {
 
 /* Кнопки управления */
 button {
-    padding: 8px 12px;
+    padding: 12px 18px;
     border: none;
-    border-radius: 6px;
-    font-size: 13px;
+    border-radius: 8px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
-    min-width: 70px;
+    min-width: 80px;
+    flex-shrink: 0;
 }
 
 #startButton {
@@ -531,19 +556,25 @@ button {
     }
     
     .main-controls {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: flex-end;
+        gap: 8px;
+        justify-content: space-between;
     }
     
     .selectors-group {
-        min-width: auto;
-        justify-content: space-between;
+        min-width: 0;
+        flex: 1;
+        flex-wrap: nowrap;
+        gap: 6px;
     }
     
     .game-controls {
         justify-content: center;
-        width: 100%;
+        flex-shrink: 0;
+        flex-wrap: nowrap;
+        gap: 5px;
     }
 
     #gameCanvas {
@@ -551,8 +582,8 @@ button {
     }
 
     button {
-        padding: 8px 14px;
-        font-size: 13px;
+        padding: 10px 16px;
+        font-size: 15px;
     }
 
     .key {
@@ -582,51 +613,53 @@ button {
     }
     
     .main-controls {
-        padding: 1px;
-        margin-bottom: 0px; /* Убираем отступ снизу */
+        padding: 8px;
+        margin-bottom: 10px;
         flex-direction: row;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: space-between;
-        align-items: center;
-        gap: 2px;
-        min-height: 28px; /* Еще меньше высота */
+        align-items: flex-end;
+        gap: 6px;
+        min-height: auto;
     }
     
     .selectors-group {
         flex-direction: row;
-        gap: 4px;
+        gap: 5px;
         flex: 1;
         min-width: 0;
+        flex-wrap: nowrap;
     }
     
     .selector-item {
         flex: 1;
-        min-width: 70px;
+        min-width: 0;
     }
     
     .selector-item label {
-        font-size: 9px;
-        margin-bottom: 2px;
+        font-size: 14px;
+        margin-bottom: 4px;
     }
     
     .selector-item select {
-        padding: 1px;
-        font-size: 9px;
-        border-radius: 2px;
-        height: 20px;
+        padding: 8px 10px;
+        font-size: 14px;
+        border-radius: 6px;
+        height: auto;
     }
     
     .game-controls {
         flex-shrink: 0;
-        gap: 2px;
+        gap: 4px;
+        flex-wrap: nowrap;
     }
     
     button {
-        padding: 1px 4px;
-        font-size: 8px;
-        min-width: 40px;
-        border-radius: 2px;
-        height: 20px;
+        padding: 10px 12px;
+        font-size: 14px;
+        min-width: 70px;
+        border-radius: 6px;
+        height: auto;
     }
 
     #score {
@@ -682,6 +715,17 @@ button {
     .validation-details {
         font-size: 12px;
     }
+    
+    /* Компактные селекторы на мобильных */
+    #languageContainer .selector-item,
+    #keyboardLayoutContainer .selector-item {
+        max-width: 80px;
+    }
+    
+    #categoryContainer .selector-item {
+        flex: 2;
+        max-width: none;
+    }
 }
 
 /* Адаптивность для очень маленьких экранов */
@@ -691,31 +735,44 @@ button {
     }
     
     .main-controls {
-        padding: 3px;
-        margin-bottom: 3px;
-        min-height: 36px;
+        padding: 6px;
+        margin-bottom: 8px;
+        min-height: auto;
+        flex-wrap: nowrap;
     }
     
     .selector-item {
-        min-width: 60px;
+        min-width: 0;
+        flex: 1;
     }
     
     .selector-item label {
-        font-size: 8px;
-        margin-bottom: 1px;
+        font-size: 12px;
+        margin-bottom: 3px;
     }
     
     .selector-item select {
-        font-size: 9px;
-        padding: 1px;
-        height: 20px;
+        font-size: 12px;
+        padding: 6px 8px;
+        height: auto;
     }
     
     button {
-        padding: 1px 4px;
-        font-size: 8px;
-        min-width: 40px;
-        height: 20px;
+        padding: 8px 10px;
+        font-size: 12px;
+        min-width: 60px;
+        height: auto;
+    }
+    
+    /* Компактные селекторы на очень маленьких экранах */
+    #languageContainer .selector-item,
+    #keyboardLayoutContainer .selector-item {
+        max-width: 70px;
+    }
+    
+    #categoryContainer .selector-item {
+        flex: 2;
+        max-width: none;
     }
     
     #score {
