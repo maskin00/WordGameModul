@@ -641,10 +641,11 @@ button {
 }
 
 /* Desktop styles */
-.control-panel {
+.main-controls {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
     gap: 12px;
     padding: 16px;
     background: rgba(255, 255, 255, 0.95);
@@ -652,7 +653,7 @@ button {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     margin: 20px auto;
-    max-width: fit-content;
+    width: fit-content;
     flex-wrap: nowrap;
 }
 
@@ -690,7 +691,7 @@ button {
     color: #333;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-align: center;
+    text-align: left;
     outline: none;
 }
 
@@ -734,7 +735,7 @@ button {
 
 /* Tablet styles */
 @media (max-width: 768px) {
-    .control-panel {
+    .main-controls {
         padding: 12px;
         gap: 10px;
         border-radius: 10px;
@@ -773,7 +774,7 @@ button {
 
 /* Mobile styles */
 @media (max-width: 480px) {
-    .control-panel {
+    .main-controls {
         padding: 10px;
         gap: 8px;
         border-radius: 8px;
@@ -812,7 +813,7 @@ button {
 
 /* Small screens */
 @media (max-width: 360px) {
-    .control-panel {
+    .main-controls {
         padding: 8px;
         gap: 6px;
     }
