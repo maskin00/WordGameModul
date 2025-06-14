@@ -23,6 +23,98 @@ body {
     min-height: calc(100vh - 20px);
 }
 
+/* Базовые стили для панели управления */
+.main-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    margin: 20px auto;
+    width: fit-content;
+    flex-wrap: nowrap;
+}
+
+.selectors-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+    max-width: 60%;
+}
+
+.selector-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+}
+
+.selector-item label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.selector-item select {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    outline: none;
+}
+
+#languageContainer select,
+#keyboardLayoutContainer select {
+    max-width: 120px;
+    font-size: 13px;
+    padding: 6px 8px;
+}
+
+#categoryContainer {
+    flex: 2;
+}
+
+#categoryContainer select {
+    max-width: 200px;
+}
+
+.game-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+
+.game-controls button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 60px;
+    white-space: nowrap;
+}
+
 /* Игровая область */
 #gameContainer {
     text-align: center;
@@ -468,29 +560,31 @@ button {
     }
     
     .main-controls {
-        flex-direction: row;
-        flex-wrap: nowrap;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
         padding: 3px 4px;
         gap: 3px;
         border-radius: 6px;
-        width: 100%;
-        max-width: none;
+        width: 100% !important;
+        max-width: none !important;
         margin: 1px 0;
-        align-items: center;
-        justify-content: space-between;
+        align-items: center !important;
+        justify-content: space-between !important;
         min-height: 58px;
         height: 58px;
     }
     
     .selectors-group {
-        flex-direction: row;
-        flex-wrap: nowrap;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
         gap: 3px;
         max-width: 80%;
         width: auto;
         flex: 1;
-        justify-content: flex-start;
-        align-items: center;
+        justify-content: flex-start !important;
+        align-items: center !important;
     }
     
     .selector-item {
@@ -622,28 +716,30 @@ button {
     }
     
     .main-controls {
-        flex-direction: row;
-        flex-wrap: nowrap;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
         padding: 2px 3px;
         gap: 2px;
-        width: 100%;
+        width: 100% !important;
         margin: 1px 0;
-        align-items: center;
-        justify-content: space-between;
+        align-items: center !important;
+        justify-content: space-between !important;
         min-height: 42px;
         height: 42px;
         border-radius: 4px;
     }
     
     .selectors-group {
-        flex-direction: row;
-        flex-wrap: nowrap;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
         gap: 2px;
         max-width: 78%;
         width: auto;
         flex: 1;
-        justify-content: flex-start;
-        align-items: center;
+        justify-content: flex-start !important;
+        align-items: center !important;
     }
     
     .selector-item {
