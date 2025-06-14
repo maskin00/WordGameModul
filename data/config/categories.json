@@ -23,6 +23,28 @@
       }
     },
     {
+      "id": "countries",
+      "names": {
+        "ru": "Страны мира",
+        "en": "World Countries",
+        "es": "Países del mundo",
+        "fr": "Pays du monde"
+      },
+      "description": {
+        "ru": "Угадайте названия стран по флагам",
+        "en": "Guess country names by flags",
+        "es": "Adivina nombres de países por banderas",
+        "fr": "Devinez les noms des pays par les drapeaux"
+      },
+      "imageFolder": "capitals",
+      "wordFiles": {
+        "ru": "countries_COMPLETE.txt",
+        "en": "countries_COMPLETE.txt",
+        "es": "countries_COMPLETE.txt",
+        "fr": "countries_COMPLETE.txt"
+      }
+    },
+    {
       "id": "footballers",
       "names": {
         "ru": "Футболисты",
