@@ -21,9 +21,10 @@ class GameEngine {
         // Новые параметры для контроля спавна
         this.maxWordsOnScreen = 1; // Только одно слово одновременно
         this.lastCategoryId = null; // Отслеживание смены категории
+        this.gameStarted = false; // Флаг для контроля начала игры
         
-        // Адаптивные параметры
-        this.baseSpeed = 1;
+        // Адаптивные параметры (базовая скорость уменьшена на 25%)
+        this.baseSpeed = 0.75; // Было 1, стало 0.75 (-25%)
         this.baseFontSize = 28;
         this.baseImageSize = 200;
     }
@@ -85,8 +86,8 @@ class GameEngine {
     updateGameScale(width, height) {
         // Адаптируем параметры игры под размер экрана
         
-        // Более плавная адаптация скорости (замедлено на 40%)
-        this.baseSpeed = Math.max(0.3, Math.min(1.2, height / 700 * 0.6));
+        // Более плавная адаптация скорости (замедлено на 40% + дополнительно на 25%)
+        this.baseSpeed = Math.max(0.225, Math.min(0.9, height / 700 * 0.45)); // Уменьшено на 25%
         
         // Определяем тип устройства и размер экрана
         const isMobile = window.innerWidth <= 480;
@@ -107,7 +108,7 @@ class GameEngine {
             this.baseImageSize = Math.max(200, Math.min(400, Math.sqrt(canvasArea) / 8));
         }
         
-        console.log(`Game scale updated: speed=${this.baseSpeed.toFixed(2)}, fontSize=${this.baseFontSize}, imageSize=${this.baseImageSize}, canvas=${width}x${height}, area=${canvasArea}, device=${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}`);
+        console.log(`Game scale updated: speed=${this.baseSpeed.toFixed(3)}, fontSize=${this.baseFontSize}, imageSize=${this.baseImageSize}, canvas=${width}x${height}, area=${canvasArea}, device=${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}`);
     }
 
     setupEventListeners() {
@@ -146,11 +147,14 @@ class GameEngine {
         this.checkCategoryChange();
         
         if (this.isPaused) {
+            // Возобновляем паузу
             this.isPaused = false;
             this.resumeGameLoop();
         } else {
+            // Начинаем новую игру
             this.resetGameState();
             this.isActive = true;
+            this.gameStarted = true;
             this.resumeGameLoop();
         }
         this.updateUI();
@@ -164,6 +168,11 @@ class GameEngine {
             console.log(`Категория изменена с ${this.lastCategoryId} на ${currentCategoryId}, очищаем экран`);
             this.clearAllWords();
             this.lastCategoryId = currentCategoryId;
+            // При смене категории игра не запускается автоматически
+            if (this.isActive && this.gameStarted) {
+                // Если игра была активна, останавливаем её
+                this.stopGame();
+            }
         }
     }
 
@@ -177,7 +186,7 @@ class GameEngine {
     }
 
     pauseGame() {
-        if (!this.isActive) return;
+        if (!this.isActive || !this.gameStarted) return;
         this.isPaused = !this.isPaused;
         if (this.isPaused) {
             this.stopGameLoop();
@@ -190,21 +199,23 @@ class GameEngine {
     stopGame() {
         this.isActive = false;
         this.isPaused = false;
+        this.gameStarted = false;
         this.stopGameLoop();
         this.resetGameState();
+        this.clearCanvas(); // Очищаем канвас при остановке
         this.updateUI();
-        console.log('Игра остановлена');
+        console.log('Игра остановлена и сброшена, экран очищен');
     }
 
     resetGameState() {
         this.words = [];
-        this.score = 0;
-        this.level = 1;
-        this.spawnDelay = 2000;
-        this.lastSpawn = 0;
-        this.input = '';
         this.particles = [];
-        this.lastCategoryId = this.categoryManager.getCurrentCategory();
+        this.score = 0; // Сбрасываем очки при остановке
+        this.level = 1; // Сбрасываем уровень
+        this.input = '';
+        this.lastSpawn = 0;
+        this.spawnDelay = 2000; // Сбрасываем задержку спавна
+        console.log('Игровое состояние сброшено');
     }
 
     resumeGameLoop() {
@@ -231,12 +242,18 @@ class GameEngine {
         // Проверяем смену категории на каждом кадре
         this.checkCategoryChange();
         
+        // Спавн слов происходит только если игра запущена
+        if (!this.gameStarted) {
+            return;
+        }
+        
         // Подсчитываем активные (не взрывающиеся) слова
         const activeWords = this.words.filter(word => !word.exploding);
         
         // Спавн нового слова ТОЛЬКО если:
         // 1. На экране НЕТ активных слов
         // 2. Прошло достаточно времени с последнего спавна
+        // 3. Игра запущена
         if (activeWords.length === 0 && (timestamp - this.lastSpawn > this.spawnDelay)) {
             this.spawnWord();
             this.lastSpawn = timestamp;
@@ -247,8 +264,14 @@ class GameEngine {
             const word = this.words[i];
             word.update();
             
-            // Удаляем слова которые упали за экран
+            // Удаляем слова которые упали за экран (штраф за пропуск)
             if (word.y > this.canvas.height + 100) {
+                if (!word.exploding) {
+                    // Штраф за пропущенное слово
+                    this.score = Math.max(0, this.score - 5);
+                    console.log(`Слово "${word.text}" пропущено, -5 очков. Текущий счет: ${this.score}`);
+                    this.updateUI();
+                }
                 this.words.splice(i, 1);
                 console.log('Слово упало за экран, разрешаем новый спавн');
             } 
@@ -321,9 +344,10 @@ class GameEngine {
         
         const x = this.canvas.width / 2; // Спавним по центру
         const word = new Word(wordData.word, x, wordData.imagePath, this);
-        word.speed = Math.min(1.5, this.baseSpeed + (this.level - 1) * 0.1);
+        // Применяем текущую скорость с учетом уровня
+        word.speed = this.getCurrentSpeed();
         this.words.push(word);
-        console.log(`СПАВН УСПЕШЕН: Заспавнено слово "${wordData.word}". Всего слов: ${this.words.length}`);
+        console.log(`СПАВН УСПЕШЕН: Заспавнено слово "${wordData.word}" со скоростью ${word.speed.toFixed(3)}. Всего слов: ${this.words.length}`);
     }
 
     // Проверка частичного соответствия с поддержкой дефисов и пробелов
@@ -338,7 +362,7 @@ class GameEngine {
     }
 
     handleKeyPress(key) {
-        if (!this.isActive || this.isPaused) return;
+        if (!this.isActive || this.isPaused || !this.gameStarted) return;
         
         if (key === 'CLEAR') {
             this.input = '';
@@ -360,9 +384,11 @@ class GameEngine {
                 this.onWordGuessed(activeWord);
             }
         } else {
-            // Неправильная буква - сбрасываем ввод
+            // Неправильная буква - штраф и сброс ввода
+            this.score = Math.max(0, this.score - 5);
             this.input = '';
-            console.log('Неправильная буква, сброс ввода');
+            console.log(`Неправильная буква, -5 очков. Текущий счет: ${this.score}`);
+            this.updateUI();
         }
     }
 
@@ -371,11 +397,10 @@ class GameEngine {
     }
 
     onWordGuessed(word) {
-        const basePoints = word.text.length * 10;
-        const speedBonus = Math.max(0, this.canvas.height - word.y) / 10;
-        const totalPoints = Math.floor(basePoints + speedBonus);
+        // Простая система очков: +10 за каждое правильно набранное слово
+        const points = 10;
         
-        this.score += totalPoints;
+        this.score += points;
         word.explode();
         
         // Создаем частицы
@@ -385,21 +410,22 @@ class GameEngine {
         
         this.input = '';
         this.updateUI();
-        console.log(`Слово угадано: ${word.text}, +${totalPoints} очков`);
+        console.log(`Слово угадано: ${word.text}, +${points} очков. Общий счет: ${this.score}. Текущая скорость: ${this.getCurrentSpeed().toFixed(3)}`);
     }
 
     updateDifficulty() {
-        const newLevel = Math.floor(this.score / 1000) + 1;
+        // Новая система: каждые 300 очков = новый уровень скорости
+        const newLevel = Math.floor(this.score / 300) + 1;
         if (newLevel > this.level) {
             this.level = newLevel;
-            this.spawnDelay = Math.max(800, 2000 - (this.level - 1) * 150);
             
-            // Увеличиваем скорость существующих слов
+            // Обновляем скорость существующих слов
+            const newSpeed = this.getCurrentSpeed();
             this.words.forEach(word => {
-                word.speed = Math.min(1.5, this.baseSpeed + (this.level - 1) * 0.1);
+                word.speed = newSpeed;
             });
             
-            console.log(`Уровень повышен до ${this.level}`);
+            console.log(`Уровень скорости повышен до ${this.level} (${this.score} очков). Новая скорость: ${newSpeed.toFixed(3)}`);
         }
     }
 
@@ -414,9 +440,12 @@ class GameEngine {
 
     updateGameState() {
         // Вызывается при смене категории
-        if (this.isActive) {
-            console.log('Игровое состояние обновлено - смена категории');
-            this.clearAllWords(); // Очищаем экран но не останавливаем игру
+        if (this.isActive && this.gameStarted) {
+            console.log('Игровое состояние обновлено - смена категории, останавливаем игру');
+            this.stopGame(); // Останавливаем игру при смене категории
+        } else {
+            console.log('Игровое состояние обновлено - смена категории, игра не активна');
+            this.clearAllWords(); // Просто очищаем экран если игра не запущена
         }
     }
 
@@ -433,6 +462,25 @@ class GameEngine {
             isActive: this.isActive,
             isPaused: this.isPaused
         };
+    }
+
+    // Новый метод для очистки канваса
+    clearCanvas() {
+        if (this.ctx) {
+            this.ctx.fillStyle = 'black';
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+    }
+
+    // Новый метод для расчета текущей скорости
+    getCurrentSpeed() {
+        // Каждые 300 очков увеличиваем скорость на 10%
+        const speedLevel = Math.floor(this.score / 300);
+        const speedMultiplier = Math.pow(1.1, speedLevel); // 1.1^n для увеличения на 10% за каждый уровень
+        const currentSpeed = this.baseSpeed * speedMultiplier;
+        
+        // Ограничиваем максимальную скорость
+        return Math.min(2.0, currentSpeed);
     }
 }
 
