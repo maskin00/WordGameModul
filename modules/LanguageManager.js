@@ -497,11 +497,11 @@ class LanguageManager {
                     keyboard.slice(31)       // Ё - пробел Ь
                 ].filter(row => row.length > 0);
             } else {
-                // Русская QWERTY: 12 + 11 + 10 + 2 (стандартная раскладка)
+                // Русская QWERTY: 11 + 11 + 11 + 2 (Ъ перемещен в третий ряд)
                 return [
-                    keyboard.slice(0, 12),   // Й Ц У К Е Н Г Ш Щ З Х Ъ
-                    keyboard.slice(12, 23),  // Ф Ы В А П Р О Л Д Ж Э  
-                    keyboard.slice(23, 33),  // Я Ч С М И Т Ь Б Ю Ё
+                    keyboard.slice(0, 11),   // Й Ц У К Е Н Г Ш Щ З Х
+                    keyboard.slice(11, 22),  // Ф Ы В А П Р О Л Д Ж Э  
+                    keyboard.slice(22, 33),  // Я Ч С М И Т Ь Б Ю Ё Ъ
                     keyboard.slice(33)       // - и пробел
                 ].filter(row => row.length > 0);
             }

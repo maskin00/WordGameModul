@@ -52,9 +52,9 @@
             <!-- КНОПКИ УПРАВЛЕНИЯ ИГРОЙ -->
             <!-- Основные действия: старт, пауза, стоп, админ-панель -->
             <div class="game-controls">
-                <button id="startButton" data-i18n="start">Старт</button>
-                <button id="pauseButton" data-i18n="pause">Пауза</button>
-                <button id="stopButton" data-i18n="stop">Стоп</button>
+                <button id="startButton" data-i18n="start">▶</button>
+                <button id="pauseButton" data-i18n="pause">⏸</button>
+                <button id="stopButton" data-i18n="stop">⏹</button>
                 <!-- <button id="adminButton" data-i18n="admin">Админ</button> -->
             </div>
         </div>
@@ -331,9 +331,9 @@
                     // Мобильные - используем CSS max-height для определения доступного места
                     canvasWidth = Math.min(window.innerWidth * 0.95, 600);
                     
-                    // Высота определяется CSS стилями с учетом панели управления, уменьшаем на 5%
-                    const reservedHeight = isSmallMobile ? 165 : 185;
-                    canvasHeight = Math.min(window.innerHeight - reservedHeight, 500) * 0.95;
+                    // Высота определяется CSS стилями с учетом панели управления
+                    const reservedHeight = isSmallMobile ? 140 : 150;
+                    canvasHeight = Math.min(window.innerHeight - reservedHeight, 500);
                 } else {
                     // Планшеты
                     canvasWidth = Math.min(window.innerWidth * 0.9, 800);

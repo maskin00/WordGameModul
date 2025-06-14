@@ -475,11 +475,11 @@ button {
         border-radius: 6px;
         width: 100%;
         max-width: none;
-        margin: 2px 0;
+        margin: 1px 0;
         align-items: center;
         justify-content: space-between;
-        min-height: 48px;
-        height: 48px;
+        min-height: 58px;
+        height: 58px;
     }
     
     .selectors-group {
@@ -504,27 +504,27 @@ button {
     }
     
     .selector-item label {
-        font-size: 7px;
+        font-size: 6px;
         text-align: center;
-        margin-bottom: 2px;
+        margin-bottom: 1px;
         white-space: normal;
         word-wrap: break-word;
-        line-height: 1.0;
+        line-height: 0.9;
         font-weight: 600;
         color: #333;
-        height: 14px;
+        height: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
     
     .selector-item select {
-        font-size: 10px;
-        padding: 2px 3px;
+        font-size: 11px;
+        padding: 3px 4px;
         width: 100%;
         border-radius: 3px;
         border-width: 1px;
-        height: 24px;
+        height: 26px;
         line-height: 1.2;
         font-weight: 500;
         color: #333;
@@ -559,19 +559,20 @@ button {
     }
     
     .game-controls button {
-        font-size: 3px;
-        padding: 1px 1px;
-        min-width: 12px;
+        font-size: 16px;
+        padding: 2px 3px;
+        min-width: 8px;
         border-radius: 2px;
         white-space: nowrap;
-        height: 16px;
+        height: 24px;
         line-height: 1.0;
         font-weight: 600;
         color: #333;
+        width: 24px;
     }
     
     #gameContainer {
-        margin: 2px 0;
+        margin: 1px 0;
         padding: 0;
     }
     
@@ -582,10 +583,15 @@ button {
         display: block;
     }
     
+    #score {
+        margin-bottom: 2px;
+        font-size: 14px;
+    }
+    
     #keyboard {
         gap: 0px;
-        padding: 2px 0px;
-        margin-top: 2px;
+        padding: 1px 0px;
+        margin-top: 1px;
     }
     
     .key {
