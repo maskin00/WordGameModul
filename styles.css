@@ -775,76 +775,119 @@ button {
 /* Mobile styles */
 @media (max-width: 480px) {
     .main-controls {
+        flex-direction: column;
         padding: 10px;
         gap: 8px;
         border-radius: 8px;
+        width: calc(100% - 20px);
+        max-width: none;
     }
     
     .selectors-group {
-        gap: 4px;
-        max-width: 70%;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .selector-item {
+        width: 100%;
+        align-items: stretch;
     }
     
     .selector-item label {
         font-size: 10px;
+        text-align: left;
+        margin-bottom: 4px;
     }
     
     .selector-item select {
         font-size: 12px;
-        padding: 5px 8px;
+        padding: 8px;
+        width: 100%;
     }
     
     #languageContainer select,
     #keyboardLayoutContainer select {
-        max-width: 80px;
-        font-size: 11px;
+        max-width: none;
+        font-size: 12px;
+        width: 100%;
     }
     
     #categoryContainer select {
-        max-width: 120px;
+        max-width: none;
+        width: 100%;
+    }
+    
+    .game-controls {
+        width: 100%;
+        justify-content: center;
+        gap: 8px;
     }
     
     .game-controls button {
         font-size: 11px;
-        padding: 5px 10px;
-        min-width: 45px;
+        padding: 8px 12px;
+        min-width: 60px;
+        flex: 1;
     }
 }
 
 /* Small screens */
 @media (max-width: 360px) {
     .main-controls {
+        flex-direction: column;
         padding: 8px;
         gap: 6px;
+        width: calc(100% - 16px);
     }
     
     .selectors-group {
-        gap: 3px;
-        max-width: 75%;
+        flex-direction: column;
+        gap: 6px;
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .selector-item {
+        width: 100%;
+        align-items: stretch;
     }
     
     .selector-item label {
         font-size: 9px;
+        text-align: left;
+        margin-bottom: 3px;
     }
     
     .selector-item select {
         font-size: 10px;
-        padding: 4px 6px;
+        padding: 6px;
+        width: 100%;
     }
     
     #languageContainer select,
     #keyboardLayoutContainer select {
-        max-width: 70px;
+        max-width: none;
         font-size: 10px;
+        width: 100%;
     }
     
     #categoryContainer select {
-        max-width: 100px;
+        max-width: none;
+        width: 100%;
+    }
+    
+    .game-controls {
+        width: 100%;
+        justify-content: center;
+        gap: 6px;
     }
     
     .game-controls button {
         font-size: 10px;
-        padding: 4px 8px;
-        min-width: 40px;
+        padding: 6px 10px;
+        min-width: 50px;
+        flex: 1;
     }
 } 
