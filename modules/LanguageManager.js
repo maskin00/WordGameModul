@@ -481,28 +481,28 @@ class LanguageManager {
         // Русский язык - специальная обработка для каждой раскладки
         if (lang === 'ru') {
             if (layout === 'dvorak') {
-                // Русская Dvorak: 10 + 11 + 11 + 3 (оптимизировано для мобильных)
+                // Русская Dvorak: 10 + 11 + 11 + 4 (оптимизировано для мобильных)
                 return [
                     keyboard.slice(0, 10),   // Я Ч Е О У И К Н Г Ш
                     keyboard.slice(10, 21),  // А Т Р С В Л Д М П Ю Ь
                     keyboard.slice(21, 32),  // Ы Ф Й Б З Х Ц Щ Ъ Ж
-                    keyboard.slice(32)       // Э - пробел
+                    keyboard.slice(32)       // Э Ё - пробел
                 ].filter(row => row.length > 0);
             } else if (layout === 'colemak') {
-                // Русская Colemak: 10 + 10 + 12 + 2 (равномерное распределение)
+                // Русская Colemak: 10 + 10 + 13 + 2 (равномерное распределение)
                 return [
                     keyboard.slice(0, 10),   // Й В Ф П Г Ж Л У Ы Ъ
                     keyboard.slice(10, 20),  // А Р С Т Д Х Н Е И О
-                    keyboard.slice(20, 32),  // Я Ч Ц М Б К Ш Щ З Э Ю Ь
-                    keyboard.slice(32)       // - и пробел
+                    keyboard.slice(20, 33),  // Я Ч Ц М Б К Ш Щ З Э Ю Ь Ё
+                    keyboard.slice(33)       // - и пробел
                 ].filter(row => row.length > 0);
             } else {
-                // Русская QWERTY: 12 + 11 + 9 + 2 (стандартная раскладка)
+                // Русская QWERTY: 12 + 11 + 10 + 2 (стандартная раскладка)
                 return [
                     keyboard.slice(0, 12),   // Й Ц У К Е Н Г Ш Щ З Х Ъ
                     keyboard.slice(12, 23),  // Ф Ы В А П Р О Л Д Ж Э  
-                    keyboard.slice(23, 32),  // Я Ч С М И Т Ь Б Ю
-                    keyboard.slice(32)       // - и пробел
+                    keyboard.slice(23, 33),  // Я Ч С М И Т Ь Б Ю Ё
+                    keyboard.slice(33)       // - и пробел
                 ].filter(row => row.length > 0);
             }
         } else if (lang === 'en') {

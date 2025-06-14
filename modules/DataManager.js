@@ -48,11 +48,29 @@ class DataManager {
                 .map(line => {
                     const parts = line.split(' - ');
                     if (parts.length >= 3) {
+                        const imageCode = parts[2];
+                        let imagePath;
+                        
+                        // Определяем путь к изображению на основе категории
+                        if (categoryId === 'capitals') {
+                            imagePath = `data/images/capitals/${imageCode}.png`;
+                        }
+                        else if (categoryId === 'footballers') {
+                            imagePath = `data/images/footballers/${imageCode}.png`;
+                        }
+                        // Для животных - imageCode уже содержит расширение
+                        else if (categoryId === 'animals') {
+                            imagePath = `data/images/${category.imageFolder}/${imageCode}`;
+                        }
+                        else {
+                            imagePath = `data/images/${category.imageFolder}/${imageCode}.png`;
+                        }
+                        
                         return {
                             id: parseInt(parts[0]),
                             word: parts[1].toUpperCase(),
-                            imageCode: parts[2],
-                            imagePath: `data/images/${category.imageFolder}/${parts[2]}.png`
+                            imageCode: imageCode,
+                            imagePath: imagePath
                         };
                     }
                     return null;
@@ -184,6 +202,10 @@ class DataManager {
                     // Для футболистов - используем прямой код
                     else if (categoryId === 'footballers') {
                         imagePath = `data/images/footballers/${imageCode}.png`;
+                    }
+                    // Для животных - imageCode уже содержит расширение
+                    else if (categoryId === 'animals') {
+                        imagePath = `data/images/${categoryId}/${imageCode}`;
                     }
                     else {
                         imagePath = `data/images/${categoryId}/${imageCode}.png`;

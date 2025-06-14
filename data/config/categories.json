@@ -65,6 +65,28 @@
         "es": "footballers_FULL.txt",
         "fr": "footballers_FULL.txt"
       }
+    },
+    {
+      "id": "animals",
+      "names": {
+        "ru": "Животный мир",
+        "en": "Animal World",
+        "es": "Mundo Animal",
+        "fr": "Monde Animal"
+      },
+      "description": {
+        "ru": "Откройте для себя удивительных животных со всего мира",
+        "en": "Discover amazing animals from around the world",
+        "es": "Descubre animales increíbles de todo el mundo",
+        "fr": "Découvrez des animaux incroyables du monde entier"
+      },
+      "imageFolder": "animals",
+      "wordFiles": {
+        "ru": "animals_COMPLETE.txt",
+        "en": "animals_COMPLETE.txt",
+        "es": "animals_COMPLETE.txt",
+        "fr": "animals_COMPLETE.txt"
+      }
     }
   ]
 } 
