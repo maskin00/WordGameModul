@@ -554,9 +554,9 @@ button {
 /* Адаптивность для мобильных устройств */
 @media (max-width: 480px) {
     body {
-        padding: 0px;
-        margin: 0;
-        overflow-x: hidden;
+        padding: 0px !important;
+        margin: 0 !important;
+        overflow-x: hidden !important;
     }
     
     .main-controls {
@@ -588,13 +588,13 @@ button {
     }
     
     .selector-item {
-        flex: 1;
-        min-width: 70px;
-        max-width: 90px;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        flex: 1 !important;
+        min-width: 70px !important;
+        max-width: 90px !important;
+        align-items: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
     }
     
     .selector-item label {
@@ -644,12 +644,13 @@ button {
     }
     
     .game-controls {
-        width: auto;
-        justify-content: flex-end;
-        gap: 2px;
-        margin-top: 0;
-        flex-shrink: 0;
-        align-items: center;
+        display: flex !important;
+        width: auto !important;
+        justify-content: flex-end !important;
+        gap: 2px !important;
+        margin-top: 0 !important;
+        flex-shrink: 0 !important;
+        align-items: center !important;
     }
     
     .game-controls button {
@@ -743,13 +744,13 @@ button {
     }
     
     .selector-item {
-        flex: 1;
-        min-width: 60px;
-        max-width: 80px;
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        flex: 1 !important;
+        min-width: 60px !important;
+        max-width: 80px !important;
+        align-items: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
     }
     
     .selector-item label {
@@ -907,6 +908,51 @@ button {
 @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* КРИТИЧЕСКИ ВАЖНЫЕ МОБИЛЬНЫЕ СТИЛИ - НЕ УДАЛЯТЬ! */
+@media screen and (max-width: 480px) {
+    .main-controls {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        height: 58px !important;
+        padding: 3px 4px !important;
+        gap: 3px !important;
+        margin: 1px 0 !important;
+    }
+    
+    .selectors-group {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        flex: 1 !important;
+        gap: 3px !important;
+        max-width: 80% !important;
+    }
+    
+    .selector-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 1 !important;
+        min-width: 70px !important;
+        max-width: 90px !important;
+    }
+    
+    .game-controls {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        flex-shrink: 0 !important;
+        gap: 2px !important;
+    }
 }
 
 
