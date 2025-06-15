@@ -959,9 +959,9 @@ class GameEngine {
             { type: 'goal', x: 30, y: this.canvas.height - 100, width: 60, height: 40 },
             { type: 'goal', x: this.canvas.width - 90, y: this.canvas.height - 100, width: 60, height: 40 },
             
-            // Флаги команд
-            { type: 'team_flag', x: 150, y: 50, size: 25, colors: ['#ff0000', '#ffffff', '#0000ff'] },
-            { type: 'team_flag', x: this.canvas.width - 180, y: 60, size: 25, colors: ['#ffff00', '#008000'] },
+            // Флаги команд (размещаем по краям как в категории столиц)
+            { type: 'team_flag', x: 30, y: 50, size: 25, colors: ['#ff0000', '#ffffff', '#0000ff'] },
+            { type: 'team_flag', x: this.canvas.width - 55, y: 60, size: 25, colors: ['#ffff00', '#008000'] },
             
             // Стадионные огни (только по краям)
             { type: 'stadium_light', x: 50, y: 30, size: 15 },

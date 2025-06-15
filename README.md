@@ -4,13 +4,13 @@
 
 ## 🚀 Быстрый старт
 
-```bash
+   ```bash
 # Клонировать репозиторий
 git clone <repository-url>
 cd WordGameModul
 
 # Запустить локальный сервер
-python -m http.server 8000
+   python -m http.server 8000
 
 # Открыть в браузере
 http://localhost:8000

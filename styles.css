@@ -24,8 +24,8 @@ body {
 }
 
 /* Базовые стили для панели управления */
-    .main-controls {
-        display: flex;
+.main-controls {
+    display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
@@ -38,7 +38,7 @@ body {
         margin: 5px auto 2px auto;
         width: fit-content;
         flex-wrap: nowrap;
-    }
+}
 
 .selectors-group {
     display: flex;
@@ -523,7 +523,7 @@ button {
     body {
         padding: 5px;
     }
-    
+
     #gameCanvas {
         max-height: calc(100vh - 400px);
     }
@@ -653,7 +653,7 @@ button {
         flex-shrink: 0 !important;
         align-items: center !important;
     }
-    
+
     .game-controls button {
         font-size: 16px;
         padding: 2px 3px;
@@ -666,12 +666,12 @@ button {
         color: #333;
         width: 24px;
     }
-    
+
     #gameContainer {
         margin: 0px 0;
         padding: 0;
     }
-    
+
     #gameCanvas {
         border-width: 1px;
         border-radius: 6px;
@@ -683,7 +683,7 @@ button {
         margin-bottom: 0px;
         font-size: 14px;
     }
-    
+
     #keyboard {
         gap: 0px;
         padding: 0px 0px;
@@ -923,7 +923,7 @@ button {
 @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
+} 
 
 /* КРИТИЧЕСКИ ВАЖНЫЕ МОБИЛЬНЫЕ СТИЛИ - НЕ УДАЛЯТЬ! */
 @media screen and (max-width: 480px) {
