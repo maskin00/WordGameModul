@@ -87,6 +87,28 @@
         "es": "animals_COMPLETE.txt",
         "fr": "animals_COMPLETE.txt"
       }
+    },
+    {
+      "id": "dinosaurs",
+      "names": {
+        "ru": "Динозавры",
+        "en": "Dinosaurs",
+        "es": "Dinosaurios",
+        "fr": "Dinosaures"
+      },
+      "description": {
+        "ru": "Откройте для себя удивительный мир древних рептилий",
+        "en": "Discover the amazing world of ancient reptiles",
+        "es": "Descubre el increíble mundo de los reptiles antiguos",
+        "fr": "Découvrez le monde incroyable des reptiles anciens"
+      },
+      "imageFolder": "dinosaurs",
+      "wordFiles": {
+        "ru": "dinosaurs_COMPLETE.txt",
+        "en": "dinosaurs_COMPLETE.txt",
+        "es": "dinosaurs_COMPLETE.txt",
+        "fr": "dinosaurs_COMPLETE.txt"
+      }
     }
   ]
-} 
+}

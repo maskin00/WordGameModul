@@ -58,8 +58,8 @@ class DataManager {
                         else if (categoryId === 'footballers') {
                             imagePath = `data/images/footballers/${imageCode}.png`;
                         }
-                        // Для животных - imageCode уже содержит расширение
-                        else if (categoryId === 'animals') {
+                        // Для животных и динозавров - imageCode уже содержит расширение
+                        else if (categoryId === 'animals' || categoryId === 'dinosaurs') {
                             imagePath = `data/images/${category.imageFolder}/${imageCode}`;
                         }
                         else {
@@ -203,8 +203,8 @@ class DataManager {
                     else if (categoryId === 'footballers') {
                         imagePath = `data/images/footballers/${imageCode}.png`;
                     }
-                    // Для животных - imageCode уже содержит расширение
-                    else if (categoryId === 'animals') {
+                    // Для животных и динозавров - imageCode уже содержит расширение
+                    else if (categoryId === 'animals' || categoryId === 'dinosaurs') {
                         imagePath = `data/images/${categoryId}/${imageCode}`;
                     }
                     else {

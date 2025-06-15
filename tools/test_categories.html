@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест категорий</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .category { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Тест загрузки категорий</h1>
+    
+    <button onclick="testCategories()">Тестировать категории</button>
+    <div id="results"></div>
+
+    <script src="../modules/LanguageManager.js"></script>
+    <script src="../modules/DataManager.js"></script>
+    <script src="../modules/CategoryManager.js"></script>
+
+    <script>
+        async function testCategories() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<p>Загружаем...</p>';
+            
+            try {
+                // Создание менеджеров
+                const languageManager = new LanguageManager();
+                const dataManager = new DataManager();
+                const categoryManager = new CategoryManager(dataManager, languageManager);
+                
+                // Инициализация
+                await languageManager.initialize();
+                await dataManager.loadConfig();
+                await categoryManager.initialize();
+                
+                results.innerHTML = '<p class="success">✓ Менеджеры инициализированы</p>';
+                
+                // Получаем категории
+                const categories = dataManager.getCategories();
+                results.innerHTML += `<p>Найдено категорий: ${categories.length}</p>`;
+                
+                // Показываем каждую категорию
+                categories.forEach(category => {
+                    const div = document.createElement('div');
+                    div.className = 'category';
+                    
+                    const names = Object.entries(category.names || {})
+                        .map(([lang, name]) => `${lang}: ${name}`)
+                        .join(', ');
+                    
+                    div.innerHTML = `
+                        <strong>ID:</strong> ${category.id}<br>
+                        <strong>Названия:</strong> ${names}<br>
+                        <strong>Папка изображений:</strong> ${category.imageFolder}<br>
+                        <strong>Файлы слов:</strong> ${JSON.stringify(category.wordFiles)}
+                    `;
+                    
+                    results.appendChild(div);
+                });
+                
+                // Тестируем загрузку динозавров
+                results.innerHTML += '<h2>Тест загрузки динозавров</h2>';
+                
+                const success = await categoryManager.setCategory('dinosaurs', 'ru');
+                if (success) {
+                    const words = categoryManager.getAllWords();
+                    results.innerHTML += `<p class="success">✓ Загружено ${words.length} динозавров</p>`;
+                    
+                    // Показываем первые 3 динозавра
+                    words.slice(0, 3).forEach(word => {
+                        const div = document.createElement('div');
+                        div.innerHTML = `
+                            <strong>${word.word}</strong> - ${word.imagePath}<br>
+                            <img src="../${word.imagePath}" style="max-width: 100px; max-height: 100px;" 
+                                 onload="this.style.border='2px solid green'" 
+                                 onerror="this.style.border='2px solid red'">
+                        `;
+                        results.appendChild(div);
+                    });
+                } else {
+                    results.innerHTML += '<p class="error">✗ Не удалось загрузить динозавров</p>';
+                }
+                
+            } catch (error) {
+                results.innerHTML += `<p class="error">✗ Ошибка: ${error.message}</p>`;
+                console.error('Ошибка:', error);
+            }
+        }
+    </script>
+</body>
+</html> 
