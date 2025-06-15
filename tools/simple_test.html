@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простой тест игры</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+        
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        select {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px;
+        }
+        
+        #gameCanvas {
+            border: 2px solid #4CAF50;
+            display: block;
+            margin: 20px auto;
+            background: #000;
+        }
+        
+        .status {
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+        
+        .log {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Простой тест игры</h1>
+        
+        <div class="controls">
+            <select id="languageSelect">
+                <option value="">Выберите язык...</option>
+            </select>
+            
+            <select id="categorySelect">
+                <option value="">Выберите категорию...</option>
+            </select>
+            
+            <br>
+            
+            <button id="startButton" disabled>▶ Старт</button>
+            <button id="pauseButton" disabled>⏸ Пауза</button>
+            <button id="stopButton" disabled>⏹ Стоп</button>
+        </div>
+        
+        <div class="status">
+            <div id="score">Очки: 0 (Уровень 1)</div>
+            <div id="gameStatus">Статус: Не запущена</div>
+        </div>
+        
+        <canvas id="gameCanvas" width="600" height="400"></canvas>
+        
+        <div class="log" id="log"></div>
+    </div>
+
+    <script>
+        // Простое логирование
+        const logContainer = document.getElementById('log');
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            console.log(message);
+        }
+        
+        // Глобальные переменры для модулей
+        let languageManager, dataManager, categoryManager, gameEngine;
+        let isInitialized = false;
+        
+        // Инициализация
+        async function initialize() {
+            try {
+                log('Начинаем инициализацию...');
+                
+                // Создание экземпляров
+                languageManager = new LanguageManager();
+                dataManager = new DataManager();
+                categoryManager = new CategoryManager(dataManager, languageManager);
+                gameEngine = new GameEngine(dataManager, languageManager, categoryManager);
+                
+                log('Модули созданы');
+                
+                // Инициализация
+                await languageManager.initialize();
+                log('LanguageManager инициализирован');
+                
+                await dataManager.loadConfig();
+                log('DataManager конфигурация загружена');
+                
+                await categoryManager.initialize();
+                log('CategoryManager инициализирован');
+                
+                await gameEngine.initialize();
+                log('GameEngine инициализирован');
+                
+                // Настройка UI
+                setupUI();
+                
+                isInitialized = true;
+                log('✅ Инициализация завершена успешно!');
+                
+            } catch (error) {
+                log('❌ Ошибка инициализации: ' + error.message);
+                console.error('Полная ошибка:', error);
+            }
+        }
+        
+        function setupUI() {
+            // Заполняем селектор языков
+            const languageSelect = document.getElementById('languageSelect');
+            const languages = languageManager.getAvailableLanguages();
+            
+            languages.forEach(lang => {
+                const option = document.createElement('option');
+                option.value = lang.code;
+                option.textContent = lang.name;
+                languageSelect.appendChild(option);
+            });
+            
+            // Устанавливаем русский по умолчанию
+            languageSelect.value = 'ru';
+            updateCategories();
+            
+            // Обработчики событий
+            languageSelect.addEventListener('change', (e) => {
+                if (e.target.value) {
+                    languageManager.setLanguage(e.target.value);
+                    updateCategories();
+                    log(`Язык изменен на: ${e.target.value}`);
+                }
+            });
+            
+            document.getElementById('categorySelect').addEventListener('change', async (e) => {
+                if (e.target.value) {
+                    const success = await categoryManager.setCategory(e.target.value, languageManager.getCurrentLanguage());
+                    if (success) {
+                        document.getElementById('startButton').disabled = false;
+                        log(`Категория установлена: ${e.target.value}`);
+                    } else {
+                        log(`Ошибка установки категории: ${e.target.value}`);
+                    }
+                }
+            });
+            
+            // Кнопки управления
+            document.getElementById('startButton').addEventListener('click', () => {
+                gameEngine.startGame();
+                updateGameStatus();
+                log('Игра запущена');
+            });
+            
+            document.getElementById('pauseButton').addEventListener('click', () => {
+                gameEngine.pauseGame();
+                updateGameStatus();
+                log('Игра приостановлена/возобновлена');
+            });
+            
+            document.getElementById('stopButton').addEventListener('click', () => {
+                gameEngine.stopGame();
+                updateGameStatus();
+                log('Игра остановлена');
+            });
+            
+            // Обработка клавиатуры
+            document.addEventListener('keydown', (e) => {
+                if (gameEngine && gameEngine.isGameActive()) {
+                    const key = e.key;
+                    if (languageManager.isKeySupported(key) || key === 'Backspace' || key === '-' || key === ' ') {
+                        if (key === 'Backspace') {
+                            gameEngine.handleKeyPress('CLEAR');
+                        } else {
+                            gameEngine.handleKeyPress(key.toUpperCase());
+                        }
+                        e.preventDefault();
+                    }
+                }
+            });
+        }
+        
+        function updateCategories() {
+            const categorySelect = document.getElementById('categorySelect');
+            categorySelect.innerHTML = '<option value="">Выберите категорию...</option>';
+            
+            const categories = dataManager.getCategoriesForLanguage(languageManager.getCurrentLanguage());
+            
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.name;
+                categorySelect.appendChild(option);
+            });
+        }
+        
+        function updateGameStatus() {
+            const statusDiv = document.getElementById('gameStatus');
+            if (gameEngine.isGameActive()) {
+                statusDiv.textContent = 'Статус: Активна';
+                document.getElementById('pauseButton').disabled = false;
+                document.getElementById('stopButton').disabled = false;
+            } else {
+                statusDiv.textContent = 'Статус: Остановлена';
+                document.getElementById('pauseButton').disabled = true;
+                document.getElementById('stopButton').disabled = true;
+            }
+        }
+        
+        // Запуск при загрузке
+        window.addEventListener('load', () => {
+            log('Страница загружена, начинаем инициализацию...');
+            initialize();
+        });
+    </script>
+    
+    <!-- Загрузка модулей игры -->
+    <script src="../modules/LanguageManager.js"></script>
+    <script src="../modules/DataManager.js"></script>
+    <script src="../modules/CategoryManager.js"></script>
+    <script src="../modules/GameEngine.js"></script>
+</body>
+</html> 

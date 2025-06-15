@@ -379,11 +379,27 @@
         // Создание и инициализация приложения
         const app = new App();
         
-        // Инициализация после загрузки DOM
+        // Инициализация после загрузки DOM с обработкой ошибок
+        async function initializeApp() {
+            try {
+                await app.initialize();
+            } catch (error) {
+                console.error('Критическая ошибка инициализации:', error);
+                document.body.innerHTML = `
+                    <div style="color: white; background: #1a1a1a; padding: 20px; font-family: Arial;">
+                        <h1 style="color: #f44336;">❌ Ошибка загрузки игры</h1>
+                        <p><strong>Ошибка:</strong> ${error.message}</p>
+                        <p><strong>Проверьте консоль для деталей</strong></p>
+                        <p>Попробуйте обновить страницу (Ctrl+F5)</p>
+                    </div>
+                `;
+            }
+        }
+        
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => app.initialize());
+            document.addEventListener('DOMContentLoaded', initializeApp);
         } else {
-            app.initialize();
+            initializeApp();
         }
     </script>
 </body>

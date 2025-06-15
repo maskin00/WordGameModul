@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест кнопки паузы</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #222;
+            color: white;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #status {
+            margin: 20px 0;
+            padding: 10px;
+            background: #333;
+            border-radius: 5px;
+        }
+        #log {
+            background: #111;
+            padding: 10px;
+            border-radius: 5px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Тест кнопки паузы</h1>
+    
+    <div class="controls">
+        <button id="startButton">▶ Старт</button>
+        <button id="pauseButton">⏸ Пауза</button>
+        <button id="stopButton">⏹ Стоп</button>
+    </div>
+    
+    <div id="status">
+        <strong>Статус:</strong> <span id="gameStatus">Остановлена</span><br>
+        <strong>isActive:</strong> <span id="isActive">false</span><br>
+        <strong>isPaused:</strong> <span id="isPaused">false</span><br>
+        <strong>gameStarted:</strong> <span id="gameStarted">false</span>
+    </div>
+    
+    <div id="log"></div>
+
+    <script>
+        // Простая имитация GameEngine для тестирования
+        class TestGameEngine {
+            constructor() {
+                this.isActive = false;
+                this.isPaused = false;
+                this.gameStarted = false;
+                this.gameLoop = null;
+                
+                this.setupEventListeners();
+                this.updateStatus();
+            }
+            
+            setupEventListeners() {
+                const startButton = document.getElementById('startButton');
+                const pauseButton = document.getElementById('pauseButton');
+                const stopButton = document.getElementById('stopButton');
+                
+                if (startButton) {
+                    startButton.addEventListener('click', () => {
+                        this.log('🔵 Нажата кнопка СТАРТ');
+                        this.startGame();
+                    });
+                }
+                
+                if (pauseButton) {
+                    pauseButton.addEventListener('click', () => {
+                        this.log('🟡 Нажата кнопка ПАУЗА');
+                        this.pauseGame();
+                    });
+                }
+                
+                if (stopButton) {
+                    stopButton.addEventListener('click', () => {
+                        this.log('🔴 Нажата кнопка СТОП');
+                        this.stopGame();
+                    });
+                }
+            }
+            
+            startGame() {
+                if (this.isPaused) {
+                    this.log('↪️ Возобновляем игру из паузы');
+                    this.isPaused = false;
+                    this.resumeGameLoop();
+                } else {
+                    this.log('🚀 Запускаем новую игру');
+                    this.isActive = true;
+                    this.gameStarted = true;
+                    this.resumeGameLoop();
+                }
+                this.updateStatus();
+            }
+            
+            pauseGame() {
+                this.log(`⏸️ pauseGame() вызван. isActive: ${this.isActive}, isPaused: ${this.isPaused}`);
+                
+                if (!this.isActive) {
+                    this.log('❌ Игра не активна, пауза невозможна');
+                    return;
+                }
+                
+                this.isPaused = !this.isPaused;
+                
+                if (this.isPaused) {
+                    this.log('⏸️ Игра приостановлена');
+                    this.stopGameLoop();
+                } else {
+                    this.log('▶️ Игра возобновлена');
+                    this.resumeGameLoop();
+                }
+                
+                this.updateStatus();
+            }
+            
+            stopGame() {
+                this.log('🛑 Останавливаем игру');
+                this.isActive = false;
+                this.isPaused = false;
+                this.gameStarted = false;
+                this.stopGameLoop();
+                this.updateStatus();
+            }
+            
+            resumeGameLoop() {
+                if (this.gameLoop) {
+                    cancelAnimationFrame(this.gameLoop);
+                }
+                
+                const loop = () => {
+                    if (!this.isActive || this.isPaused) return;
+                    // Имитация игрового цикла
+                    this.gameLoop = requestAnimationFrame(loop);
+                };
+                
+                this.gameLoop = requestAnimationFrame(loop);
+                this.log('🔄 Игровой цикл запущен');
+            }
+            
+            stopGameLoop() {
+                if (this.gameLoop) {
+                    cancelAnimationFrame(this.gameLoop);
+                    this.gameLoop = null;
+                    this.log('⏹️ Игровой цикл остановлен');
+                }
+            }
+            
+            updateStatus() {
+                document.getElementById('gameStatus').textContent = 
+                    this.isPaused ? 'На паузе' : 
+                    this.isActive ? 'Активна' : 'Остановлена';
+                    
+                document.getElementById('isActive').textContent = this.isActive;
+                document.getElementById('isPaused').textContent = this.isPaused;
+                document.getElementById('gameStarted').textContent = this.gameStarted;
+            }
+            
+            log(message) {
+                const logDiv = document.getElementById('log');
+                const time = new Date().toLocaleTimeString();
+                logDiv.innerHTML += `[${time}] ${message}<br>`;
+                logDiv.scrollTop = logDiv.scrollHeight;
+                console.log(message);
+            }
+        }
+        
+        // Создаем тестовый движок
+        const testEngine = new TestGameEngine();
+        
+        // Дополнительная диагностика
+        document.addEventListener('DOMContentLoaded', () => {
+            testEngine.log('✅ DOM загружен, тест готов');
+        });
+    </script>
+</body>
+</html> 

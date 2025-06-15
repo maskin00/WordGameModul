@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Диагностика загрузки игры</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        
+        .test-section {
+            background: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .test-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #333;
+            border-radius: 4px;
+        }
+        
+        .status {
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        
+        .status.success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .status.error {
+            background: #f44336;
+            color: white;
+        }
+        
+        .status.warning {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .log {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+        
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+        
+        .error-details {
+            background: #4a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Диагностика загрузки игры</h1>
+        
+        <div class="test-section">
+            <h3>📁 Проверка файлов</h3>
+            <div id="fileTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📦 Загрузка модулей</h3>
+            <div id="moduleTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>⚙️ Инициализация</h3>
+            <div id="initTests"></div>
+            <button onclick="testInitialization()">Тестировать инициализацию</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 Консоль</h3>
+            <div id="consoleLog" class="log"></div>
+            <button onclick="clearLog()">Очистить лог</button>
+        </div>
+    </div>
+
+    <script>
+        // Перехватываем console.log для отображения в интерфейсе
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        const logContainer = document.getElementById('consoleLog');
+        
+        function addToLog(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.style.color = type === 'error' ? '#ff6b6b' : type === 'warn' ? '#ffa726' : '#4caf50';
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToLog(args.join(' '), 'log');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToLog('ERROR: ' + args.join(' '), 'error');
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToLog('WARN: ' + args.join(' '), 'warn');
+        };
+        
+        function clearLog() {
+            logContainer.innerHTML = '';
+        }
+        
+        function addTestResult(containerId, testName, status, details = '') {
+            const container = document.getElementById(containerId);
+            const testItem = document.createElement('div');
+            testItem.className = 'test-item';
+            
+            const statusClass = status === 'success' ? 'success' : status === 'error' ? 'error' : 'warning';
+            const statusText = status === 'success' ? '✅ OK' : status === 'error' ? '❌ ОШИБКА' : '⚠️ ПРЕДУПРЕЖДЕНИЕ';
+            
+            testItem.innerHTML = `
+                <strong>${testName}</strong>
+                <span class="status ${statusClass}">${statusText}</span>
+                ${details ? `<div class="error-details">${details}</div>` : ''}
+            `;
+            
+            container.appendChild(testItem);
+        }
+        
+        // Проверка файлов
+        async function testFiles() {
+            const files = [
+                '../styles.css',
+                '../modules/LanguageManager.js',
+                '../modules/DataManager.js', 
+                '../modules/CategoryManager.js',
+                '../modules/GameEngine.js',
+                '../data/config/languages.json',
+                '../data/config/categories.json'
+            ];
+            
+            for (const file of files) {
+                try {
+                    const response = await fetch(file);
+                    if (response.ok) {
+                        addTestResult('fileTests', file, 'success');
+                    } else {
+                        addTestResult('fileTests', file, 'error', `HTTP ${response.status}: ${response.statusText}`);
+                    }
+                } catch (error) {
+                    addTestResult('fileTests', file, 'error', error.message);
+                }
+            }
+        }
+        
+        // Проверка модулей
+        function testModules() {
+            const modules = [
+                'LanguageManager',
+                'DataManager',
+                'CategoryManager', 
+                'GameEngine'
+            ];
+            
+            modules.forEach(moduleName => {
+                try {
+                    if (typeof window[moduleName] !== 'undefined') {
+                        addTestResult('moduleTests', moduleName, 'success');
+                    } else {
+                        addTestResult('moduleTests', moduleName, 'error', 'Класс не найден в глобальной области');
+                    }
+                } catch (error) {
+                    addTestResult('moduleTests', moduleName, 'error', error.message);
+                }
+            });
+        }
+        
+        // Тестирование инициализации
+        async function testInitialization() {
+            const initContainer = document.getElementById('initTests');
+            initContainer.innerHTML = '';
+            
+            try {
+                console.log('Начинаем тестирование инициализации...');
+                
+                // Создание экземпляров
+                console.log('Создание LanguageManager...');
+                const languageManager = new LanguageManager();
+                addTestResult('initTests', 'LanguageManager создан', 'success');
+                
+                console.log('Создание DataManager...');
+                const dataManager = new DataManager();
+                addTestResult('initTests', 'DataManager создан', 'success');
+                
+                console.log('Создание CategoryManager...');
+                const categoryManager = new CategoryManager(dataManager, languageManager);
+                addTestResult('initTests', 'CategoryManager создан', 'success');
+                
+                console.log('Создание GameEngine...');
+                const gameEngine = new GameEngine(dataManager, languageManager, categoryManager);
+                addTestResult('initTests', 'GameEngine создан', 'success');
+                
+                // Инициализация
+                console.log('Инициализация LanguageManager...');
+                await languageManager.initialize();
+                addTestResult('initTests', 'LanguageManager инициализирован', 'success');
+                
+                console.log('Загрузка конфигурации DataManager...');
+                await dataManager.loadConfig();
+                addTestResult('initTests', 'DataManager конфигурация загружена', 'success');
+                
+                console.log('Инициализация CategoryManager...');
+                await categoryManager.initialize();
+                addTestResult('initTests', 'CategoryManager инициализирован', 'success');
+                
+                console.log('Инициализация GameEngine...');
+                await gameEngine.initialize();
+                addTestResult('initTests', 'GameEngine инициализирован', 'success');
+                
+                console.log('Все модули успешно инициализированы!');
+                addTestResult('initTests', 'Полная инициализация', 'success', 'Все модули работают корректно');
+                
+            } catch (error) {
+                console.error('Ошибка инициализации:', error);
+                addTestResult('initTests', 'Инициализация', 'error', error.message + '\n' + error.stack);
+            }
+        }
+        
+        // Запуск тестов при загрузке
+        window.addEventListener('load', async () => {
+            console.log('Начинаем диагностику...');
+            
+            await testFiles();
+            
+            // Ждем загрузки модулей
+            setTimeout(() => {
+                testModules();
+            }, 1000);
+        });
+    </script>
+    
+    <!-- Загрузка модулей игры -->
+    <script src="../modules/LanguageManager.js"></script>
+    <script src="../modules/DataManager.js"></script>
+    <script src="../modules/CategoryManager.js"></script>
+    <script src="../modules/GameEngine.js"></script>
+</body>
+</html>
