@@ -27,6 +27,12 @@ class GameEngine {
         this.baseSpeed = 0.75; // Было 1, стало 0.75 (-25%)
         this.baseFontSize = 28;
         this.baseImageSize = 200;
+        
+        // 🎨 АНИМАЦИОННЫЕ ЭФФЕКТЫ
+        this.keyPressEffects = []; // Эффекты нажатия клавиш
+        this.letterHighlights = []; // Подсветка букв
+        this.shootingEffects = []; // Эффекты "выстрелов"
+        this.pulseEffects = []; // Эффекты пульсации
     }
 
     async initialize() {
@@ -290,6 +296,9 @@ class GameEngine {
             }
         }
         
+        // 🎨 ОБНОВЛЯЕМ АНИМАЦИОННЫЕ ЭФФЕКТЫ
+        this.updateAnimationEffects();
+        
         this.updateDifficulty();
     }
 
@@ -307,6 +316,9 @@ class GameEngine {
         this.particles.forEach(particle => {
             particle.draw(this.ctx);
         });
+        
+        // 🎨 РИСУЕМ АНИМАЦИОННЫЕ ЭФФЕКТЫ
+        this.drawAnimationEffects();
         
         // Рисуем интерфейс ввода
         this.drawInput();
@@ -379,11 +391,20 @@ class GameEngine {
         if (this.isPartialMatch(newInput, activeWord.text)) {
             this.input = newInput;
             
+            // 🎯 ПРАВИЛЬНАЯ БУКВА - СОЗДАЕМ ЭФФЕКТЫ
+            this.createKeyPressEffect(key, true, activeWord);
+            this.createLetterHighlight(activeWord, this.input.length - 1);
+            this.createShootingEffect(activeWord, this.input.length - 1);
+            
             // Проверяем полное совпадение
             if (this.input.toUpperCase().replace(/\s+/g, ' ') === activeWord.text.toUpperCase()) {
                 this.onWordGuessed(activeWord);
             }
         } else {
+            // ❌ НЕПРАВИЛЬНАЯ БУКВА - СОЗДАЕМ ЭФФЕКТ ОШИБКИ
+            this.createKeyPressEffect(key, false, activeWord);
+            this.createErrorEffect(activeWord);
+            
             // Неправильная буква - штраф и сброс ввода
             this.score = Math.max(0, this.score - 5);
             this.input = '';
@@ -401,6 +422,11 @@ class GameEngine {
         const points = 10;
         
         this.score += points;
+        
+        // 🎉 СЛОВО УГАДАНО - СОЗДАЕМ МОЩНЫЕ ЭФФЕКТЫ
+        this.createWordCompleteEffect(word);
+        this.createPulseEffect(word);
+        
         word.explode();
         
         // Создаем частицы
@@ -482,6 +508,261 @@ class GameEngine {
         // Ограничиваем максимальную скорость
         return Math.min(2.0, currentSpeed);
     }
+
+    // 🎨 ========== АНИМАЦИОННЫЕ ЭФФЕКТЫ ==========
+
+    /**
+     * Создает эффект нажатия клавиши
+     */
+    createKeyPressEffect(key, isCorrect, word) {
+        this.keyPressEffects.push({
+            key: key,
+            x: word.x,
+            y: word.y - 50,
+            isCorrect: isCorrect,
+            life: 30,
+            maxLife: 30,
+            scale: 1.0,
+            alpha: 1.0
+        });
+    }
+
+    /**
+     * Создает подсветку буквы в слове
+     */
+    createLetterHighlight(word, letterIndex) {
+        this.letterHighlights.push({
+            word: word,
+            letterIndex: letterIndex,
+            life: 20,
+            maxLife: 20,
+            intensity: 1.0
+        });
+    }
+
+    /**
+     * Создает эффект "выстрела" в букву
+     */
+    createShootingEffect(word, letterIndex) {
+        const letterX = this.calculateLetterPosition(word, letterIndex);
+        this.shootingEffects.push({
+            startX: this.canvas.width / 2,
+            startY: this.canvas.height - 100,
+            targetX: letterX,
+            targetY: word.y + 100,
+            currentX: this.canvas.width / 2,
+            currentY: this.canvas.height - 100,
+            life: 15,
+            maxLife: 15,
+            speed: 8
+        });
+    }
+
+    /**
+     * Создает эффект ошибки
+     */
+    createErrorEffect(word) {
+        // Красная вспышка вокруг слова
+        this.keyPressEffects.push({
+            key: '❌',
+            x: word.x,
+            y: word.y,
+            isCorrect: false,
+            life: 20,
+            maxLife: 20,
+            scale: 2.0,
+            alpha: 0.8
+        });
+        
+        // Дрожание слова
+        word.shakeEffect = {
+            life: 15,
+            intensity: 5
+        };
+    }
+
+    /**
+     * Создает эффект завершения слова
+     */
+    createWordCompleteEffect(word) {
+        // Золотая вспышка
+        this.keyPressEffects.push({
+            key: '🎉',
+            x: word.x,
+            y: word.y,
+            isCorrect: true,
+            life: 40,
+            maxLife: 40,
+            scale: 3.0,
+            alpha: 1.0
+        });
+        
+        // Звездочки вокруг слова
+        for (let i = 0; i < 8; i++) {
+            const angle = (i / 8) * Math.PI * 2;
+            const distance = 80;
+            this.keyPressEffects.push({
+                key: '⭐',
+                x: word.x + Math.cos(angle) * distance,
+                y: word.y + Math.sin(angle) * distance,
+                isCorrect: true,
+                life: 30,
+                maxLife: 30,
+                scale: 1.5,
+                alpha: 1.0
+            });
+        }
+    }
+
+    /**
+     * Создает эффект пульсации
+     */
+    createPulseEffect(word) {
+        this.pulseEffects.push({
+            x: word.x,
+            y: word.y,
+            life: 25,
+            maxLife: 25,
+            radius: 10,
+            maxRadius: 100
+        });
+    }
+
+    /**
+     * Вычисляет позицию буквы в слове
+     */
+    calculateLetterPosition(word, letterIndex) {
+        const fontSize = this.baseFontSize;
+        const letterWidth = fontSize * 0.6; // Примерная ширина буквы
+        const wordWidth = word.text.length * letterWidth;
+        const startX = word.x - wordWidth / 2;
+        return startX + letterIndex * letterWidth;
+    }
+
+    /**
+     * Обновляет все анимационные эффекты
+     */
+    updateAnimationEffects() {
+        // Обновляем эффекты нажатия клавиш
+        for (let i = this.keyPressEffects.length - 1; i >= 0; i--) {
+            const effect = this.keyPressEffects[i];
+            effect.life--;
+            effect.alpha = effect.life / effect.maxLife;
+            effect.scale = 1.0 + (1 - effect.alpha) * 0.5;
+            
+            if (effect.life <= 0) {
+                this.keyPressEffects.splice(i, 1);
+            }
+        }
+
+        // Обновляем подсветки букв
+        for (let i = this.letterHighlights.length - 1; i >= 0; i--) {
+            const highlight = this.letterHighlights[i];
+            highlight.life--;
+            highlight.intensity = highlight.life / highlight.maxLife;
+            
+            if (highlight.life <= 0) {
+                this.letterHighlights.splice(i, 1);
+            }
+        }
+
+        // Обновляем эффекты выстрелов
+        for (let i = this.shootingEffects.length - 1; i >= 0; i--) {
+            const shot = this.shootingEffects[i];
+            shot.life--;
+            
+            // Движение к цели
+            const dx = shot.targetX - shot.currentX;
+            const dy = shot.targetY - shot.currentY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance > shot.speed) {
+                shot.currentX += (dx / distance) * shot.speed;
+                shot.currentY += (dy / distance) * shot.speed;
+            } else {
+                shot.currentX = shot.targetX;
+                shot.currentY = shot.targetY;
+            }
+            
+            if (shot.life <= 0) {
+                this.shootingEffects.splice(i, 1);
+            }
+        }
+
+        // Обновляем эффекты пульсации
+        for (let i = this.pulseEffects.length - 1; i >= 0; i--) {
+            const pulse = this.pulseEffects[i];
+            pulse.life--;
+            const progress = 1 - (pulse.life / pulse.maxLife);
+            pulse.radius = pulse.maxRadius * progress;
+            
+            if (pulse.life <= 0) {
+                this.pulseEffects.splice(i, 1);
+            }
+        }
+    }
+
+    /**
+     * Рисует все анимационные эффекты
+     */
+    drawAnimationEffects() {
+        // Рисуем эффекты нажатия клавиш
+        this.keyPressEffects.forEach(effect => {
+            this.ctx.save();
+            this.ctx.globalAlpha = effect.alpha;
+            this.ctx.font = `${24 * effect.scale}px Arial`;
+            this.ctx.textAlign = 'center';
+            this.ctx.fillStyle = effect.isCorrect ? '#00ff00' : '#ff0000';
+            this.ctx.fillText(effect.key, effect.x, effect.y);
+            this.ctx.restore();
+        });
+
+        // Рисуем подсветки букв
+        this.letterHighlights.forEach(highlight => {
+            if (highlight.word && !highlight.word.exploding) {
+                const letterX = this.calculateLetterPosition(highlight.word, highlight.letterIndex);
+                const letterY = highlight.word.y + 120;
+                
+                this.ctx.save();
+                this.ctx.globalAlpha = highlight.intensity * 0.5;
+                this.ctx.fillStyle = '#ffff00';
+                this.ctx.beginPath();
+                this.ctx.arc(letterX, letterY, 20, 0, Math.PI * 2);
+                this.ctx.fill();
+                this.ctx.restore();
+            }
+        });
+
+        // Рисуем эффекты выстрелов
+        this.shootingEffects.forEach(shot => {
+            this.ctx.save();
+            this.ctx.strokeStyle = '#00ffff';
+            this.ctx.lineWidth = 3;
+            this.ctx.beginPath();
+            this.ctx.moveTo(shot.startX, shot.startY);
+            this.ctx.lineTo(shot.currentX, shot.currentY);
+            this.ctx.stroke();
+            
+            // Точка на конце
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.beginPath();
+            this.ctx.arc(shot.currentX, shot.currentY, 4, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.restore();
+        });
+
+        // Рисуем эффекты пульсации
+        this.pulseEffects.forEach(pulse => {
+            this.ctx.save();
+            this.ctx.globalAlpha = 0.3 * (pulse.life / pulse.maxLife);
+            this.ctx.strokeStyle = '#ffd700';
+            this.ctx.lineWidth = 4;
+            this.ctx.beginPath();
+            this.ctx.arc(pulse.x, pulse.y, pulse.radius, 0, Math.PI * 2);
+            this.ctx.stroke();
+            this.ctx.restore();
+        });
+    }
 }
 
 class Particle {
@@ -528,6 +809,7 @@ class Word {
         };
         this.particles = [];
         this.exploding = false;
+        this.shakeEffect = null; // 🎨 Эффект дрожания
     }
 
     updateScale(canvasWidth, canvasHeight) {
@@ -544,12 +826,28 @@ class Word {
         } else {
             this.y += this.speed;
         }
+        
+        // 🎨 Обновляем эффект дрожания
+        if (this.shakeEffect) {
+            this.shakeEffect.life--;
+            if (this.shakeEffect.life <= 0) {
+                this.shakeEffect = null;
+            }
+        }
     }
 
     draw(ctx, input) {
         if (this.exploding) {
             this.particles.forEach(p => p.draw(ctx));
             return;
+        }
+
+        // 🎨 Применяем эффект дрожания
+        let shakeX = 0, shakeY = 0;
+        if (this.shakeEffect) {
+            const intensity = this.shakeEffect.intensity * (this.shakeEffect.life / 15);
+            shakeX = (Math.random() - 0.5) * intensity;
+            shakeY = (Math.random() - 0.5) * intensity;
         }
 
         // Рисуем изображение с адаптивным размером
@@ -563,31 +861,31 @@ class Word {
             const scale = Math.min(maxSize / width, maxSize / height);
             scaledWidth = width * scale;
             scaledHeight = height * scale;
-            ctx.drawImage(this.image, this.x - scaledWidth / 2, this.y - scaledHeight / 2, scaledWidth, scaledHeight);
+            ctx.drawImage(this.image, this.x - scaledWidth / 2 + shakeX, this.y - scaledHeight / 2 + shakeY, scaledWidth, scaledHeight);
         } else {
             // Заглушка для изображения с адаптивным размером
             const placeholderSize = maxSize * 0.8;
             ctx.fillStyle = 'lightgray';
-            ctx.fillRect(this.x - placeholderSize / 2, this.y - placeholderSize / 2, placeholderSize, placeholderSize);
+            ctx.fillRect(this.x - placeholderSize / 2 + shakeX, this.y - placeholderSize / 2 + shakeY, placeholderSize, placeholderSize);
             ctx.fillStyle = 'black';
             const fontSize = Math.max(20, placeholderSize / 3);
             ctx.font = `${fontSize}px Arial`;
             ctx.textAlign = 'center';
-            ctx.fillText('?', this.x, this.y + fontSize / 3);
+            ctx.fillText('?', this.x + shakeX, this.y + fontSize / 3 + shakeY);
             scaledHeight = placeholderSize;
         }
 
         // Рисуем текст с улучшенным отображением
-        this.drawWordText(ctx, input, scaledHeight);
+        this.drawWordText(ctx, input, scaledHeight, shakeX, shakeY);
     }
 
-    drawWordText(ctx, input, imageHeight) {
+    drawWordText(ctx, input, imageHeight, shakeX = 0, shakeY = 0) {
         const fontSize = this.gameEngine ? this.gameEngine.baseFontSize : 28;
         ctx.font = `${fontSize}px Arial`;
         ctx.textAlign = 'center';
         
         const inputUpper = input.toUpperCase().replace(/\s+/g, ' '); // нормализуем пробелы
-        const textY = this.y + imageHeight / 2 + fontSize * 1.5;
+        const textY = this.y + imageHeight / 2 + fontSize * 1.5 + shakeY;
         
         // Определяем количество правильно введенных символов
         let matchedLength = 0;
@@ -603,7 +901,7 @@ class Word {
         const charWidth = ctx.measureText('M').width; // примерная ширина символа
         const spacing = 1.1; // увеличенное расстояние между буквами
         const totalWidth = this.text.length * charWidth * spacing;
-        const startX = this.x - totalWidth / 2;
+        const startX = this.x - totalWidth / 2 + shakeX;
         
         // Рисуем каждый символ отдельно
         for (let i = 0; i < this.text.length; i++) {

@@ -190,6 +190,13 @@
                 // Создание селектора языков
                 this.languageManager.createLanguageSelector('languageContainer', (newLanguage) => {
                     console.log(`Язык изменен на: ${newLanguage}`);
+                    
+                    // 🛑 ОСТАНАВЛИВАЕМ ИГРУ ПРИ СМЕНЕ ЯЗЫКА
+                    if (this.gameEngine.isGameActive()) {
+                        this.gameEngine.stopGame();
+                        console.log('Игра остановлена при смене языка');
+                    }
+                    
                     this.updateCategorySelector();
                     this.updateKeyboardLayoutSelector();
                     // Пересоздаем виртуальную клавиатуру с новой раскладкой
